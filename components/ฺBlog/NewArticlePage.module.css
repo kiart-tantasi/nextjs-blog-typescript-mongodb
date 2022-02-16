@@ -1,0 +1,26 @@
+.form-control {
+    padding-top: 50px;
+    text-align: center;
+}
+
+.heading {
+    margin-bottom: 30px;
+}
+
+.form div {
+    margin-bottom: 30px;
+}
+
+.form input {
+    width: 400px;
+    height: 40px;
+}
+
+.form input::placeholder {
+    text-align: center;
+}
+
+.form textarea {
+    width: 400px;
+    height: 100px;
+}

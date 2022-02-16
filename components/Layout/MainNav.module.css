@@ -1,0 +1,40 @@
+.nav-parent {
+    padding: 10px 0;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5);
+}
+
+.nav {
+    display: flex;
+    justify-content: space-between;
+}
+
+.blog-brand {
+    margin-left: 50px;
+}
+
+.blog-brand h1 {
+    color: white;
+    font-size: 1.1rem;
+    cursor: pointer;
+    font-weight: lighter;
+}
+
+.navs {
+    margin: 0 50px 0 0;
+}
+
+.navs p {
+    margin-top: 2px;
+    font-size: 0.9rem;
+    color: rgb(96, 163, 250);
+    display: inline-block;
+    margin-left: 20px;
+}
+
+.navs p:hover {
+    color:rgba(255, 255, 255, 0.733);
+}
+
+.active p {
+    color: #fff;
+}
