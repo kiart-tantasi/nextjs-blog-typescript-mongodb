@@ -1,4 +1,4 @@
-import { Article } from "../../models/article";
+import { Article } from "../models/article";
 
 const DUMMY_DATA: Article[] = [
     { title: "First Post", desc: "This is my first post.", markdown:" This is some markdown."},

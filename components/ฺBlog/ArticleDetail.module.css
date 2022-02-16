@@ -1,0 +1,9 @@
+.card {
+    width: 1000px;
+    margin: 0 auto 20px;
+    padding: 100px;
+}
+
+.card h3, .card p, .card button {
+    margin-bottom: 10px;
+}

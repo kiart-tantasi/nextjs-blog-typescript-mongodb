@@ -1,5 +1,5 @@
 import styles from "./BlogPage.module.css";
-import Articles from "../Articles/Articles";
+import Articles from "../ฺBlog/Articles";
 
 import { Article } from "../../models/article";
 

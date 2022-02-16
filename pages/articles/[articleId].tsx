@@ -1,4 +1,4 @@
-import ArticleDetail from "../../components/Articles/ArticleDetail";
+import ArticleDetail from "../../components/ฺBlog/ArticleDetail";
 
 const ArticlePage = (props:{title:string; desc: string; markdown: string;}) => {
     
