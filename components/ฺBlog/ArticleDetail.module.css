@@ -1,9 +1,45 @@
-.card {
-    width: 1000px;
-    margin: 0 auto 20px;
-    padding: 100px;
+/* overall card (article) */
+.article {
+    margin: 20px auto 100px;
+    width: 850px;
+    min-height: 650px;
 }
 
-.card h3, .card p, .card button {
+/* inside content container */
+.inside-container {
+    padding: 0 20px;
+}
+
+/* heading and p */
+.article h3, .article p {
+    margin-bottom: 15px;
+    line-height: 1.45rem;
+    
+}
+
+.article h1, .article h2 {
+    margin: 20px 0 20px;
+}
+
+/* ordered list */
+.article ol, .article ul {
+    padding-inline-start: 40px;
+    margin-bottom: 20px;
+}
+
+.article li {
+    margin-bottom: 10px;
+}
+
+/* blockquote */
+.article blockquote {
+    margin-block-start: 1rem;
+    margin-block-end: 1rem;
+    margin-inline-start: 40px;
+    margin-inline-end: 40px;
+}
+
+/* button */
+.article button {
     margin-bottom: 10px;
 }

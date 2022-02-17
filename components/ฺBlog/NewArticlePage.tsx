@@ -3,6 +3,8 @@ import styles from "./NewArticlePage.module.css";
 import Link from "next/link";
 import { Article } from "../../models/article";
 
+import { Lexer, Parser } from "marked";
+
 const NewArticlePage = (props:{handleAddNewArticle: (article: Article) => void;}) => {
 
     const titleRef = useRef<HTMLInputElement>(null);
@@ -15,9 +17,14 @@ const NewArticlePage = (props:{handleAddNewArticle: (article: Article) => void;}
         e.preventDefault();
         const title = titleRef.current!.value;
         const img = imgRef.current!.value;
+        const alt = altRef.current!.value;
         const desc = descRef.current!.value;
         const markdown = textAreaRef.current!.value;
-        const alt = altRef.current!.value;
+
+        const lexed = Lexer.lex(markdown);
+        console.log("LEXED:", lexed);
+        const parsed = Parser.parse(lexed);
+        console.log("PARSED", parsed);
 
         if (!title.length || !img.length || !alt.length || !desc.length || !markdown.length) {
             alert("โปรดระบุหัวข้อ ลิงก์รูปภาพ คำอธิบาย และเนื้อหาบทความให้ครบถ้วน");

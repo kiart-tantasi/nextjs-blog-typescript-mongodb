@@ -30,7 +30,7 @@ export default function CardUI(props:Article) {
             </CardContent>
 
             <CardActions sx={{height:40}}>
-                <Button size="medium"><Link href="/articles"><p>อ่านบทความ</p></Link></Button>
+                <Button size="medium"><Link href="/articles"><a className={styles["read-more-a-tag"]}><p>อ่านบทความ</p></a></Link></Button>
             </CardActions>
 
         </Card>

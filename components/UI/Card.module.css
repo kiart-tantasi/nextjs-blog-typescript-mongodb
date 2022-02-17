@@ -1,3 +1,8 @@
 .card {
     margin: 0 auto 30px;
 }
+
+.read-more-a-tag {
+    text-decoration: none;
+    color: inherit;
+}
