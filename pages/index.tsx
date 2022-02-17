@@ -22,9 +22,12 @@ export async function getStaticProps() {
       title: x.title,
       desc: x.desc,
       markdown: x.markdown,
-      date: x.date
+      date: x.date,
+      img: x.img,
+      alt: x.alt
     }
-  })
+  });
+  
   client.close();
   return {
     props: {

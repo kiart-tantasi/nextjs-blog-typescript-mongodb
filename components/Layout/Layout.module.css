@@ -1,0 +1,13 @@
+.flex-container {
+    display:flex;
+    min-height: 105vh;
+    flex-direction: column;
+}
+
+.flex-body {
+    padding-top: 65px;
+}
+
+.flex-footer {
+    margin-top: auto;
+}

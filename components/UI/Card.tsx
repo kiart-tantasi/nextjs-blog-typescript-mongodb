@@ -7,19 +7,30 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import CardMedia from "@mui/material/CardMedia";
 
 export default function CardUI(props:Article) {
-    return (
-    <div className={styles.card}>
-        <Card sx={{ maxWidth: 700 }}>
+    const cardWidth = 550;
 
-            <CardContent>
-                <Typography gutterBottom variant="h5" component="div">{props.title}</Typography>
+    return (
+    <div className={styles.card} style={{width:cardWidth}}>
+        <Card sx={{ maxWidth: cardWidth }}>
+
+            {props.img &&
+            <CardMedia
+                component="img"
+                height="270"
+                image={props.img}
+                alt={props.alt ? props.alt : props.title} 
+            />}
+
+            <CardContent sx={{height:85}}>
+                <Typography variant="h5">{props.title}</Typography>
                 <Typography variant="body2" color="text.secondary">{props.desc}</Typography>
             </CardContent>
 
-            <CardActions>
-                <Button size="small"><Link href="/articles"><p>อ่านเพิ่มเติม</p></Link></Button>
+            <CardActions sx={{height:40}}>
+                <Button size="medium"><Link href="/articles"><p>อ่านบทความ</p></Link></Button>
             </CardActions>
 
         </Card>

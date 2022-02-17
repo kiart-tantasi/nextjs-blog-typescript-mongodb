@@ -6,25 +6,35 @@ import { Article } from "../../models/article";
 const NewArticlePage = (props:{handleAddNewArticle: (article: Article) => void;}) => {
 
     const titleRef = useRef<HTMLInputElement>(null);
+    const imgRef = useRef<HTMLInputElement>(null);
+    const altRef = useRef<HTMLInputElement>(null);
     const descRef = useRef<HTMLInputElement>(null);
     const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
     const handleSubmitForm = (e: React.FormEvent) => {
         e.preventDefault();
         const title = titleRef.current!.value;
+        const img = imgRef.current!.value;
         const desc = descRef.current!.value;
         const markdown = textAreaRef.current!.value;
-        if (!title.length || !desc.length || !markdown.length) {
-            alert("โปรดระบุหัวข้อ คำอธิบาย และเนื้อหาบทความให้ครบถ้วน");
+        const alt = altRef.current!.value;
+
+        if (!title.length || !img.length || !alt.length || !desc.length || !markdown.length) {
+            alert("โปรดระบุหัวข้อ ลิงก์รูปภาพ คำอธิบาย และเนื้อหาบทความให้ครบถ้วน");
             return;
         }
+
         const sendingData = {
-            title: title, 
-            desc: desc, 
-            markdown: markdown
+            title: title,
+            img: img,
+            desc: desc,
+            markdown: markdown,
+            alt: alt
         }
         props.handleAddNewArticle(sendingData);
         titleRef.current!.value = "";
+        imgRef.current!.value = "";
+        altRef.current!.value = "";
         descRef.current!.value = "";
         textAreaRef.current!.value = "";
     }
@@ -34,7 +44,12 @@ const NewArticlePage = (props:{handleAddNewArticle: (article: Article) => void;}
             <h1 className={styles.heading}>เพิ่มบทความใหม่</h1>
             <form className={styles.form} onSubmit={handleSubmitForm}>
                 <div>
-                    <input type="text" placeholder="หัวข้อ" ref={titleRef} />
+                    <input required type="text" placeholder="หัวข้อ" ref={titleRef} />
+                </div>
+                <div>
+                    <input type="text" placeholder="url รูปภาพ" ref={imgRef} />
+                    <br />
+                    <input type="text" placeholder="คำอธิบายรูปภาพ (กรณีไฟล์รูปหาย)" ref={altRef} />
                 </div>
                 <div>
                     <input type="text" placeholder="คำอธิบาย" ref={descRef} />
@@ -47,7 +62,7 @@ const NewArticlePage = (props:{handleAddNewArticle: (article: Article) => void;}
                     <button type="submit">เพิ่มบทความใหม่</button>
                 </div>
                 <div>
-                    <Link href="/">กลับสู่หน้าหลัก</Link>
+                    <Link href="/"><button type="button">กลับสู่หน้าหลัก</button></Link>
                 </div>
             </form>
         </div>
