@@ -9,7 +9,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     <Layout>
       <Head>
         <title>เพชร The Blog</title>
-        <meta name="description" content="เพชร's Perosnal Blog รวบรวมเนื้อหา เทคโนโลยี ศิลปะ ความชอบ การท่องเที่ยว และภาษา" />
+        <meta name="description" content="Perosnal Blog - รวบรวมเนื้อหา เทคโนโลยี เกม ภาษาอังกฤษ การออกกำลังกาย และสุขภาพ" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Component {...pageProps} />

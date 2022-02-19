@@ -48,6 +48,10 @@
     margin-inline-end: 40px;
 }
 
+.article hr {
+    margin-bottom: 15px;
+}
+
 /* --------------------------- */
 
 /* div */

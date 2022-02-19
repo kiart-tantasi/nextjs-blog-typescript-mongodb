@@ -12,6 +12,11 @@
     letter-spacing: 1px;
 }
 
+.blog-brand a {
+    text-decoration: none;
+    color: inherit;
+}
+
 .nav-right p {
     font-size: 0.8rem;
     letter-spacing: 1px;

@@ -10,7 +10,7 @@ const MainNav = () => {
     <AppBar className="theme-color" color="inherit" sx={{ height: 50}}>
         <div className={`row ${styles.nav}`}>
 
-          <span className={styles["blog-brand"]}><Link href="/"><h1>เพชร THE BLOG</h1></Link></span>
+          <span className={styles["blog-brand"]}><Link href="/"><a><h1>เพชร THE BLOG</h1></a></Link></span>
 
           <div className={styles["nav-right"]}>
             <Link href="/tech"><a className={router.pathname == "/tech" ? styles.active : ""}><p>เทค</p></a></Link>

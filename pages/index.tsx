@@ -1,6 +1,5 @@
 import type { NextPage } from 'next';
 import BlogPage from '../components/ฺBlog/BlogPage';
-import { MongoClient } from 'mongodb';
 import { Article } from '../models/article';
 
 const Home: NextPage<{articles: Article[]}> = (props) => {
@@ -10,33 +9,25 @@ const Home: NextPage<{articles: Article[]}> = (props) => {
 
 export default Home;
 // ---------------------------------------------------------------- //
-import { oldArticleOnMongoDb } from '../utilities/dummy-data';
-import { dbUrl } from "../ignoreme";
+import { MongoClient } from 'mongodb';
 
 export async function getStaticProps() {
+  const dbUrl = process.env.DB_URL as string;
   const client = new MongoClient(dbUrl);
   await client.connect();
   const db = client.db("blogDB");
   const collection = db.collection("main");
   const articles = await collection.find({}).toArray();
   const transformedData = articles.map(x => {
-    return {
-      id: x._id.toString(),
-      title: x.title,
-      desc: x.desc,
-      markdown: x.markdown,
-      date: x.date,
-      img: x.img,
-      alt: x.alt
-    }
+    return {...x, _id: x._id.toString()}
   });
   
   client.close();
   return {
     props: {
-      articles: [...oldArticleOnMongoDb,...transformedData]
+      articles: [...transformedData]
     },
-    revalidate: 20
+    revalidate: 10
   }
 }
 

@@ -8,7 +8,7 @@ export type Article = {
     date : number;
     author?: string;
     category: ArticleTypes;
-    slugged: string;
+    slug: string;
 }
 
 export type ArticleTypes = "" | "tech" | "gaming" | "english" | "workoutandhealth"| "others";

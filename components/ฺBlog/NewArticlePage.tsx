@@ -29,9 +29,9 @@ const NewArticlePage = (props:{handleAddNewArticle: (article: Article) => void;}
         const alt = altRef.current!.value;
         const desc = descRef.current!.value;
         const markdown = textAreaRef.current!.value;
-        const slugged = slugify(slugRef.current!.value);
+        const slug = slugify(slugRef.current!.value);
 
-        if (!title.length || !img.length || !alt.length || !desc.length || !markdown.length || !slugged.length || categoryValue === "") {
+        if (!title.length || !img.length || !alt.length || !desc.length || !markdown.length || !slug.length || categoryValue === "") {
             alert("ข้อมูลไม่ครบถ้วน หรือ ไม่ถูกต้องตามเงื่อนไข");
             return;
         }
@@ -44,7 +44,7 @@ const NewArticlePage = (props:{handleAddNewArticle: (article: Article) => void;}
             alt: alt,
             date: Date.now(),
             category: categoryValue,
-            slugged: slugged
+            slug: slug
         }
         props.handleAddNewArticle(sendingData);
         titleRef.current!.value = "";
@@ -61,16 +61,19 @@ const NewArticlePage = (props:{handleAddNewArticle: (article: Article) => void;}
             <form className={styles.form} onSubmit={handleSubmitForm}>
                 <div>
                     <label>หัวข้อ</label>
-                    <input type="text" placeholder="หัวข้อ" ref={titleRef} />
+                    <input type="text" ref={titleRef} />
                     <label>slug (ภาษาอังกฤษ)</label>
-                    <input className={styles["secondary-input"]} type="text" placeholder="slug (ภาษาอังกฤษ)" ref={slugRef} />
+                    <input className={styles["secondary-input"]} type="text" ref={slugRef} />
                 </div>
                 <div>
-                    <input type="text" placeholder="url รูปภาพ" ref={imgRef} />
-                    <input className={styles["secondary-input"]} type="text" placeholder="คำอธิบายรูปภาพ (กรณีไฟล์รูปหาย)" ref={altRef} />
+                    <label>url รูปภาพ</label>
+                    <input type="text" ref={imgRef} />
+                    <label>คำอธิบายรูปภาพ (กรณีไฟล์รูปหาย)</label>
+                    <input className={styles["secondary-input"]} type="text" ref={altRef} />
                 </div>
                 <div>
-                    <input className={styles.desc} type="text" placeholder="คำอธิบาย" ref={descRef} />
+                    <label>คำอธิบายบทความ</label>
+                    <input className={styles.desc} type="text" ref={descRef} />
                 </div>
                 <div>
                     <h3>เนื้อหาบทความ</h3>

@@ -15,12 +15,13 @@ const NewArticle = () => {
                 headers: {"Content-Type" : "application/json"},
                 body: JSON.stringify(article)
             });
-            if (!response.ok) {
+            if (response.status === 400) {
+                alert("slug นี้ถูกใช้ไปแล้ว");
+            } else if (!response.ok) {
                 alert("adding new article failed");
             } else {
                 alert("posted new article successfully.");
             }
-
         }
         sendRequest();
     }
