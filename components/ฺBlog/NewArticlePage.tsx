@@ -1,17 +1,26 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import styles from "./NewArticlePage.module.css";
 import Link from "next/link";
-import { Article } from "../../models/article";
 
-import { Lexer, Parser } from "marked";
+import { Article } from "../../models/article";
+import { ArticleTypes } from "../../models/article";
+
+import slugify from "slugify";
 
 const NewArticlePage = (props:{handleAddNewArticle: (article: Article) => void;}) => {
 
     const titleRef = useRef<HTMLInputElement>(null);
+    const slugRef = useRef<HTMLInputElement>(null);
     const imgRef = useRef<HTMLInputElement>(null);
     const altRef = useRef<HTMLInputElement>(null);
     const descRef = useRef<HTMLInputElement>(null);
     const textAreaRef = useRef<HTMLTextAreaElement>(null);
+    const [categoryValue, setCategoryValue] = useState<ArticleTypes>("");
+
+    const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        const newValue = e.target.value as ArticleTypes;
+        setCategoryValue(newValue);
+    }
 
     const handleSubmitForm = (e: React.FormEvent) => {
         e.preventDefault();
@@ -20,14 +29,10 @@ const NewArticlePage = (props:{handleAddNewArticle: (article: Article) => void;}
         const alt = altRef.current!.value;
         const desc = descRef.current!.value;
         const markdown = textAreaRef.current!.value;
+        const slugged = slugify(slugRef.current!.value);
 
-        const lexed = Lexer.lex(markdown);
-        console.log("LEXED:", lexed);
-        const parsed = Parser.parse(lexed);
-        console.log("PARSED", parsed);
-
-        if (!title.length || !img.length || !alt.length || !desc.length || !markdown.length) {
-            alert("โปรดระบุหัวข้อ ลิงก์รูปภาพ คำอธิบาย และเนื้อหาบทความให้ครบถ้วน");
+        if (!title.length || !img.length || !alt.length || !desc.length || !markdown.length || !slugged.length || categoryValue === "") {
+            alert("ข้อมูลไม่ครบถ้วน หรือ ไม่ถูกต้องตามเงื่อนไข");
             return;
         }
 
@@ -36,10 +41,14 @@ const NewArticlePage = (props:{handleAddNewArticle: (article: Article) => void;}
             img: img,
             desc: desc,
             markdown: markdown,
-            alt: alt
+            alt: alt,
+            date: Date.now(),
+            category: categoryValue,
+            slugged: slugged
         }
         props.handleAddNewArticle(sendingData);
         titleRef.current!.value = "";
+        slugRef.current!.value = "";
         imgRef.current!.value = "";
         altRef.current!.value = "";
         descRef.current!.value = "";
@@ -51,22 +60,35 @@ const NewArticlePage = (props:{handleAddNewArticle: (article: Article) => void;}
             <h1 className={styles.heading}>เพิ่มบทความใหม่</h1>
             <form className={styles.form} onSubmit={handleSubmitForm}>
                 <div>
-                    <input required type="text" placeholder="หัวข้อ" ref={titleRef} />
+                    <label>หัวข้อ</label>
+                    <input type="text" placeholder="หัวข้อ" ref={titleRef} />
+                    <label>slug (ภาษาอังกฤษ)</label>
+                    <input className={styles["secondary-input"]} type="text" placeholder="slug (ภาษาอังกฤษ)" ref={slugRef} />
                 </div>
                 <div>
                     <input type="text" placeholder="url รูปภาพ" ref={imgRef} />
-                    <br />
-                    <input type="text" placeholder="คำอธิบายรูปภาพ (กรณีไฟล์รูปหาย)" ref={altRef} />
+                    <input className={styles["secondary-input"]} type="text" placeholder="คำอธิบายรูปภาพ (กรณีไฟล์รูปหาย)" ref={altRef} />
                 </div>
                 <div>
-                    <input type="text" placeholder="คำอธิบาย" ref={descRef} />
+                    <input className={styles.desc} type="text" placeholder="คำอธิบาย" ref={descRef} />
                 </div>
                 <div>
                     <h3>เนื้อหาบทความ</h3>
                     <textarea ref={textAreaRef} />
                 </div>
                 <div>
-                    <button type="submit">เพิ่มบทความใหม่</button>
+                    <label htmlFor="category">หมวดหมู่</label>
+                    <select name="category" onChange={handleSelectChange}>
+                        <option value="">เลือก</option>
+                        <option value="tech">เทค</option>
+                        <option value="gaming">เกมมิ่ง</option>
+                        <option value="english">ภาษาอังกฤษ</option>
+                        <option value="workoutandhealth">ออกกำลังกายและสุขภาพ</option>
+                        <option value="others">อื่น ๆ </option>
+                    </select>
+                </div>
+                <div>
+                    <button type="submit" className={styles["submit-button"]}>เพิ่มบทความใหม่</button>
                 </div>
                 <div>
                     <Link href="/"><button type="button">กลับสู่หน้าหลัก</button></Link>

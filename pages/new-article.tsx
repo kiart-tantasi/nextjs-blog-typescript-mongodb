@@ -36,6 +36,7 @@ const NewArticle = () => {
     return (
         <div className="row" style={{textAlign:"center"}}>
             <form onSubmit={handleSubmitLogIn}>
+                <h4>ไม่ใส่ก็ได้ครับ</h4><br />
                 <label htmlFor="id">ไอดี</label><br />
                 <input type="text"/><br />
                 <label htmlFor="password">รหัสผ่าน</label><br />

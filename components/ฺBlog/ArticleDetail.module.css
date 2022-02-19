@@ -10,15 +10,24 @@
     padding: 0 20px;
 }
 
-/* heading and p */
-.article h3, .article p {
-    margin-bottom: 15px;
-    line-height: 1.45rem;
-    
-}
+
+/* ----- ARTICLE SETTINGS ----- */
+
+/* h1 h2 h3 p */
 
 .article h1, .article h2 {
     margin: 20px 0 20px;
+}
+
+.article h3, .article p {
+    margin-bottom: 15px;
+    line-height: 1.45rem;
+}
+
+/* img */
+.article img {
+    border-radius: 3px;
+    margin: 20px 0;
 }
 
 /* ordered list */
@@ -39,7 +48,10 @@
     margin-inline-end: 40px;
 }
 
-/* button */
-.article button {
-    margin-bottom: 10px;
+/* --------------------------- */
+
+/* div */
+.padding-bottom {
+    padding-bottom: 15px;
 }
+

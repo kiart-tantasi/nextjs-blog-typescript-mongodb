@@ -24,8 +24,9 @@ export default function CardUI(props:Article) {
                 alt={props.alt ? props.alt : props.title} 
             />}
 
-            <CardContent sx={{height:85}}>
+            <CardContent sx={{height:90}}>
                 <Typography variant="h5">{props.title}</Typography>
+                <Typography variant="subtitle2" color="text.secondary">{new Date(props.date).toLocaleDateString("th-TH")}</Typography>
                 <Typography variant="body2" color="text.secondary">{props.desc}</Typography>
             </CardContent>
 

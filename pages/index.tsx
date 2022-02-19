@@ -9,12 +9,15 @@ const Home: NextPage<{articles: Article[]}> = (props) => {
 }
 
 export default Home;
+// ---------------------------------------------------------------- //
+import { oldArticleOnMongoDb } from '../utilities/dummy-data';
+import { dbUrl } from "../ignoreme";
 
 export async function getStaticProps() {
-  const client = new MongoClient("mongodb://localhost:27017");
+  const client = new MongoClient(dbUrl);
   await client.connect();
   const db = client.db("blogDB");
-  const collection = db.collection("articles");
+  const collection = db.collection("main");
   const articles = await collection.find({}).toArray();
   const transformedData = articles.map(x => {
     return {
@@ -31,9 +34,9 @@ export async function getStaticProps() {
   client.close();
   return {
     props: {
-      articles: transformedData
+      articles: [...oldArticleOnMongoDb,...transformedData]
     },
-    revalidate: 5
+    revalidate: 20
   }
 }
 
