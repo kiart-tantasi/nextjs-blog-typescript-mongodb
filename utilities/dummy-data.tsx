@@ -1,5 +1,4 @@
 import { Article } from "../models/article";
-import { Lexer, Parser } from "marked";
 
 export const DUMMY_DATA: Article[] = [
     { title: "First Post", desc: "This is my first post.", markdown:" This is some markdown.", img:"https://images.contentstack.io/v3/assets/blt370612131b6e0756/blta1d3d18c029012e8/60107b5b3e567f1011da3594/Teemo_TurnTable_img.jpg", alt:"Teemo", slug: Math.random().toString(), category: "others", date:1645015239154 },
@@ -26,7 +25,7 @@ export const oldArticleOnMongoDb: Article[] = [
     { id: "62104434a4d809d798fb9589", title : "เมินแสต๋ก", img : "https://miro.medium.com/max/1400/1*k0SazfSJ-tPSBbt2WDYIyw.png", desc : "dasdas", markdown : "เนื้อหาบทความๆๆๆๆๆๆๆ", alt : "MERN", date : 1645233204103, slug: Math.random().toString(), category: "others" }
 ]
 
-const markdownDemoText = `Marked - Markdown Parser
+export const markdownDemoText = `Marked - Markdown Parser
 ========================
 
 [Marked] lets you convert [Markdown] into HTML.  Markdown is a simple text format whose goal is to be very easy to read and write, even when not converted to HTML.  This demo page will let you type anything you like and see how it gets converted.  Live.  No more waiting around.
@@ -62,7 +61,3 @@ Ready to start writing?  Either start changing stuff on the left or
 
 [Marked]: https://github.com/markedjs/marked/
 [Markdown]: http://daringfireball.net/projects/markdown/`;
-
-const lexed = Lexer.lex(markdownDemoText);
-
-export const parsedByMarked = Parser.parse(lexed);

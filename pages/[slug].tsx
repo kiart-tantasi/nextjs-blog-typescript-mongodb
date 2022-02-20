@@ -1,11 +1,15 @@
 import ArticleDetail from "../components/ฺBlog/ArticleDetail";
+import NotFoundPage from "../components/ฺBlog/NotFoundPage";
 import { Article } from "../models/article";
 
 const Article: NextPage<{article: Article}> = (props) => {
     const { article } = props;
-    return <ArticleDetail title={article.title} desc={article.desc} img={article.img} alt={article.img} date={article.date} markdown={article.markdown} category={article.category} slug={article.slug} />
+
+    if (article !== null) {
+        return <ArticleDetail title={article.title} desc={article.desc} img={article.img} alt={article.img} date={article.date} markdown={article.markdown} category={article.category} slug={article.slug} />
+    }
+    return <NotFoundPage />;
 }
-// return <ArticleDetail title="หัวข้อบทความ" desc="คำอธิบายบทความ" img="https://i.ytimg.com/vi/L2ZxBtC9DjQ/maxresdefault.jpg" alt="หมาน้อย" date={new Date().getTime()} markdown="เนื้อหาบทความเนื้อหาบทความเนื้อหาบทความ เนื้อหาบทความเนื้อหาบทความเนื้อหาบทความ เนื้อหาบทความเนื้อหาบทความเนื้อหาบทความ" category="others" slug="บทความ" />
 
 export default Article;
 // ------------------------------------------------------- //
@@ -36,6 +40,7 @@ export const getStaticProps: GetStaticProps = async(context) => {
     const db = client.db("blogDB");
     const collection = db.collection("main");
     const articleNoTransformed = await collection.findOne({slug:slug});
+    if (articleNoTransformed === null) return {props: {article : null }};
     const objectIdAsString = articleNoTransformed!._id.toString();
     const article = {...articleNoTransformed, _id: objectIdAsString}
 

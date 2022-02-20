@@ -1,12 +1,16 @@
 import type { NextPage } from 'next';
 import Head from "next/head";
-import BlogPage from "../../components/ฺBlog/BlogPage";
+import BlogPage from "../components/ฺBlog/BlogPage";
+import { Article } from '../models/article';
 
 const Tech: NextPage<{articles: Article[]}> = (props) => {
     const articles = props.articles;
     return (
         <>
-        <Head><title>เพชร The Blog - เทคโนโลยี</title></Head>
+        <Head>
+            <title>เพชร The Blog - เทคโนโลยี</title>
+            <meta name="description" content="บทความเทคโนโลยี รีวิวสินค้า สอนโค้ด สอนเขียนโปรแกรม ด้วยภาษา javascript react nodejs การใช้ database mysql mongodb รวมถึงการ สร้าง api สร้าง backend server ขึ้นเอง" />
+        </Head>
         <BlogPage articles={articles} heading="ยินดีต้อนรับสู่โลกเทค!" />
         </>
     )
@@ -15,7 +19,6 @@ const Tech: NextPage<{articles: Article[]}> = (props) => {
 export default Tech;
 // --------------------------------------------------------//
 import { MongoClient } from "mongodb";
-import { Article } from '../../models/article';
 
 export async function getStaticProps() {
     const dbUrl = process.env.DB_URL as string;

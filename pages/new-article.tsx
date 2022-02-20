@@ -1,29 +1,29 @@
 import NewArticlePage from "../components/ฺBlog/NewArticlePage";
-import { Article } from "../models/article";
 import React, { useState } from "react";
-
+import { Article } from "../models/article";
 import Button from '@mui/material/Button';
 
 const NewArticle = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-    const handleAddNewArticle = (article: Article) => {
+    const handleAddNewArticle = async(article: Article) => {
 
-        const sendRequest = async() => {
-            const response = await fetch("/api/new-article", {
-                method: "POST",
-                headers: {"Content-Type" : "application/json"},
-                body: JSON.stringify(article)
-            });
-            if (response.status === 400) {
-                alert("slug นี้ถูกใช้ไปแล้ว");
-            } else if (!response.ok) {
-                alert("adding new article failed");
-            } else {
-                alert("posted new article successfully.");
-            }
+        const response = await fetch("/api/new-article", {
+            method: "POST",
+            headers: {"Content-Type" : "application/json"},
+            body: JSON.stringify(article)
+        });
+
+        if (response.status === 400) {
+            alert("slug นี้ถูกใช้ไปแล้ว");
+            return false;
+        } else if (!response.ok) {
+            alert("เพิ่มบทความล้มเหลว !");
+            return false;
+        } else {
+            alert("เพิ่มบทความสำเร็จ");
+            return true;
         }
-        sendRequest();
     }
 
     const handleSubmitLogIn = (e: React.FormEvent) => {

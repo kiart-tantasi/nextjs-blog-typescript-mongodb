@@ -47,10 +47,12 @@
     padding-inline-start: 5px;
 }
 
+.form img {
+    max-height: 300px;
+}
+
 .form .submit-button {
-    background-color: #fff;
-    padding: 5px 15px;
-    border-radius: 3px;
+    background-color: rgb(100, 177, 240);
+    color: #fff;
     border: 1px solid #000;
-    margin-bottom: 50px;
 }

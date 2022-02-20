@@ -1,14 +1,14 @@
 import React, { useRef, useState } from "react";
-import styles from "./NewArticlePage.module.css";
 import Link from "next/link";
+import Button from '@mui/material/Button';
+import styles from "./NewArticlePage.module.css";
 
 import { Article } from "../../models/article";
 import { ArticleTypes } from "../../models/article";
 
 import slugify from "slugify";
 
-const NewArticlePage = (props:{handleAddNewArticle: (article: Article) => void;}) => {
-
+const NewArticlePage = (props:{handleAddNewArticle: (article: Article) => Promise<boolean>;}) => {
     const titleRef = useRef<HTMLInputElement>(null);
     const slugRef = useRef<HTMLInputElement>(null);
     const imgRef = useRef<HTMLInputElement>(null);
@@ -17,12 +17,19 @@ const NewArticlePage = (props:{handleAddNewArticle: (article: Article) => void;}
     const textAreaRef = useRef<HTMLTextAreaElement>(null);
     const [categoryValue, setCategoryValue] = useState<ArticleTypes>("");
 
+    const [imgUrl, setImgUrl] = useState("");
+
     const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const newValue = e.target.value as ArticleTypes;
         setCategoryValue(newValue);
     }
 
-    const handleSubmitForm = (e: React.FormEvent) => {
+    const handleImgUrlChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        setImgUrl(value);
+    }
+
+    const handleSubmitForm = async(e: React.FormEvent) => {
         e.preventDefault();
         const title = titleRef.current!.value;
         const img = imgRef.current!.value;
@@ -46,13 +53,16 @@ const NewArticlePage = (props:{handleAddNewArticle: (article: Article) => void;}
             category: categoryValue,
             slug: slug
         }
-        props.handleAddNewArticle(sendingData);
+        const result = await props.handleAddNewArticle(sendingData);
+        if (result === false) return;
+
         titleRef.current!.value = "";
         slugRef.current!.value = "";
         imgRef.current!.value = "";
         altRef.current!.value = "";
         descRef.current!.value = "";
         textAreaRef.current!.value = "";
+        setImgUrl("");
     }
 
     return (
@@ -66,8 +76,9 @@ const NewArticlePage = (props:{handleAddNewArticle: (article: Article) => void;}
                     <input className={styles["secondary-input"]} type="text" ref={slugRef} />
                 </div>
                 <div>
+                    {imgUrl !== "" && <img src={imgUrl} alt="รูปตัวอย่าง" />}
                     <label>url รูปภาพ</label>
-                    <input type="text" ref={imgRef} />
+                    <input onChange={handleImgUrlChange} type="text" ref={imgRef} />
                     <label>คำอธิบายรูปภาพ (กรณีไฟล์รูปหาย)</label>
                     <input className={styles["secondary-input"]} type="text" ref={altRef} />
                 </div>
@@ -91,10 +102,10 @@ const NewArticlePage = (props:{handleAddNewArticle: (article: Article) => void;}
                     </select>
                 </div>
                 <div>
-                    <button type="submit" className={styles["submit-button"]}>เพิ่มบทความใหม่</button>
+                    <Button type="submit" className={styles["submit-button"]}>เพิ่มบทความใหม่</Button>
                 </div>
                 <div>
-                    <Link href="/"><button type="button">กลับสู่หน้าหลัก</button></Link>
+                    <Link href="/"><Button type="button">กลับสู่หน้าหลัก</Button></Link>
                 </div>
             </form>
         </div>

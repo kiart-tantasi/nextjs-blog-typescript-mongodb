@@ -17,8 +17,7 @@ const MainNav = () => {
             <Link href="/gaming"><a className={router.pathname == "/gaming" ? styles.active : ""}><p>เกมมิ่ง</p></a></Link>
             <Link href="/english"><a className={router.pathname == "/english" ? styles.active : ""}><p>ภาษาอังกฤษ</p></a></Link>
             <Link href="/workoutandhealth"><a className={router.pathname == "/workoutandhealth" ? styles.active : ""}><p>ออกกำลังกายและสุขภาพ</p></a></Link>
-            <Link href="/404test"><a className={router.pathname == "/404test" ? styles.active : ""}><p>404</p></a></Link>
-            <Link href="/new-article"><a className={router.pathname == "/new-article" ? styles.active : ""}><p>เพิ่มบทความใหม่</p></a></Link>
+            <Link href="/others"><a className={router.pathname == "/others" ? styles.active : ""}><p>อื่น ๆ </p></a></Link>
           </div>
 
         </div>
