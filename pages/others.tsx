@@ -1,6 +1,6 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
-import BlogPage from '../components/ฺBlog/BlogPage';
+import Articles from '../components/ฺBlog/Articles';
 import { Article } from '../models/article';
 
 const English: NextPage<{articles:Article[]}> = (props) => {
@@ -9,7 +9,7 @@ const English: NextPage<{articles:Article[]}> = (props) => {
     return (
         <>
         <Head><title>เพชร The Blog - อื่น ๆ </title></Head>
-        <BlogPage articles={articles} heading="เข้าสู่ช่วงเพชรไร้สาระ" />
+        <Articles articles={articles} heading="เข้าสู่ช่วงเพชรไร้สาระ" />
         </>
     )
 }

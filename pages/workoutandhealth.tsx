@@ -1,6 +1,6 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
-import BlogPage from '../components/ฺBlog/BlogPage';
+import Articles from '../components/ฺBlog/Articles';
 import { Article } from '../models/article';
 
 const WorkoutAndHealth:NextPage<{articles:Article[]}> = (props) => {
@@ -8,7 +8,7 @@ const WorkoutAndHealth:NextPage<{articles:Article[]}> = (props) => {
     return (
         <>
         <Head><title>เพชร The Blog - ออกกำลังกาย สุขภาพ</title></Head>
-        <BlogPage articles={articles} heading="ออกกำลังกันดีกว่า!" />
+        <Articles articles={articles} heading="ออกกำลังกันดีกว่า!" />
         </>
     )
 }

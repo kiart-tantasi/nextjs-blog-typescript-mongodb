@@ -1,6 +1,6 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
-import BlogPage from '../components/ฺBlog/BlogPage';
+import Articles from '../components/ฺBlog/Articles';
 import { Article } from '../models/article';
 
 const Gaming: NextPage<{articles:Article[]}> = (props) => {
@@ -11,7 +11,7 @@ const Gaming: NextPage<{articles:Article[]}> = (props) => {
             <title>เพชร The Blog - เกมมิ่ง</title>
             <meta name="description" content="บทความเกมที่เพชรเล่น และแชร์เทคนิคการเล่นที่ทั้งกากและทั้ง(อาจจะ)เก่ง" />
         </Head>
-        <BlogPage articles={articles} heading="ยินดีต้อนรับสู่โลกคนติดเกมส์!" />
+        <Articles articles={articles} heading="ยินดีต้อนรับสู่โลกคนติดเกมส์!" />
         </>
     )
 }

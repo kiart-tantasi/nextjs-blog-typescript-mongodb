@@ -1,10 +1,10 @@
 import type { NextPage } from 'next';
-import BlogPage from '../components/ฺBlog/BlogPage';
+import Articles from '../components/ฺBlog/Articles';
 import { Article } from '../models/article';
 
 const Home: NextPage<{articles: Article[]}> = (props) => {
   const articles = props.articles;
-  return <BlogPage articles={articles} />
+  return <Articles articles={articles} />
 }
 
 export default Home;

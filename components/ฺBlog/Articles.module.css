@@ -1,3 +1,8 @@
+.top-text {
+    text-align: center;
+    letter-spacing: 1px;
+}
+
 .articles {
     margin: 30px 0 20px;
 }
