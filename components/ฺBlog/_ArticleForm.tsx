@@ -1,14 +1,14 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import Button from '@mui/material/Button';
-import styles from "./NewArticlePage.module.css";
-
-import { Article } from "../../models/article";
-import { ArticleTypes } from "../../models/article";
-
+import { useRouter } from "next/router";
 import slugify from "slugify";
+import Button from '@mui/material/Button';
+import styles from "./_ArticleForm.module.css";
 
-const NewArticlePage = (props:{handleAddNewArticle: (article: Article) => Promise<boolean>;}) => {
+import { ArticleTypes, ArticleForm } from "../../models/article";
+
+const ArticleForm = (props:ArticleForm) => {
+    const router = useRouter();
     const titleRef = useRef<HTMLInputElement>(null);
     const slugRef = useRef<HTMLInputElement>(null);
     const imgRef = useRef<HTMLInputElement>(null);
@@ -16,8 +16,18 @@ const NewArticlePage = (props:{handleAddNewArticle: (article: Article) => Promis
     const descRef = useRef<HTMLInputElement>(null);
     const textAreaRef = useRef<HTMLTextAreaElement>(null);
     const [categoryValue, setCategoryValue] = useState<ArticleTypes>("");
-
     const [imgUrl, setImgUrl] = useState("");
+
+    useEffect(() => {
+        if (props.article === undefined) return;
+        const article = props.article;
+        titleRef.current!.value = article!.title;
+        imgRef.current!.value = article!.img;
+        altRef.current!.value = article!.alt;
+        descRef.current!.value = article!.desc;
+        textAreaRef.current!.value = article!.markdown;
+        setImgUrl(article!.img);
+    }, []);
 
     const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const newValue = e.target.value as ArticleTypes;
@@ -36,25 +46,39 @@ const NewArticlePage = (props:{handleAddNewArticle: (article: Article) => Promis
         const alt = altRef.current!.value;
         const desc = descRef.current!.value;
         const markdown = textAreaRef.current!.value;
-        const slug = slugify(slugRef.current!.value);
+        const category = props.article? props.article.category: categoryValue;
+        const slug = props.article? props.article.slug: slugify(slugRef.current!.value);
 
-        if (!title.length || !img.length || !alt.length || !desc.length || !markdown.length || !slug.length || categoryValue === "") {
-            alert("ข้อมูลไม่ครบถ้วน หรือ ไม่ถูกต้องตามเงื่อนไข");
-            return;
+        if (props.article === undefined) {
+            if (!title.length || !img.length || !alt.length || !desc.length || !markdown.length || !slug.length || categoryValue === "") {
+                alert("ข้อมูลไม่ครบถ้วน หรือ slugไม่ถูกต้องตามเงื่อนไข");
+                return;
+            }
+        } else {
+            if (!title.length || !img.length || !alt.length || !desc.length || !markdown.length) {
+                alert("ข้อมูลในการแก้ไขบทความไม่ครบถ้วน");
+                return;
+            } 
         }
 
         const sendingData = {
             title: title,
             img: img,
+            alt: alt,
             desc: desc,
             markdown: markdown,
-            alt: alt,
             date: Date.now(),
-            category: categoryValue,
+            category: category,
             slug: slug
         }
-        const result = await props.handleAddNewArticle(sendingData);
+        const result = await props.handleRequest(sendingData);
+        
         if (result === false) return;
+
+        if (props.article !== undefined) {
+            router.replace("/" + props.article.slug);
+            return;
+        }
 
         titleRef.current!.value = "";
         slugRef.current!.value = "";
@@ -72,11 +96,14 @@ const NewArticlePage = (props:{handleAddNewArticle: (article: Article) => Promis
                 <div>
                     <label>หัวข้อ</label>
                     <input type="text" ref={titleRef} />
+                    {!props.article &&
+                    <>
                     <label>slug (ภาษาอังกฤษ)</label>
                     <input className={styles["secondary-input"]} type="text" ref={slugRef} />
+                    </>}
                 </div>
-                <div>
-                    {imgUrl !== "" && <img src={imgUrl} alt="รูปตัวอย่าง" />}
+                {imgUrl !== "" && <img src={imgUrl} alt="รูปตัวอย่าง" />}
+                <div> 
                     <label>url รูปภาพ</label>
                     <input onChange={handleImgUrlChange} type="text" ref={imgRef} />
                     <label>คำอธิบายรูปภาพ (กรณีไฟล์รูปหาย)</label>
@@ -90,7 +117,7 @@ const NewArticlePage = (props:{handleAddNewArticle: (article: Article) => Promis
                     <h3>เนื้อหาบทความ</h3>
                     <textarea ref={textAreaRef} />
                 </div>
-                <div>
+                {!props.article && <div>
                     <label htmlFor="category">หมวดหมู่</label>
                     <select name="category" onChange={handleSelectChange}>
                         <option value="">เลือก</option>
@@ -100,9 +127,9 @@ const NewArticlePage = (props:{handleAddNewArticle: (article: Article) => Promis
                         <option value="workoutandhealth">ออกกำลังกายและสุขภาพ</option>
                         <option value="others">อื่น ๆ </option>
                     </select>
-                </div>
+                </div>}
                 <div>
-                    <Button type="submit" className={styles["submit-button"]}>เพิ่มบทความใหม่</Button>
+                    <Button type="submit" className={styles["submit-button"]}>{props.article? "แก้ไขบทความ": "เพิ่มบทความใหม่"}</Button>
                 </div>
                 <div>
                     <Link href="/"><Button type="button">กลับสู่หน้าหลัก</Button></Link>
@@ -112,4 +139,4 @@ const NewArticlePage = (props:{handleAddNewArticle: (article: Article) => Promis
     )
 }
 
-export default NewArticlePage;
+export default ArticleForm;

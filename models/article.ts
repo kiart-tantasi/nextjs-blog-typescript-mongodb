@@ -12,3 +12,8 @@ export type Article = {
 }
 
 export type ArticleTypes = "" | "tech" | "gaming" | "english" | "workoutandhealth"| "others";
+
+export type ArticleForm = {
+    handleRequest: (article: Article) => Promise<boolean>;
+    article?: Article;
+}

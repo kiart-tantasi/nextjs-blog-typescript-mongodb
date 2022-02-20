@@ -1,0 +1,24 @@
+.card {
+    margin: 0 auto 30px;
+}
+
+.title {
+    margin-bottom: 5px;
+}
+
+.read-more-a-tag {
+    text-decoration: none;
+    color: inherit;
+}
+
+.readmore-date {
+    display: flex;
+    justify-content: space-between;
+}
+
+.date-div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-right: 10px;
+}

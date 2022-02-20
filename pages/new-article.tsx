@@ -1,4 +1,4 @@
-import NewArticlePage from "../components/ฺBlog/NewArticlePage";
+import ArticleForm from "../components/ฺBlog/_ArticleForm";
 import React, { useState } from "react";
 import { Article } from "../models/article";
 import Button from '@mui/material/Button';
@@ -32,7 +32,7 @@ const NewArticle = () => {
         alert("เข้าสู่ระบบสำเร็จ");
     }
 
-    if (isLoggedIn) return <NewArticlePage handleAddNewArticle={handleAddNewArticle} />;
+    if (isLoggedIn) return <ArticleForm handleRequest={handleAddNewArticle} />;
 
     return (
         <div className="row" style={{textAlign:"center"}}>

@@ -1,6 +1,6 @@
-import ArticleDetail from "../components/ฺBlog/ArticleDetail";
-import NotFoundPage from "../components/ฺBlog/NotFoundPage";
-import { Article } from "../models/article";
+import ArticleDetail from "../../components/ฺBlog/ArticleDetail";
+import NotFoundPage from "../../components/ฺBlog/NotFoundPage";
+import { Article } from "../../models/article";
 
 const Article: NextPage<{article: Article}> = (props) => {
     const { article } = props;
@@ -26,6 +26,7 @@ export const getStaticPaths: GetStaticPaths = async() => {
     const paths = articles.map(x => {
         return {params: {slug: x.title}}
     });
+    client.close();
 
     return {
         paths: paths,
@@ -42,7 +43,8 @@ export const getStaticProps: GetStaticProps = async(context) => {
     const articleNoTransformed = await collection.findOne({slug:slug});
     if (articleNoTransformed === null) return {props: {article : null }};
     const objectIdAsString = articleNoTransformed!._id.toString();
-    const article = {...articleNoTransformed, _id: objectIdAsString}
+    const article = {...articleNoTransformed, _id: objectIdAsString};
+    client.close();
 
     return {
         props: { article }

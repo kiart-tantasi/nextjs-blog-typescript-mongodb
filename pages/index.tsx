@@ -21,8 +21,8 @@ export async function getStaticProps() {
   const transformedData = articles.map(x => {
     return {...x, _id: x._id.toString()}
   });
-  
   client.close();
+  
   return {
     props: {
       articles: [...transformedData]
