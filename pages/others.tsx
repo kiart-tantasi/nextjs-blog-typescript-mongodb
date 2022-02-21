@@ -3,7 +3,7 @@ import Head from 'next/head';
 import Articles from '../components/ฺBlog/Articles';
 import { Article } from '../models/article';
 
-const English: NextPage<{articles:Article[]}> = (props) => {
+const Others: NextPage<{articles:Article[]}> = (props) => {
     const { articles } = props;
 
     return (
@@ -14,7 +14,7 @@ const English: NextPage<{articles:Article[]}> = (props) => {
     )
 }
 
-export default English;
+export default Others;
 // --------------------------------------------------------//
 import { MongoClient } from "mongodb";
 

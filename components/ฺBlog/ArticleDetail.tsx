@@ -34,7 +34,6 @@ export default function ArticleDetail(props: Article) {
                 <div className={styles["padding-bottom"]} dangerouslySetInnerHTML={{ __html: parsed }} />
             </CardContent>
         </Card>
-        <Link href={"/edit/" + props.slug} ><Button>แก้ไข</Button></Link>
     </div>
     )
 }

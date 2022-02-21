@@ -123,11 +123,16 @@ const ArticleForm = (props:ArticleForm) => {
                         <option value="">เลือก</option>
                         <option value="tech">เทค</option>
                         <option value="gaming">เกมมิ่ง</option>
-                        <option value="english">ภาษาอังกฤษ</option>
                         <option value="workoutandhealth">ออกกำลังกายและสุขภาพ</option>
                         <option value="others">อื่น ๆ </option>
                     </select>
                 </div>}
+                <div>
+                    <label>admin username</label>
+                    <input type="text" />
+                    <label>password</label>
+                    <input type="password" />
+                </div>
                 <div>
                     <Button type="submit" className={styles["submit-button"]}>{props.article? "แก้ไขบทความ": "เพิ่มบทความใหม่"}</Button>
                 </div>

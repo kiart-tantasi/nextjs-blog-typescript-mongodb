@@ -11,7 +11,7 @@ export type Article = {
     slug: string;
 }
 
-export type ArticleTypes = "" | "tech" | "gaming" | "english" | "workoutandhealth"| "others";
+export type ArticleTypes = "" | "tech" | "gaming" | "workoutandhealth"| "others";
 
 export type ArticleForm = {
     handleRequest: (article: Article) => Promise<boolean>;
