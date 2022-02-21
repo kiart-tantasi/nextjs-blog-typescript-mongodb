@@ -15,19 +15,15 @@ export default function newArticle(req: NextApiRequest, res: NextApiResponse) {
                 await client.connect();
                 const db = client.db("blogDB");
                 const collection = db.collection("admin");
-
                 const adminUser = await collection.findOne({username:username});
                 if (adminUser === null) throw new Error("not found");
                 const hashedPassword = adminUser.password;
-
                 const comparing = await bcryptjs.compare(password, hashedPassword);
                 if (comparing === false) throw new Error("password incorrect");
-
                 const privateKey = process.env.PRIVATE_KEY as string;
-
                 const token = jwt.sign({
                     date: {username: username},
-                    exp: Math.floor(Date.now() / 1000) + 20 // 20s just for testing
+                    exp: Math.floor(Date.now() / 1000) + 1200
                 }, privateKey);
                 client.close();
 

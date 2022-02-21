@@ -1,7 +1,26 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { MongoClient } from 'mongodb';
+import jwt from "jsonwebtoken";
 
 export default function newArticle(req: NextApiRequest, res: NextApiResponse) {
+    // ----------------------------------------------------------- //
+    const { token } = req.body;
+    if (!token) {
+        res.status(400).json({message:"no token found"});
+        return;
+    } else {
+        const privateKey = process.env.PRIVATE_KEY as string;
+        let returnNow = false;
+        
+        jwt.verify(token, privateKey, function(err: any) {
+            if (err) {
+                res.status(401).json({message:"invalid token"});
+                returnNow = true;
+            }
+        });
+        if (returnNow) return;
+    }
+    // ----------------------------------------------------------- //
     if (req.method === "PUT") {
         const {category, slug} = req.body;
         if (!category || !slug) {

@@ -7,7 +7,7 @@ import styles from "./_ArticleForm.module.css";
 
 import { ArticleTypes, ArticleForm } from "../../models/article";
 
-const ArticleForm = (props:ArticleForm) => {
+const _ArticleForm = (props: ArticleForm) => {
     const router = useRouter();
     const titleRef = useRef<HTMLInputElement>(null);
     const slugRef = useRef<HTMLInputElement>(null);
@@ -19,6 +19,7 @@ const ArticleForm = (props:ArticleForm) => {
     const [imgUrl, setImgUrl] = useState("");
 
     useEffect(() => {
+
         if (props.article === undefined) return;
         const article = props.article;
         titleRef.current!.value = article!.title;
@@ -62,6 +63,11 @@ const ArticleForm = (props:ArticleForm) => {
             } 
         }
 
+        const token = localStorage.getItem("adminToken");
+        if (!token) {
+            alert("no admin token found");
+            return;
+        }
         const sendingData = {
             title: title,
             img: img,
@@ -70,16 +76,10 @@ const ArticleForm = (props:ArticleForm) => {
             markdown: markdown,
             date: date,
             category: category,
-            slug: slug
+            slug: slug,
+            token: token
         }
-        const token = localStorage.getItem("adminToken");
-        let result;
-        if (props.article && token) {
-            const sendingDataWithToken = {...sendingData, token: token};
-            result = await props.handleRequest(sendingDataWithToken);
-        } else {
-            result = await props.handleRequest(sendingData);
-        }
+        const result = await props.handleRequest(sendingData);
         
         if (result === false) return;
 
@@ -136,12 +136,6 @@ const ArticleForm = (props:ArticleForm) => {
                     </select>
                 </div>}
                 <div>
-                    <label>admin username</label>
-                    <input type="text" />
-                    <label>password</label>
-                    <input type="password" />
-                </div>
-                <div>
                     <Button type="submit" className={styles["submit-button"]}>{props.article? "แก้ไขบทความ": "เพิ่มบทความใหม่"}</Button>
                 </div>
                 <div>
@@ -152,4 +146,4 @@ const ArticleForm = (props:ArticleForm) => {
     )
 }
 
-export default ArticleForm;
+export default _ArticleForm;

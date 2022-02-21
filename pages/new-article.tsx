@@ -1,6 +1,6 @@
 import ArticleForm from "../components/ฺBlog/_ArticleForm";
-import React, { useRef, useState } from "react";
-import { Article } from "../models/article";
+import React, { useEffect, useRef, useState } from "react";
+import { FormData } from "../models/article";
 import Button from '@mui/material/Button';
 
 const NewArticle = () => {
@@ -8,16 +8,40 @@ const NewArticle = () => {
     const usernameRef = useRef<HTMLInputElement>(null);
     const passwordRef = useRef<HTMLInputElement>(null);
 
-    const handleAddNewArticle = async(article: Article) => {
+    useEffect(() => {
+        const validateUserToken = async() => {
+            const token = localStorage.getItem("adminToken");
+            if (!token) return;
+
+            const response = await fetch("/api/validate-token", {
+                method: "POST",
+                headers: {"Content-Type" : "application/json"},
+                body: JSON.stringify({token: token})
+            });
+
+            if (!response.ok) {
+                localStorage.removeItem("adminToken");
+                setIsLoggedIn(false);
+            } else {
+                setIsLoggedIn(true);
+            }
+        }
+        validateUserToken();
+    }, [])
+
+    const handleAddNewArticle = async(sendingData: FormData) => {
 
         const response = await fetch("/api/new-article", {
             method: "POST",
             headers: {"Content-Type" : "application/json"},
-            body: JSON.stringify(article)
+            body: JSON.stringify(sendingData)
         });
 
         if (response.status === 400) {
             alert("slug นี้ถูกใช้ไปแล้ว");
+            return false;
+        } else if (response.status === 401) {
+            alert("session แอดมินหมดอายุ");
             return false;
         } else if (!response.ok) {
             alert("เพิ่มบทความล้มเหลว !");
@@ -30,9 +54,9 @@ const NewArticle = () => {
 
     const handleSubmitLogIn = (e: React.FormEvent) => {
         e.preventDefault();
-        alert("เข้าสู่ระบบสำเร็จ");
-        setIsLoggedIn(true);
-        return;
+        // setIsLoggedIn(true);
+        // alert("เข้าสู่ระบบสำเร็จ");
+        // return;
 
         const loginAdmin = async() => {
             const username = usernameRef.current!.value;
@@ -50,53 +74,35 @@ const NewArticle = () => {
             if (!response.ok) {
                 alert("โปรดตรวจสอบ username และ password");
             } else {
-                alert("เข้าสู่ระบบสำเร็จ");
                 const json:{message:string; token:string} = await response.json();
                 const adminToken = json.token;
                 localStorage.setItem("adminToken", adminToken);
                 setIsLoggedIn(true);
+                alert("เข้าสู่ระบบสำเร็จ");
             }
         }
         loginAdmin();
     }
 
-    // const handleRegisterAdmin = async(username:string, password:string, firstName:string, lastName:string) => {
-    //     const adminData = {
-    //         username,
-    //         password,
-    //         firstName,
-    //         lastName
-    //     }
-    //     const response = await fetch("/api/register-admin", {
-    //         method: "POST",
-    //         headers: {"Content-Type" : "application/json"},
-    //         body: JSON.stringify(adminData)
-    //     });
-    //     if (!response.ok) {
-    //         alert("RESPONSE IS NOT OKAY !");
-    //     } else {
-    //         alert("ลงทะเบียนแอดมินสำเร็จ");
-    //     }
-    // }
-
     const verifyToken = async() => {
-        const adminToken = localStorage.getItem("adminToken");
-        if (!adminToken) {
+        const token = localStorage.getItem("adminToken");
+        if (!token) {
             alert("no admin token found");
             return;
         }
         const response = await fetch("/api/validate-token", {
             method: "POST",
             headers: {"Content-Type" : "application/json"},
-            body: JSON.stringify({token: adminToken})
+            body: JSON.stringify({token: token})
         });
         if (!response.ok) {
-            alert("failed!!!");
+            alert("invalid token");
             localStorage.removeItem("adminToken");
+            setIsLoggedIn(false);
         } else {
             alert("สำเร็จ");
+            setIsLoggedIn(true);
         }
-        const json = await response.json();
     }
 
     if (isLoggedIn) return <ArticleForm handleRequest={handleAddNewArticle} />;

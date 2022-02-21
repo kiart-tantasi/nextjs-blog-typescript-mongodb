@@ -13,7 +13,21 @@ export type Article = {
 
 export type ArticleTypes = "" | "tech" | "gaming" | "workoutandhealth"| "others";
 
+export type FormData = {
+    id?: string;
+    title: string;
+    desc: string;
+    markdown: string;
+    img: string;
+    alt: string;
+    date : number;
+    author?: string;
+    category: ArticleTypes;
+    slug: string;
+    token: string;
+}
+
 export type ArticleForm = {
-    handleRequest: (article: Article) => Promise<boolean>;
+    handleRequest: (article: FormData) => Promise<boolean>;
     article?: Article;
 }
