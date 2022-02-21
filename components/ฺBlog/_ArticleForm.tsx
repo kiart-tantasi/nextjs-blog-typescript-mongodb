@@ -48,6 +48,7 @@ const ArticleForm = (props:ArticleForm) => {
         const markdown = textAreaRef.current!.value;
         const category = props.article? props.article.category: categoryValue;
         const slug = props.article? props.article.slug: slugify(slugRef.current!.value);
+        const date = props.article? props.article.date: Date.now();
 
         if (props.article === undefined) {
             if (!title.length || !img.length || !alt.length || !desc.length || !markdown.length || !slug.length || categoryValue === "") {
@@ -67,11 +68,18 @@ const ArticleForm = (props:ArticleForm) => {
             alt: alt,
             desc: desc,
             markdown: markdown,
-            date: Date.now(),
+            date: date,
             category: category,
             slug: slug
         }
-        const result = await props.handleRequest(sendingData);
+        const token = localStorage.getItem("adminToken");
+        let result;
+        if (props.article && token) {
+            const sendingDataWithToken = {...sendingData, token: token};
+            result = await props.handleRequest(sendingDataWithToken);
+        } else {
+            result = await props.handleRequest(sendingData);
+        }
         
         if (result === false) return;
 

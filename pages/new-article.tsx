@@ -4,7 +4,7 @@ import { Article } from "../models/article";
 import Button from '@mui/material/Button';
 
 const NewArticle = () => {
-    const [isLoggedIn, setIsLoggedIn] = useState(true);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
     const usernameRef = useRef<HTMLInputElement>(null);
     const passwordRef = useRef<HTMLInputElement>(null);
 
@@ -32,29 +32,32 @@ const NewArticle = () => {
         e.preventDefault();
         alert("เข้าสู่ระบบสำเร็จ");
         setIsLoggedIn(true);
+        return;
 
-        // const loginAdmin = async() => {
-        //     const username = usernameRef.current!.value;
-        //     const password = passwordRef.current!.value;
-        //     if (!username.length || !password.length) {
-        //         alert("โปรดระบุ username และ password");
-        //         return;
-        //     }
-        //     const response = await fetch("/api/login-admin", {
-        //         method: "POST",
-        //         headers: {"Content-Type" : "application/json"},
-        //         body: JSON.stringify({username,password})
-        //     });
+        const loginAdmin = async() => {
+            const username = usernameRef.current!.value;
+            const password = passwordRef.current!.value;
+            if (!username.length || !password.length) {
+                alert("โปรดระบุ username และ password");
+                return;
+            }
+            const response = await fetch("/api/login-admin", {
+                method: "POST",
+                headers: {"Content-Type" : "application/json"},
+                body: JSON.stringify({username,password})
+            });
     
-        //     if (!response.ok) {
-        //         alert("เข้าสู่ระบบล้มเหลว !");
-        //     } else {
-        //         alert("เข้าสู่ระบบสำเร็จ");
-        //     }
-        //     const json = await response.json();
-        //     console.log("JSON:", json);
-        // }
-        // loginAdmin();
+            if (!response.ok) {
+                alert("โปรดตรวจสอบ username และ password");
+            } else {
+                alert("เข้าสู่ระบบสำเร็จ");
+                const json:{message:string; token:string} = await response.json();
+                const adminToken = json.token;
+                localStorage.setItem("adminToken", adminToken);
+                setIsLoggedIn(true);
+            }
+        }
+        loginAdmin();
     }
 
     // const handleRegisterAdmin = async(username:string, password:string, firstName:string, lastName:string) => {
@@ -76,18 +79,38 @@ const NewArticle = () => {
     //     }
     // }
 
+    const verifyToken = async() => {
+        const adminToken = localStorage.getItem("adminToken");
+        if (!adminToken) {
+            alert("no admin token found");
+            return;
+        }
+        const response = await fetch("/api/validate-token", {
+            method: "POST",
+            headers: {"Content-Type" : "application/json"},
+            body: JSON.stringify({token: adminToken})
+        });
+        if (!response.ok) {
+            alert("failed!!!");
+            localStorage.removeItem("adminToken");
+        } else {
+            alert("สำเร็จ");
+        }
+        const json = await response.json();
+    }
+
     if (isLoggedIn) return <ArticleForm handleRequest={handleAddNewArticle} />;
 
     return (
         <div className="row" style={{textAlign:"center"}}>
             <form onSubmit={handleSubmitLogIn}>
-                <h4>ใส่อะไรก็ได้ครับ</h4><br />
                 <label htmlFor="id">USERNAME</label><br />
                 <input type="text" ref={usernameRef} /><br />
                 <label htmlFor="password">PASSWORD</label><br />
                 <input type="password" ref={passwordRef} /><br />
                 <Button type="submit" size="large">เข้าสู่ระบบ</Button>
             </form>
+            <Button onClick={verifyToken}>validate token</Button>
         </div>
     )
 }

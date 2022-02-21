@@ -13,7 +13,12 @@ const Edit:NextPage<{article:Article}> = (props) => {
             body: JSON.stringify(article)
         });
 
-        if (!response.ok) {
+        if (response.status === 401) {
+            const json = await response.json();
+            localStorage.removeItem("adminToken");
+            alert("session admin หมดอายุ");
+            return false;
+        } else if (!response.ok) {
             alert("แก้ไขบทความล้มเหลว !");
             return false;
         } else {

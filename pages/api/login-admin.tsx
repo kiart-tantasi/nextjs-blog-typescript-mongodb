@@ -8,8 +8,6 @@ export default function newArticle(req: NextApiRequest, res: NextApiResponse) {
         const {username, password} = req.body;
         if (!username || !password ) throw new Error("missing information");
 
-        console.log(req.body);
-
         const dbUrl = process.env.DB_URL as string;
         const client = new MongoClient(dbUrl);
         const registerAdmin = async() => {
@@ -29,7 +27,7 @@ export default function newArticle(req: NextApiRequest, res: NextApiResponse) {
 
                 const token = jwt.sign({
                     date: {username: username},
-                    exp: Math.floor(Date.now() / 1000) + 600 // 10 mins (600 seconds)
+                    exp: Math.floor(Date.now() / 1000) + 20 // 20s just for testing
                 }, privateKey);
                 client.close();
 

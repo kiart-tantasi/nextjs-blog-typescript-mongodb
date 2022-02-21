@@ -4,7 +4,10 @@ import { MongoClient } from 'mongodb';
 export default function newArticle(req: NextApiRequest, res: NextApiResponse) {
     if (req.method === "PUT") {
         const {category, slug} = req.body;
-        console.log("REQ.BODY:", req.body);
+        if (!category || !slug) {
+            res.status(400).json({message:"missing some data"});
+            return;
+        }
 
         const editArticle = async() => {
             try {
