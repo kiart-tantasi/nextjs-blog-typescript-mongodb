@@ -6,7 +6,7 @@ const Article: NextPage<{article: Article}> = (props) => {
     const { article } = props;
 
     if (article !== null) {
-        return <ArticleDetail title={article.title} desc={article.desc} img={article.img} alt={article.alt} date={article.date} markdown={article.markdown} category={article.category} slug={article.slug} />
+        return <ArticleDetail title={article.title} desc={article.desc} img={article.img} alt={article.alt} date={article.date} markdown={article.markdown} category={article.category} slug={article.slug} views={article.views} />
     }
     return <NotFoundPage />;
 }

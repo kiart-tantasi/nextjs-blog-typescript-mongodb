@@ -9,6 +9,7 @@ export type Article = {
     author?: string;
     category: ArticleTypes;
     slug: string;
+    views?: string;
 }
 
 export type ArticleTypes = "" | "tech" | "gaming" | "workoutandhealth"| "others";

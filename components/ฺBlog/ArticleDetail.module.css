@@ -54,6 +54,14 @@
     max-height: 400px;
 }
 
+/* date - views */
+.date-views {
+    text-align: right;
+    color: rgb(122, 122, 122);
+    font-size: 0.75rem!important;
+    line-height: 130%!important;
+}
+
 /* a tag / link */
 .article a {
     text-decoration: none;

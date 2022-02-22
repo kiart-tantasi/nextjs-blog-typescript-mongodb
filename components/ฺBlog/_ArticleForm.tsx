@@ -97,7 +97,7 @@ const _ArticleForm = (props: ArticleForm) => {
     }
 
     return (
-        <div className={`${styles["form-control"]} row`}>
+        <div className={`${styles["form-container"]} row`}>
             <h1 className={styles.heading}>{props.article? "แก้ไขบทความ": "เพิ่มบทความใหม่"}</h1>
             <form className={styles.form} onSubmit={handleSubmitForm}>
                 <div>

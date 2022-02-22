@@ -1,5 +1,6 @@
-.form-control {
+.form-container {
     text-align: center;
+    padding-top: 30px;
 }
 
 .heading {
@@ -55,4 +56,23 @@
     background-color: rgb(100, 177, 240);
     color: #fff;
     border: 1px solid #000;
+}
+
+/* media query */
+@media (max-width: 900px) {
+    .form textarea {
+        width: 600px;
+    }
+}
+
+@media (max-width: 650px) {
+    .form textarea {
+        width: 350px;
+    }
+}
+
+@media (max-width: 400px) {
+    .form input {
+        width: 330px;
+    }
 }

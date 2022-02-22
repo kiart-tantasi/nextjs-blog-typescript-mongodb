@@ -93,11 +93,11 @@ const NewArticle = () => {
 
     if (tokenChecked) {
         return (
-            <div className="row" style={{textAlign:"center"}}>
+            <div className="row" style={{textAlign:"center", padding:"100px 0"}}>
                 <form onSubmit={handleSubmitLogIn}>
-                    <label htmlFor="id">USERNAME</label><br />
+                    <label htmlFor="id">ชื่อผู้ใช้งาน</label><br />
                     <input type="text" ref={usernameRef} /><br />
-                    <label htmlFor="password">PASSWORD</label><br />
+                    <label htmlFor="password">รหัสผ่าน</label><br />
                     <input type="password" ref={passwordRef} /><br />
                     <Button type="submit" size="large">เข้าสู่ระบบ</Button>
                 </form>
