@@ -10,8 +10,8 @@ function MyApp({ Component, pageProps }: AppProps) {
       <Head>
         <title>เพชร The Blog</title>
         <meta name="description" content="Perosnal Blog - รวบรวมเนื้อหา เทคโนโลยี เกม ภาษาอังกฤษ การออกกำลังกาย และสุขภาพ" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+        <link rel="shortcut icon" href="/images/favicon.ico" />
+        </Head>
       <Component {...pageProps} />
     </Layout>
   )
