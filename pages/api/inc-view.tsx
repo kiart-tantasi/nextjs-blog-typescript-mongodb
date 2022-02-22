@@ -3,9 +3,9 @@ import { NextApiRequest, NextApiResponse } from "next";
 
 export default async function editData(req: NextApiRequest, res: NextApiResponse) {
     // only return status 200
-    const { slug } = req.body;
-    if (!slug) {
-        res.status(200).json({message:"no slug found"});
+    const { slug, category } = req.body;
+    if (!slug || !category) {
+        res.status(200).json({message:"no slug or category found"});
         return;
     }
 
@@ -21,7 +21,9 @@ export default async function editData(req: NextApiRequest, res: NextApiResponse
     }
     let views = articleNoTransformed.views? articleNoTransformed.views + 1 : 1;
     const result = await collection.findOneAndUpdate({slug:slug},{$set:{views:views}});
+    const specificCollection = db.collection(category)
+    const resultTwo = await specificCollection.findOneAndUpdate({slug:slug}, {$set:{views:views}});
     client.close();
 
-    res.status(200).json({message:result});
+    res.status(200).json({message:result, messageTwo:resultTwo});
 }

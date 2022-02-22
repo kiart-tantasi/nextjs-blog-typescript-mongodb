@@ -14,12 +14,12 @@ export default function ArticleDetail(props: Article) {
 
     useEffect(() => {
         const incView = async() => {
-            if (!props.slug) return;
-            const slug = props.slug;
+            if (!props.slug || !props.category) return;
+            const { slug, category } = props;
             await fetch("/api/inc-view", {
                 method: "POST",
                 headers: {"Content-Type" : "application/json"},
-                body: JSON.stringify({ slug })
+                body: JSON.stringify({ slug, category })
             });
         }
         setTimeout(() => {
