@@ -47,6 +47,7 @@ export const getStaticProps: GetStaticProps = async(context) => {
     client.close();
 
     return {
-        props: { article }
+        props: { article },
+        revalidate: 10
     }
 }
