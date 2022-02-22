@@ -5,7 +5,7 @@ export default function newArticle(req: NextApiRequest, res: NextApiResponse) {
     const { token } = req.body;
 
     if (!token) {
-        res.status(404).json({message:"no token found"});
+        res.status(400).json({message:"no token found"});
     } else {
         const privateKey = process.env.PRIVATE_KEY as string;
         

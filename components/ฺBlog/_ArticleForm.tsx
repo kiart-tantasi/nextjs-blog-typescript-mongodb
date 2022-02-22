@@ -53,7 +53,7 @@ const _ArticleForm = (props: ArticleForm) => {
 
         if (props.article === undefined) {
             if (!title.length || !img.length || !alt.length || !desc.length || !markdown.length || !slug.length || categoryValue === "") {
-                alert("ข้อมูลไม่ครบถ้วน หรือ slugไม่ถูกต้องตามเงื่อนไข");
+                alert("ข้อมูลไม่ครบถ้วน หรือ slug ไม่ใช่ภาษาอังกฤษ");
                 return;
             }
         } else {
@@ -65,7 +65,7 @@ const _ArticleForm = (props: ArticleForm) => {
 
         const token = localStorage.getItem("adminToken");
         if (!token) {
-            alert("no admin token found");
+            alert("ไม่พบ token แอดมิน");
             return;
         }
         const sendingData = {
@@ -99,7 +99,7 @@ const _ArticleForm = (props: ArticleForm) => {
 
     return (
         <div className={`${styles["form-control"]} row`}>
-            <h1 className={styles.heading}>เพิ่มบทความใหม่</h1>
+            <h1 className={styles.heading}>{props.article? "แก้ไขบทความ": "เพิ่มบทความใหม่"}</h1>
             <form className={styles.form} onSubmit={handleSubmitForm}>
                 <div>
                     <label>หัวข้อ</label>

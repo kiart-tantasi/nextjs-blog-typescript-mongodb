@@ -27,6 +27,14 @@ export type FormData = {
     token: string;
 }
 
+export type FindOneAndUpdateForm = {
+    title: string;
+    img: string;
+    alt: string;
+    desc: string;
+    markdown: string;
+}
+
 export type ArticleForm = {
     handleRequest: (article: FormData) => Promise<boolean>;
     article?: Article;

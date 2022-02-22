@@ -2,13 +2,10 @@ import Head from 'next/head';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
-import { Button, CardMedia } from '@mui/material';
+import { CardMedia } from '@mui/material';
 import styles from "./ArticleDetail.module.css";
-
 import { Article } from '../../models/article';
-
 import { Lexer, Parser } from 'marked';
-import Link from 'next/link';
 
 export default function ArticleDetail(props: Article) {
     const lexed = Lexer.lex(props.markdown);

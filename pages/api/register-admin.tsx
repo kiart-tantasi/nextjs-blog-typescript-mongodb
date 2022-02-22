@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { MongoClient } from 'mongodb';
 import bcryptjs from "bcryptjs";
-import jwt from "jsonwebtoken";
+import { tokenValidation } from '../../utilities/token-validation';
 
 export default function newArticle(req: NextApiRequest, res: NextApiResponse) {
     // ----------------------------------------------------------- //
@@ -9,17 +9,11 @@ export default function newArticle(req: NextApiRequest, res: NextApiResponse) {
     if (!token) {
         res.status(400).json({message:"no token found"});
         return;
-    } else {
-        const privateKey = process.env.PRIVATE_KEY as string;
-        let returnNow = false;
-        
-        jwt.verify(token, privateKey, function(err: any) {
-            if (err) {
-                res.status(401).json({message:"invalid token"});
-                returnNow = true;
-            }
-        });
-        if (returnNow) return;
+    } 
+    const valid = tokenValidation(token);
+    if (!valid) {
+        res.status(401).json({message:"invalid token"});
+        return;
     }
     // ----------------------------------------------------------- //
     if (req.method === "POST") {

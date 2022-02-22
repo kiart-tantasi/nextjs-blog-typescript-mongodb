@@ -5,13 +5,17 @@ import Button from '@mui/material/Button';
 
 const NewArticle = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [tokenChecked, setTokenChecked] = useState(false);
     const usernameRef = useRef<HTMLInputElement>(null);
     const passwordRef = useRef<HTMLInputElement>(null);
 
     useEffect(() => {
         const validateUserToken = async() => {
             const token = localStorage.getItem("adminToken");
-            if (!token) return;
+            if (!token) {
+                setTokenChecked(true); 
+                return;
+            }
 
             const response = await fetch("/api/validate-token", {
                 method: "POST",
@@ -25,6 +29,7 @@ const NewArticle = () => {
             } else {
                 setIsLoggedIn(true);
             }
+            setTokenChecked(true);
         }
         validateUserToken();
     }, [])
@@ -84,41 +89,23 @@ const NewArticle = () => {
         loginAdmin();
     }
 
-    const verifyToken = async() => {
-        const token = localStorage.getItem("adminToken");
-        if (!token) {
-            alert("no admin token found");
-            return;
-        }
-        const response = await fetch("/api/validate-token", {
-            method: "POST",
-            headers: {"Content-Type" : "application/json"},
-            body: JSON.stringify({token: token})
-        });
-        if (!response.ok) {
-            alert("invalid token");
-            localStorage.removeItem("adminToken");
-            setIsLoggedIn(false);
-        } else {
-            alert("สำเร็จ");
-            setIsLoggedIn(true);
-        }
-    }
-
     if (isLoggedIn) return <ArticleForm handleRequest={handleAddNewArticle} />;
 
-    return (
-        <div className="row" style={{textAlign:"center"}}>
-            <form onSubmit={handleSubmitLogIn}>
-                <label htmlFor="id">USERNAME</label><br />
-                <input type="text" ref={usernameRef} /><br />
-                <label htmlFor="password">PASSWORD</label><br />
-                <input type="password" ref={passwordRef} /><br />
-                <Button type="submit" size="large">เข้าสู่ระบบ</Button>
-            </form>
-            <Button onClick={verifyToken}>validate token</Button>
-        </div>
-    )
+    if (tokenChecked) {
+        return (
+            <div className="row" style={{textAlign:"center"}}>
+                <form onSubmit={handleSubmitLogIn}>
+                    <label htmlFor="id">USERNAME</label><br />
+                    <input type="text" ref={usernameRef} /><br />
+                    <label htmlFor="password">PASSWORD</label><br />
+                    <input type="password" ref={passwordRef} /><br />
+                    <Button type="submit" size="large">เข้าสู่ระบบ</Button>
+                </form>
+            </div>
+        )
+    }
+
+    return <div></div>
 }
 
 export default NewArticle;

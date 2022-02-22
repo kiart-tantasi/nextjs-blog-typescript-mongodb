@@ -1,39 +1,49 @@
-import { GetServerSideProps, NextPage } from "next";
+import { NextPage } from "next";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ArticleForm from "../../components/ฺBlog/_ArticleForm"
 import { Article, FormData } from "../../models/article";
 
-const Edit:NextPage<{article:Article}> = (props) => {
+const Edit: NextPage<{slug:string}> = (props) => {
+    
     const router = useRouter();
     const [ verified, setVerified ] = useState(false);
-    const { article } = props;
+    const [ article, setArticle ] = useState<Article>();
 
     useEffect(() => {
         const validateUserToken = async() => {
+            const slug = props.slug;
             const token = localStorage.getItem("adminToken");
             if (!token) {
-                alert("โปรดเข้าสู่ระบบแอดมิน");
+                alert("ไม่พบ token แอดมิน");
                 router.replace("/");
                 return;
             }
 
-            const response = await fetch("/api/validate-token", {
+            const response = await fetch("/api/edit-data", {
                 method: "POST",
                 headers: {"Content-Type" : "application/json"},
-                body: JSON.stringify({token: token})
+                body: JSON.stringify({ token, slug })
             });
 
             if (response.ok) {
+                const articleData = await response.json();
+                setArticle(articleData);
                 setVerified(true);
             } else {
-                alert("session แอดมินหมดอายุ");
-                localStorage.removeItem("adminToken");
+                if (response.status === 401) {
+                    alert("session แอดมินหมดอายุ");
+                    localStorage.removeItem("adminToken");
+                } else if (response.status === 403) {
+                    alert("ไม่พบ slug");
+                } else if (response.status === 404) {
+                    alert("ไม่พบบทความที่ตรงกับ slug");
+                }
                 router.replace("/");
-            }
+            }      
         }
         validateUserToken();
-    }, [])
+    }, []);
 
     const handleEditArticle = async(sendingData: FormData) => {
         
@@ -48,6 +58,8 @@ const Edit:NextPage<{article:Article}> = (props) => {
             alert("session admin หมดอายุ");
             return false;
         } else if (!response.ok) {
+            const jsonError = JSON.stringify(await response.json());
+            alert(jsonError);
             alert("แก้ไขบทความล้มเหลว !");
             return false;
         } else {
@@ -61,25 +73,14 @@ const Edit:NextPage<{article:Article}> = (props) => {
 }
 
 export default Edit;
-// -------------------------------------------------------------------- //
-import { MongoClient } from "mongodb";
-import { useEffect } from "react";
+//-----------------------------------------------------------------------//
+import { GetServerSideProps } from "next";
 
 export const getServerSideProps: GetServerSideProps = async(context) => {
-    const slug = context.params!.slug;
-
-    const dbUrl = process.env.DB_URL as string;
-    const client = new MongoClient(dbUrl);
-    await client.connect();
-    const db = client.db("blogDB");
-    const collection = db.collection("main");
-    const articleNoTransformed = await collection.findOne({slug: slug});
-    if (articleNoTransformed === null) return {props:{article:null}};
-    const objectIdAsString = articleNoTransformed!._id.toString();
-    const article = {...articleNoTransformed, _id: objectIdAsString};
-    client.close();
+    let slug = null;
+    slug = context.query.slug;
 
     return {
-        props: { article }
+        props: {slug: slug}
     }
 }
