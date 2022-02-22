@@ -7,7 +7,7 @@ const MainNav = () => {
   const router = useRouter();
 
   return (
-    <AppBar className="theme-color" color="inherit" sx={{ height: 50}}>
+    <AppBar sx={{height: 50, backgroundColor:"rgb(47, 102, 184)"}}>
         <div className={`row ${styles.nav}`}>
 
           <span className={styles["blog-brand"]}><Link href="/"><a><h1>เพชร THE BLOG</h1></a></Link></span>

@@ -19,7 +19,6 @@ const _ArticleForm = (props: ArticleForm) => {
     const [imgUrl, setImgUrl] = useState("");
 
     useEffect(() => {
-
         if (props.article === undefined) return;
         const article = props.article;
         titleRef.current!.value = article!.title;
@@ -28,7 +27,7 @@ const _ArticleForm = (props: ArticleForm) => {
         descRef.current!.value = article!.desc;
         textAreaRef.current!.value = article!.markdown;
         setImgUrl(article!.img);
-    }, []);
+    }, [props.article]);
 
     const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const newValue = e.target.value as ArticleTypes;
@@ -139,7 +138,7 @@ const _ArticleForm = (props: ArticleForm) => {
                     <Button type="submit" className={styles["submit-button"]}>{props.article? "แก้ไขบทความ": "เพิ่มบทความใหม่"}</Button>
                 </div>
                 <div>
-                    <Link href="/"><Button type="button">กลับสู่หน้าหลัก</Button></Link>
+                    <Link href="/" passHref><Button type="button">กลับสู่หน้าหลัก</Button></Link>
                 </div>
             </form>
         </div>

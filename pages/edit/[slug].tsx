@@ -43,7 +43,7 @@ const Edit: NextPage<{slug:string}> = (props) => {
             }      
         }
         validateUserToken();
-    }, []);
+    }, [props.slug, router]);
 
     const handleEditArticle = async(sendingData: FormData) => {
         

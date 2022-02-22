@@ -24,7 +24,7 @@ export const getStaticPaths: GetStaticPaths = async() => {
     const collection = db.collection("main");
     const articles = await collection.find({}).toArray();
     const paths = articles.map(x => {
-        return {params: {slug: x.title}}
+        return {params: {slug: x.slug}}
     });
     client.close();
 
