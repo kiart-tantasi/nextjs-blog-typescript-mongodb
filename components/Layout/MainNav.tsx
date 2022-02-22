@@ -7,8 +7,8 @@ const MainNav = () => {
   const router = useRouter();
 
   return (
-    <AppBar sx={{height: 50, backgroundColor:"rgb(47, 102, 184)"}}>
-        <div className={`row ${styles.nav}`}>
+    <AppBar sx={{height: {xs: 40, sm:50} , backgroundColor:"rgb(47, 102, 184)"}}>
+        <div className={`${styles.nav}`}>
 
           <span className={styles["blog-brand"]}>
             <Link href="/">
@@ -20,7 +20,7 @@ const MainNav = () => {
             <Link href="/tech"><a className={router.pathname == "/tech" ? styles.active : ""}><p>เทค</p></a></Link>
             <Link href="/gaming"><a className={router.pathname == "/gaming" ? styles.active : ""}><p>เกมมิ่ง</p></a></Link>
             <Link href="/workoutandhealth"><a className={router.pathname == "/workoutandhealth" ? styles.active : ""}><p>ออกกำลังกายและสุขภาพ</p></a></Link>
-            <Link href="/others"><a className={router.pathname == "/others" ? styles.active : ""}><p>อื่น ๆ </p></a></Link>
+            <span className={styles.others}><Link href="/others"><a className={router.pathname == "/others" ? styles.active : ""}><p>อื่น ๆ </p></a></Link></span>
           </div>
 
         </div>

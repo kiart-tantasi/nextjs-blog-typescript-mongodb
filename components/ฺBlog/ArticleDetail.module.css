@@ -3,19 +3,18 @@
     margin: 20px auto 100px;
     width: 800px;
     min-height: 650px;
+    padding: 0 30px;
 }
-
-/* inside content container */
-.inside-container {
-    padding: 0 20px;
-}
-
 
 /* ----- ARTICLE SETTINGS ----- */
 
-/* title */
+/* title and hide desc */
 .title {
     font-size: 1.8rem!important;
+}
+
+.desc {
+    display: none;
 }
 
 /* --- h1 h2 h3 p --- */
@@ -45,7 +44,7 @@
 
 .article h3, .article p {
     margin: 10px 0;
-    line-height: 200%;
+    line-height: 230%;
 }
 
 /* img */
@@ -99,20 +98,14 @@
     .article {
         width: 100%;
         min-width: 300px;
-    }
-
-    .inside-container {
-        padding: 0 10px;
+        padding: 0 30px;
     }
 }
 
 @media (max-width: 450px) {
     .article {
         margin: 0 auto;
-    }
-
-    .inside-container {
-        padding: 0 2.5px;
+        padding: 0 20px;
     }
 
     .title {
@@ -129,5 +122,6 @@
 
     .article p {
         font-size: 1rem;
+        line-height: 250%;
     }
 }

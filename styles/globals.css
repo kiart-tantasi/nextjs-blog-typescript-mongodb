@@ -10,13 +10,13 @@ html,
 body {
   font-family: sans-serif;
 }
-/* REUSABLE */
 
+/* REUSABLE */
 .row {
   width: 1100px;
   margin: 0 auto;
-  /* border-left: 1px solid #000;
-  border-right: 1px solid #000; */
+  border-left: 1px solid #000;
+  border-right: 1px solid #000;
 }
 
 @media (max-width: 1300px) {

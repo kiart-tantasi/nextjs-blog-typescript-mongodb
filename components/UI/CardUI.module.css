@@ -1,23 +1,31 @@
 /* title and desc */
+.title,
+.desc {
+    white-space: nowrap;
+    overflow: hidden;
+}
+
 .title {
-    margin-bottom: 5px;
-    max-height: 30px;
-    overflow-y: hidden;
+    font-weight: lighter;
+    font-size: 1.5rem;
+    margin: 10px 15px;
 }
 
 .desc {
-    max-height: 23px;
-    overflow-y: hidden;
+    color:rgba(0, 0, 0, 0.5);
+    font-size: 1rem;
+    margin: 0 15px 15px;
+    text-overflow:ellipsis;
 }
 
 /*  readmore & date */
-.read-more-a-tag {
-    text-decoration: none;
-    color: inherit;
-}
 .readmore-date {
     display: flex;
     justify-content: space-between;
+}
+.read-more-a-tag {
+    text-decoration: none;
+    color: inherit;
 }
 .date-div {
     display: flex;
@@ -33,10 +41,17 @@
 }
 
 /* media query */
-
 @media (max-width: 700px) {
     .card {
         width: 450px;
+    }
+
+    .title {
+        font-size: 1.2rem;
+    }
+
+    .desc {
+        font-size: 0.9rem;
     }
 }
 
@@ -47,8 +62,12 @@
     }
 
     .title {
-        font-size: 1.1rem!important;
-        max-height: 1.33rem!important;
+        font-size: 1.1rem;
+        margin: 10px 15px 5px;
+    }
+
+    .desc {
+        margin: 0 15px 15px;
     }
 }
 

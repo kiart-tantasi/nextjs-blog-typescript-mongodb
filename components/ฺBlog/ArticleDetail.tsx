@@ -12,25 +12,24 @@ export default function ArticleDetail(props: Article) {
     const parsed = Parser.parse(lexed);
 
     return (
-    <div className={`row ${styles.article}`}>
+        <>
         <Head>
             <title>{props.title}</title>
             <meta name='description'content={props.desc} />
         </Head>
-        <Card className={styles["inside-container"]}>
-            <CardContent>
-                <h1 className={styles.title}>{props.title}</h1>
-                <CardMedia 
-                sx={{maxHeight:"700px"}}
-                component="img"
-                image={props.img}
-                alt={props.alt}
-                />
-                <Typography variant="body1" color="text.secondary">{new Date(props.date).toLocaleDateString("th")}</Typography>
-                <hr />
-                <article className={styles["padding-bottom"]} dangerouslySetInnerHTML={{ __html: parsed }} />
-            </CardContent>
+        <Card className={`${styles.article} ${styles["inside-container"]}`}>
+            <h1 className={styles.title}>{props.title}</h1>
+            <h2 className={styles.desc}>{props.desc}</h2>
+            <CardMedia 
+            sx={{maxHeight:"700px"}}
+            component="img"
+            image={props.img}
+            alt={props.alt}
+            />
+            <Typography variant="body1" color="text.secondary">{new Date(props.date).toLocaleDateString("th")}</Typography>
+            <hr />
+            <article className={styles["padding-bottom"]} dangerouslySetInnerHTML={{ __html: parsed }} />
         </Card>
-    </div>
+        </>
     )
 }

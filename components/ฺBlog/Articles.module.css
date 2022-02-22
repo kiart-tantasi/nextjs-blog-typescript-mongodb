@@ -1,9 +1,15 @@
 .top-text {
     text-align: center;
-    letter-spacing: 1px;
+    letter-spacing: 0.5px;
 }
 
 .articles {
     margin: 30px 0 20px;
 }
 
+@media (max-width: 450px) {
+    .top-text {
+        font-size: 1.25rem;
+        letter-spacing: 0;
+    }
+}

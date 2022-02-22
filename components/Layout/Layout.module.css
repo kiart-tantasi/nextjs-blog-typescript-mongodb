@@ -11,3 +11,9 @@
 .flex-footer {
     margin-top: auto;
 }
+
+@media (max-width: 450px) {
+    .flex-body {
+        padding-top: 65px;
+    }
+}
