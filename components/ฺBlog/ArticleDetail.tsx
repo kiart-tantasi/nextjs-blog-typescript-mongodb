@@ -17,18 +17,18 @@ export default function ArticleDetail(props: Article) {
             <title>{props.title}</title>
             <meta name='description'content={props.desc} />
         </Head>
-        <Card className={styles["inside-container"]} sx={{ maxWidth: "inherit"}}>
+        <Card className={styles["inside-container"]}>
             <CardContent>
-                <Typography gutterBottom variant="h4" component="div">{props.title}</Typography>
+                <h1 className={styles.title}>{props.title}</h1>
                 <CardMedia 
                 sx={{maxHeight:"700px"}}
                 component="img"
                 image={props.img}
                 alt={props.alt}
                 />
-                <Typography variant="body1" color="text.secondary">{new Date(props.date).toLocaleDateString()}</Typography>
+                <Typography variant="body1" color="text.secondary">{new Date(props.date).toLocaleDateString("th")}</Typography>
                 <hr />
-                <div className={styles["padding-bottom"]} dangerouslySetInnerHTML={{ __html: parsed }} />
+                <article className={styles["padding-bottom"]} dangerouslySetInnerHTML={{ __html: parsed }} />
             </CardContent>
         </Card>
     </div>

@@ -6,7 +6,7 @@ const Articles = (props: {articles: Article[]; heading?:string}) => {
     const reversedArticles = [...props.articles].reverse();
 
     return (
-        <div className={`row`}>
+        <div>
             <h2 className={styles["top-text"]}>{props.heading}</h2>
             <div className={`${styles.articles} `}>
                 {reversedArticles.map(x => {

@@ -22,6 +22,9 @@
     letter-spacing: 1px;
     color: rgb(96, 163, 250);
     display: inline-block;
+}
+
+.nav-right a {
     margin-left: 20px;
 }
 
@@ -32,4 +35,27 @@
 /* activeClassName */
 .active p {
     color: #fff;
+}
+
+/* media-query */
+
+@media (max-width: 650px) {
+    .nav-right p {
+        font-size: 0.7rem;
+    }
+}
+
+@media (max-width: 575px) {
+    .remove-brand {
+        display: none;
+    }
+    .blog-brand h1 {
+        font-size: 1.75rem;
+    }
+}
+
+@media (max-width: 375px) {
+    .nav-right p {
+        font-size: 0.65rem;
+    }
 }

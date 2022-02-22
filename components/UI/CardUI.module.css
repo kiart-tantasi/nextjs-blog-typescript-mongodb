@@ -1,24 +1,55 @@
-.card {
-    margin: 0 auto 30px;
-}
-
+/* title and desc */
 .title {
     margin-bottom: 5px;
+    max-height: 30px;
+    overflow-y: hidden;
 }
 
+.desc {
+    max-height: 23px;
+    overflow-y: hidden;
+}
+
+/*  readmore & date */
 .read-more-a-tag {
     text-decoration: none;
     color: inherit;
 }
-
 .readmore-date {
     display: flex;
     justify-content: space-between;
 }
-
 .date-div {
     display: flex;
     flex-direction: column;
     justify-content: center;
     margin-right: 10px;
 }
+
+/* card */
+.card {
+    width: 550px;
+    margin: 0 auto 30px;
+}
+
+/* media query */
+
+@media (max-width: 700px) {
+    .card {
+        width: 450px;
+    }
+}
+
+@media (max-width: 450px) {
+    .card {
+        width: 100%;
+        min-width: 300px;
+    }
+
+    .title {
+        font-size: 1.1rem;
+        max-height: 1.33rem;
+    }
+}
+
+

@@ -19,11 +19,15 @@ body {
   border-right: 1px solid #000; */
 }
 
-@media (max-width:1300px) {
+@media (max-width: 1300px) {
   .row {
     width: 80%;
   }
-
+}
+@media (max-width: 450px) {
+  .row {
+    width: 90%;
+  }
 }
 
 .display-block {

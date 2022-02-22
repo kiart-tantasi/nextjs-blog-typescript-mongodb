@@ -10,24 +10,22 @@ import Typography from '@mui/material/Typography';
 import CardMedia from "@mui/material/CardMedia";
 
 export default function CardUI(props:Article) {
-    const cardWidth = 550;
     const newDesc = props.desc.length >= 60 ? props.desc.slice(0,60).trim() + "...": props.desc;
 
     return (
-    <div className={styles.card} style={{width:cardWidth}}>
-        <Card sx={{ maxWidth: cardWidth }}>
-
+    <div className={styles.card}>
+        <Card sx={{borderRadius:{xs: 0, sm: 0.5, md: 1}}}>
             {props.img &&
             <CardMedia
                 component="img"
-                height="270"
+                sx={{maxHeight:270, minWidth: 300}}
                 image={props.img}
                 alt={props.alt ? props.alt : props.title} 
             />}
 
             <CardContent sx={{height:80}}>  
                 <Typography className={styles.title} variant="h5">{props.title}</Typography>
-                <Typography variant="body2" color="text.secondary">{newDesc}</Typography>
+                <Typography className={styles.desc} variant="body2" color="text.secondary">{newDesc}</Typography>
             </CardContent>
             
             <div className={styles["readmore-date"]}>
