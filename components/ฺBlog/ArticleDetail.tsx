@@ -23,7 +23,7 @@ export default function ArticleDetail(props: Article) {
         setTimeout(() => {
             incView();
         }, 2000);
-    }, [props.slug, props.category])
+    }, [props])
 
     return (
         <>
@@ -48,7 +48,7 @@ export default function ArticleDetail(props: Article) {
             </Card>
             <div className={styles.author}>
                 <p>ผู้เขียน - เพชร</p><br/>
-                <a target="_blank" href="https://www.instagram.com/kiart.tantasi">kiart.tantasi</a>
+                <a target="_blank" rel="noreferrer" href="https://www.instagram.com/kiart.tantasi">kiart.tantasi</a>
             </div>
         </div>
         </>
