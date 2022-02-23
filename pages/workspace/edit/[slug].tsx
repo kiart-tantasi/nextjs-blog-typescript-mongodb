@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
-const editWorkspaceArticle = () => {
+const EditWorkspaceArticle = () => {
     const router = useRouter();
     const [ test, setTest ] = useState("loading...");
 
@@ -15,4 +15,4 @@ const editWorkspaceArticle = () => {
     return <div style={{textAlign:"center", paddingTop: "70px"}}>{test}</div>
 }
 
-export default editWorkspaceArticle;
+export default EditWorkspaceArticle;
