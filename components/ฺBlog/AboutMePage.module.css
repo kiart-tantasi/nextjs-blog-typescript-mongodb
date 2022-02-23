@@ -15,20 +15,21 @@
     border-radius: 3px;
     margin: 20px 0;
 }
+
 .bio p {
-    line-height: 220%;
+    line-height: 250%;
     font-size: 1.1rem;
-    text-align: justify;
+    text-align: left;
 }
 
-@media (max-width: 800px) {
+@media (max-width: 850px) {
     .bio {
         width: 100%;
         padding: 40px 50px;
     }
 }
 
-@media (max-width: 400px) {
+@media (max-width: 500px) {
     .bio {
         padding: 20px 20px;
     }
