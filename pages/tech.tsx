@@ -8,7 +8,7 @@ const Tech: NextPage<{articles: Article[]}> = (props) => {
     return (
         <>
         <Head>
-            <title>เพชร The Blog - เทคโนโลยี</title>
+            <title>เพชร BLOG - เทคโนโลยี</title>
             <meta name="description" content="บทความเทคโนโลยี รีวิวสินค้า สอนโค้ด สอนเขียนโปรแกรม ด้วยภาษา javascript react nodejs การใช้ database mysql mongodb รวมถึงการ สร้าง api สร้าง backend server ขึ้นเอง" />
         </Head>
         <Articles articles={articles} heading="ยินดีต้อนรับสู่โลกเทค!" />

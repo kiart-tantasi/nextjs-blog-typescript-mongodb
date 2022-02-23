@@ -48,8 +48,7 @@ export default function ArticleDetail(props: Article) {
             </Card>
             <div className={styles.author}>
                 <p>ผู้เขียน - เพชร</p><br/>
-                <p>Facebook: Kiart Tantasi</p><br/>
-                <p>Email: kiarttantasi@gmail.com</p>
+                <a target="_blank" href="https://www.instagram.com/kiart.tantasi">kiart.tantasi</a>
             </div>
         </div>
         </>

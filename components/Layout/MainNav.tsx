@@ -11,7 +11,7 @@ const MainNav = () => {
         <div className={`${styles.nav}`}>
           <span className={styles["blog-brand"]}>
             <Link href="/">
-              <a><h1><span className={styles["remove-brand"]}>เ</span>พ<span className={styles["remove-brand"]}>ชร THE BLOG</span></h1></a>
+              <a><h1><span className={styles["remove-brand"]}>เ</span>พ<span className={styles["remove-brand"]}>ชร BLOG</span></h1></a>
               </Link>
             </span>
           <div className={styles["nav-right"]}>

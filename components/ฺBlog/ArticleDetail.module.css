@@ -80,7 +80,7 @@
 }
 
 /* a tag / link */
-.article a {
+.article a, .author a {
     text-decoration: none;
     font-style: italic;
     color: rgb(55, 85, 182);

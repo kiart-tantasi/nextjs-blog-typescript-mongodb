@@ -8,7 +8,7 @@ const Others: NextPage<{articles:Article[]}> = (props) => {
 
     return (
         <>
-        <Head><title>เพชร The Blog - อื่น ๆ </title></Head>
+        <Head><title>เพชร BLOG - อื่น ๆ </title></Head>
         <Articles articles={articles} heading="เข้าสู่ช่วงเพชรไร้สาระ" />
         </>
     )

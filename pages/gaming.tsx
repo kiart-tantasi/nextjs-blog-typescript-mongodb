@@ -8,7 +8,7 @@ const Gaming: NextPage<{articles:Article[]}> = (props) => {
     return (
         <>
         <Head>
-            <title>เพชร The Blog - เกมมิ่ง</title>
+            <title>เพชร BLOG - เกมมิ่ง</title>
             <meta name="description" content="บทความเกมที่เพชรเล่น และแชร์เทคนิคการเล่นที่ทั้งกากและทั้ง(อาจจะ)เก่ง" />
         </Head>
         <Articles articles={articles} heading="ยินดีต้อนรับสู่โลกคนติดเกมส์!" />
