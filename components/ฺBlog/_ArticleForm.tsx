@@ -3,8 +3,8 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import slugify from "slugify";
 import Button from '@mui/material/Button';
+import { allowedCategories } from "../../utilities/sharedData";
 import styles from "./_ArticleForm.module.css";
-
 import { ArticleTypes, ArticleForm } from "../../models/article";
 
 const _ArticleForm = (props: ArticleForm) => {
@@ -41,6 +41,13 @@ const _ArticleForm = (props: ArticleForm) => {
 
     const handleSubmitForm = async(e: React.FormEvent) => {
         e.preventDefault();
+
+        const token = localStorage.getItem("adminToken");
+        if (!token) {
+            alert("ไม่พบ token แอดมิน");
+            return;
+        }
+
         const title = titleRef.current!.value;
         const img = imgRef.current!.value;
         const alt = altRef.current!.value;
@@ -51,22 +58,21 @@ const _ArticleForm = (props: ArticleForm) => {
         const date = props.article? props.article.date: Date.now();
 
         if (props.article === undefined) {
-            if (!title.length || !img.length || !alt.length || !desc.length || !markdown.length || !slug.length || categoryValue === "") {
+            if (!title.length || !img.length || !alt.length || !desc.length || !markdown.length || !slug.length || category === "") {
                 alert("ข้อมูลไม่ครบถ้วน หรือ slug ไม่ใช่ภาษาอังกฤษ");
+                return;
+            }
+            if (!allowedCategories.includes(category)) {
+                alert("หมวดหมู่ไม่ถูกต้อง");
                 return;
             }
         } else {
             if (!title.length || !img.length || !alt.length || !desc.length || !markdown.length) {
                 alert("ข้อมูลในการแก้ไขบทความไม่ครบถ้วน");
                 return;
-            } 
+            }
         }
 
-        const token = localStorage.getItem("adminToken");
-        if (!token) {
-            alert("ไม่พบ token แอดมิน");
-            return;
-        }
         const sendingData = {
             title: title,
             img: img,
@@ -79,14 +85,11 @@ const _ArticleForm = (props: ArticleForm) => {
             token: token
         }
         const result = await props.handleRequest(sendingData);
-        
         if (result === false) return;
-
         if (props.article !== undefined) {
             router.replace("/" + props.article.slug);
             return;
         }
-
         titleRef.current!.value = "";
         slugRef.current!.value = "";
         imgRef.current!.value = "";
@@ -132,6 +135,8 @@ const _ArticleForm = (props: ArticleForm) => {
                         <option value="gaming">เกมมิ่ง</option>
                         <option value="workoutandhealth">ออกกำลังกายและสุขภาพ</option>
                         <option value="others">อื่น ๆ </option>
+                        <option value="workspace">workspace</option>
+                        <option value="invalid">invalid category</option>
                     </select>
                 </div>}
                 <div>

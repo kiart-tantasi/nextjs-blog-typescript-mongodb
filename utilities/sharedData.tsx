@@ -1,0 +1,1 @@
+export const allowedCategories = ["tech", "gaming", "workoutandhealth", "others", "workspace"];

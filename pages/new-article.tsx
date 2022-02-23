@@ -42,10 +42,7 @@ const NewArticle = () => {
             body: JSON.stringify(sendingData)
         });
 
-        if (response.status === 400) {
-            alert("slug นี้ถูกใช้ไปแล้ว");
-            return false;
-        } else if (response.status === 401) {
+        if (response.status === 401) {
             alert("session แอดมินหมดอายุ");
             return false;
         } else if (!response.ok) {
@@ -57,36 +54,28 @@ const NewArticle = () => {
         }
     }
 
-    const handleSubmitLogIn = (e: React.FormEvent) => {
+    const handleSubmitLogIn = async(e: React.FormEvent) => {
         e.preventDefault();
-        // setIsLoggedIn(true);
-        // alert("เข้าสู่ระบบสำเร็จ");
-        // return;
-
-        const loginAdmin = async() => {
-            const username = usernameRef.current!.value;
-            const password = passwordRef.current!.value;
-            if (!username.length || !password.length) {
-                alert("โปรดระบุ username และ password");
-                return;
-            }
-            const response = await fetch("/api/login-admin", {
-                method: "POST",
-                headers: {"Content-Type" : "application/json"},
-                body: JSON.stringify({username,password})
-            });
-    
-            if (!response.ok) {
-                alert("โปรดตรวจสอบ username และ password");
-            } else {
-                const json:{message:string; token:string} = await response.json();
-                const adminToken = json.token;
-                localStorage.setItem("adminToken", adminToken);
-                setIsLoggedIn(true);
-                alert("เข้าสู่ระบบสำเร็จ");
-            }
+        const username = usernameRef.current!.value;
+        const password = passwordRef.current!.value;
+        if (!username.length || !password.length) {
+            alert("โปรดระบุ username และ password");
+            return;
         }
-        loginAdmin();
+        const response = await fetch("/api/login-admin", {
+            method: "POST",
+            headers: {"Content-Type" : "application/json"},
+            body: JSON.stringify({username,password})
+        });
+        if (!response.ok) {
+            alert("โปรดตรวจสอบ username และ password");
+        } else {
+            const json:{message:string; token:string} = await response.json();
+            const adminToken = json.token;
+            localStorage.setItem("adminToken", adminToken);
+            setIsLoggedIn(true);
+            alert("เข้าสู่ระบบสำเร็จ");
+        }
     }
 
     if (isLoggedIn) return <ArticleForm handleRequest={handleAddNewArticle} />;

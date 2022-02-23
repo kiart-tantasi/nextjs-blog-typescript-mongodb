@@ -1,8 +1,8 @@
 import { NextPage } from "next";
 import AboutMePage from "../components/ฺBlog/AboutMePage";
 
-const AboutMe:NextPage<{markdown:string; img: string; alt:string;}> = (props) => {
-    return <AboutMePage markdown={props.markdown} img={props.img} alt={props.alt} />
+const AboutMe:NextPage<{markdown:string;}> = (props) => {
+    return <AboutMePage markdown={props.markdown} />
 }
 
 export default AboutMe;
@@ -22,9 +22,7 @@ export async function getStaticProps() {
     
     return {
         props: {
-            markdown,
-            img,
-            alt
+            markdown
         },
         revalidate: 20
     }

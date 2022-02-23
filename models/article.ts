@@ -12,7 +12,7 @@ export type Article = {
     views?: string;
 }
 
-export type ArticleTypes = "" | "tech" | "gaming" | "workoutandhealth"| "others";
+export type ArticleTypes = "" | "tech" | "gaming" | "workoutandhealth"| "others" | "workspace";
 
 export type FormData = {
     id?: string;

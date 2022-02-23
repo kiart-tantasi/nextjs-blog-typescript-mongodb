@@ -9,6 +9,7 @@ import Typography from '@mui/material/Typography';
 import CardMedia from "@mui/material/CardMedia";
 
 export default function CardUI(props:Article) {
+    const linkHref = (props.category === "workspace") ? ("/workspace/" + props.slug): ("/" + props.slug);
 
     return (
     <div className={styles.card}>
@@ -23,7 +24,7 @@ export default function CardUI(props:Article) {
             <p className={styles.desc}>{props.desc}</p>
             <div className={styles["readmore-date"]}>
                 <CardActions sx={{height:40}}>
-                    <Button size="medium"><Link href={"/" + props.slug}><a className={styles["read-more-a-tag"]}><p>อ่านบทความ</p></a></Link></Button>
+                    <Button size="medium"><Link href={linkHref}><a className={styles["read-more-a-tag"]}><p>อ่านบทความ</p></a></Link></Button>
                 </CardActions>
                 <div className={styles["date-div"]}>
                     <Typography sx={{fontSize:11}} color="text.secondary">{new Date(props.date).toLocaleDateString("th-TH",{day:"numeric", month:"long", year:"numeric"})}</Typography>
