@@ -1,9 +1,26 @@
 /* overall card (article) */
+.article-author-container {
+    width: 1200px;
+    margin: 50px auto 100px;
+    display: flex;
+    flex-direction: row;
+}
+
 .article {
-    margin: 20px auto 100px;
     width: 800px;
     min-height: 650px;
     padding: 0 30px;
+}
+
+.author {
+    flex-grow: 1;
+    padding: 20px 20px 20px 60px;
+    text-align: left;
+    border-right: 1px solid rgba(0,0,0,0.1);
+}
+
+.author p {
+    font-size: 0.85rem;
 }
 
 /* ----- ARTICLE SETTINGS ----- */
@@ -102,11 +119,32 @@
 
 /* MEDIA QUERY */
 
+@media (max-width: 1300px) {
+    .article-author-container {
+        width: 100%;
+        flex-direction: column;
+    }
+
+    .article {
+        margin: 0 auto;
+    }
+
+    .author {
+        width: 800px;
+        margin: 0 auto;
+        padding: 30px;
+    }
+}
+
 @media (max-width: 800px) {
     .article {
         width: 100%;
         min-width: 300px;
         padding: 0 30px;
+    }
+
+    .author {
+        width: 100%;
     }
 }
 
