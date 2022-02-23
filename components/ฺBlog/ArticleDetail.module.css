@@ -23,6 +23,13 @@
     font-size: 0.85rem;
 }
 
+.author a {
+    font-size: 0.85rem;
+    text-decoration: none;
+    font-style: italic;
+    color: rgb(55, 85, 182); 
+}
+
 /* ----- ARTICLE SETTINGS ----- */
 
 /* title and hide desc */
@@ -84,7 +91,6 @@
     text-decoration: none;
     font-style: italic;
     color: rgb(55, 85, 182);
-    
 }
 
 /* ordered list */

@@ -1,0 +1,35 @@
+.bio {
+    width: 800px;
+    margin: 0 auto;
+    padding: 70px 0;
+    text-align: center;
+}
+
+.bio h2 {
+    margin: 20px 0 15px;
+    font-style: italic;
+}
+
+.bio img {
+    height: 200px;
+    border-radius: 3px;
+    margin: 20px 0;
+}
+.bio p {
+    line-height: 220%;
+    font-size: 1.1rem;
+    text-align: justify;
+}
+
+@media (max-width: 800px) {
+    .bio {
+        width: 100%;
+        padding: 40px 50px;
+    }
+}
+
+@media (max-width: 400px) {
+    .bio {
+        padding: 20px 20px;
+    }
+}

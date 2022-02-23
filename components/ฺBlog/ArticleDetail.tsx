@@ -1,10 +1,11 @@
 import Head from 'next/head';
+import Link from 'next/link';
+import { useEffect } from 'react';
+import { Lexer, Parser } from 'marked';
 import Card from '@mui/material/Card';
 import { CardMedia } from '@mui/material';
 import styles from "./ArticleDetail.module.css";
 import { Article } from '../../models/article';
-import { Lexer, Parser } from 'marked';
-import { useEffect } from 'react';
 
 export default function ArticleDetail(props: Article) {
     const lexed = Lexer.lex(props.markdown);
@@ -48,7 +49,7 @@ export default function ArticleDetail(props: Article) {
             </Card>
             <div className={styles.author}>
                 <p>ผู้เขียน - เพชร</p><br/>
-                <a target="_blank" rel="noreferrer" href="https://www.instagram.com/kiart.tantasi">kiart.tantasi</a>
+                <Link href="/aboutme">ประวัติผู้เขียน</Link>
             </div>
         </div>
         </>

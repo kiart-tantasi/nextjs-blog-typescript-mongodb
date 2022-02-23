@@ -42,7 +42,7 @@
 
 /* media-query */
 
-@media (max-width: 1200px) {
+@media (max-width: 1250px) {
     .nav {
         width: 80%;
     }
