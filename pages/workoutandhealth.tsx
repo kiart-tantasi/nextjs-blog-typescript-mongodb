@@ -8,7 +8,7 @@ const WorkoutAndHealth:NextPage<{articles:Article[]}> = (props) => {
     return (
         <>
         <Head><title>เพชร BLOG - ออกกำลังกาย สุขภาพ</title></Head>
-        <Articles articles={articles} heading="ออกกำลังกันดีกว่า!" />
+        <Articles articles={articles} heading="ออกกำลังกัน!" />
         </>
     )
 }

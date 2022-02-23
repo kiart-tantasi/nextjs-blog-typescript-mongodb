@@ -58,8 +58,6 @@ const Edit: NextPage<{slug:string}> = (props) => {
             alert("session admin หมดอายุ");
             return false;
         } else if (!response.ok) {
-            const jsonError = JSON.stringify(await response.json());
-            alert(jsonError);
             alert("แก้ไขบทความล้มเหลว !");
             return false;
         } else {

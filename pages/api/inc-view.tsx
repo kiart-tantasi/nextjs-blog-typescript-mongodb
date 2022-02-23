@@ -13,7 +13,7 @@ export default async function editData(req: NextApiRequest, res: NextApiResponse
     const client = new MongoClient(dbUrl);
     await client.connect();
     const db = client.db("blogDB");
-    const collection = db.collection("main");
+    const collection = (category === "workspace")? db.collection("workspace"): db.collection("main");
     const articleNoTransformed = await collection.findOne({slug: slug});
     if (articleNoTransformed === null) {
         res.status(200).json({message:"no article matched to slug found"});

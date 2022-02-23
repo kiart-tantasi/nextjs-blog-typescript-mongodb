@@ -1,15 +1,12 @@
 import Head from 'next/head';
 import Link from 'next/link';
 import { useEffect } from 'react';
-import { Lexer, Parser } from 'marked';
 import Card from '@mui/material/Card';
 import { CardMedia } from '@mui/material';
 import styles from "./ArticleDetail.module.css";
 import { Article } from '../../models/article';
 
 export default function ArticleDetail(props: Article) {
-    const lexed = Lexer.lex(props.markdown);
-    const parsed = Parser.parse(lexed);
 
     useEffect(() => {
         const incView = async() => {
@@ -43,9 +40,11 @@ export default function ArticleDetail(props: Article) {
                 alt={props.alt}
                 />
                 <p className={styles["date-views"]}>{new Date(props.date).toLocaleString("th-TH", {day:"numeric", month:"long", year:"numeric"})}</p>
-                {props.views && <p className={styles["date-views"]}>เข้าชม {props.views} ครั้ง</p>}
+                {props.views && 
+                <p className={styles["date-views"]}>เข้าชม {props.views} ครั้ง</p>
+                }
                 <hr />
-                <article className={styles["padding-bottom"]} dangerouslySetInnerHTML={{ __html: parsed }} />
+                <article className={styles["padding-bottom"]} dangerouslySetInnerHTML={{ __html: props.markdown }} />
             </Card>
             <div className={styles.author}>
                 <p>ผู้เขียน - เพชร</p><br/>

@@ -45,7 +45,7 @@ export default async function newArticle(req: NextApiRequest, res: NextApiRespon
             }
 
             // INSERT
-            const dataToInsert = { title, desc, markdown, img, alt, date, category, slug, views: 0 };
+            const dataToInsert = { title, desc, markdown, img, alt, date, category, slug, views: 1 };
             const categoryInsertResult = await collection.insertOne(dataToInsert);
             let mainCategoryInsertResult = null;
             if (category !== "workspace") mainCategoryInsertResult = await main.insertOne(dataToInsert);

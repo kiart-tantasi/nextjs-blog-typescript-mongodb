@@ -31,7 +31,7 @@ const WorkSpace: NextPage = () => {
       }
     }
     fetchWorkspaceArticles();
-  }, [])
+  }, [router])
 
     return (
         <>
