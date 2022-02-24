@@ -41,11 +41,6 @@ const _ArticleForm = (props: ArticleForm) => {
 
     const handleSubmitForm = async(e: React.FormEvent) => {
         e.preventDefault();
-        const token = localStorage.getItem("adminToken");
-        if (!token) {
-            alert("ไม่พบ token แอดมิน");
-            return;
-        }
         const title = titleRef.current!.value;
         const img = imgRef.current!.value;
         const alt = altRef.current!.value;
@@ -77,8 +72,7 @@ const _ArticleForm = (props: ArticleForm) => {
             markdown: markdown,
             date: date,
             category: category,
-            slug: slug,
-            token: token
+            slug: slug
         }
         const result = await props.handleRequest(sendingData);
         if (result === false) return;

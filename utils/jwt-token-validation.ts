@@ -1,7 +1,8 @@
 import jwt from "jsonwebtoken";
 import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
+import { getTokenCookie } from "./auth-cookie";
 
-const tokenValidation = (token: string) => {
+export const tokenValidation = (token: string) => {
     const privateKey = process.env.PRIVATE_KEY as string;
     let valid;
     jwt.verify(token, privateKey, function(err) {
@@ -15,7 +16,8 @@ const tokenValidation = (token: string) => {
 }
 
 const isAuthenticated = (fn: NextApiHandler) => async(req: NextApiRequest, res: NextApiResponse) => {
-    const { token } = req.body;
+    const token = getTokenCookie(req);
+
     if (!token) {
         res.status(400).json({message: "no token found"});
         return;

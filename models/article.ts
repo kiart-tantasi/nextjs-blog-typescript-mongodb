@@ -25,7 +25,6 @@ export type FormData = {
     author?: string;
     category: ArticleTypes;
     slug: string;
-    token: string;
 }
 
 export type FindOneAndUpdateForm = {

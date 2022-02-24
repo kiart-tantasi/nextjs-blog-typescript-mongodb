@@ -1,36 +1,15 @@
+import { useRouter } from "next/router";
 import ArticleForm from "../components/ฺBlog/_ArticleForm";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { FormData } from "../models/article";
 import Button from '@mui/material/Button';
+import { NextApiResponse, NextPage } from "next";
 
-const NewArticle = () => {
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [tokenChecked, setTokenChecked] = useState(false);
+const NewArticle: NextPage<{isLoggedIn: boolean}> = (props) => {
+    const router = useRouter();
+    const [isLoggedIn, setIsLoggedIn] = useState(props.isLoggedIn? props.isLoggedIn: false);
     const usernameRef = useRef<HTMLInputElement>(null);
     const passwordRef = useRef<HTMLInputElement>(null);
-
-    useEffect(() => {
-        const validateUserToken = async() => {
-            const token = localStorage.getItem("adminToken");
-            if (!token) {
-                setTokenChecked(true); 
-                return;
-            }
-            const response = await fetch("/api/validate-token", {
-                method: "POST",
-                headers: {"Content-Type" : "application/json"},
-                body: JSON.stringify({token: token})
-            });
-            if (!response.ok) {
-                localStorage.removeItem("adminToken");
-                setIsLoggedIn(false);
-            } else {
-                setIsLoggedIn(true);
-            }
-            setTokenChecked(true);
-        }
-        validateUserToken();
-    }, [])
 
     const handleAddNewArticle = async(sendingData: FormData) => {
         const response = await fetch("/api/new-article", {
@@ -66,29 +45,57 @@ const NewArticle = () => {
         if (!response.ok) {
             alert("โปรดตรวจสอบ username และ password");
         } else {
-            const json:{message:string; token:string} = await response.json();
-            const adminToken = json.token;
-            localStorage.setItem("adminToken", adminToken);
-            setIsLoggedIn(true);
             alert("เข้าสู่ระบบสำเร็จ");
+            setIsLoggedIn(true);
         }
     }
 
-    if (isLoggedIn) return <ArticleForm handleRequest={handleAddNewArticle} />;
-    if (tokenChecked) {
-        return (
-            <div className="row" style={{textAlign:"center", padding:"100px 0"}}>
-                <form onSubmit={handleSubmitLogIn}>
-                    <label htmlFor="id">ชื่อผู้ใช้งาน</label><br />
-                    <input type="text" ref={usernameRef} /><br />
-                    <label htmlFor="password">รหัสผ่าน</label><br />
-                    <input type="password" ref={passwordRef} /><br />
-                    <Button type="submit" size="large">เข้าสู่ระบบ</Button>
-                </form>
-            </div>
-        )
+    const handleSubmitLogout = async() => {
+        const response = await fetch("/api/logout-admin");
+        if (!response.ok) {
+            alert("การออกจากระบบล้มเหลว");
+        } else {
+            alert("ออกจากระบบสำเร็จ");
+            router.replace("/");
+        }
     }
-    return <div></div>
-}
 
+    if (isLoggedIn) return (
+        <>
+        <div style={{textAlign:"right", paddingRight: "30px", paddingTop:"10px"}}>
+        <Button onClick={handleSubmitLogout}>ออกจากระบบ</Button>
+        </div>
+        <ArticleForm handleRequest={handleAddNewArticle} />
+        </>
+    )
+    return (
+        <div className="row" style={{textAlign:"center", padding:"100px 0"}}>
+            <form onSubmit={handleSubmitLogIn}>
+                <label htmlFor="id">ชื่อผู้ใช้งาน</label><br />
+                <input type="text" ref={usernameRef} /><br />
+                <label htmlFor="password">รหัสผ่าน</label><br />
+                <input type="password" ref={passwordRef} /><br />
+                <Button type="submit" size="large">เข้าสู่ระบบ</Button>
+            </form>
+        </div>
+    )
+}
 export default NewArticle;
+//-------------------------------------//
+import { GetServerSidePropsContext } from "next";
+import { removeTokenCookie } from "../utils/auth-cookie";
+import { tokenValidation } from "../utils/jwt-token-validation";
+
+export const getServerSideProps = (context: GetServerSidePropsContext) => {
+    const token = context.req.cookies.token;
+    let result = tokenValidation(token);
+    if (result === false) {
+        const response = context.res as NextApiResponse;
+        removeTokenCookie(response);
+    }
+    return {
+        props:{
+            isLoggedIn: result
+        }
+    }
+}

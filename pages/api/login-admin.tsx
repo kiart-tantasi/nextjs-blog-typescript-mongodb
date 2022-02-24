@@ -2,6 +2,7 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import { MongoClient } from 'mongodb';
 import bcryptjs from "bcryptjs";
 import jwt from "jsonwebtoken";
+import { setTokenCookie } from '../../utils/auth-cookie';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     // DECLARE IT HERE BECAUSE IT NEEDS TO BE CLOSED IN CATCH(ERROR) IF AN ERROR IS THROWN
@@ -41,6 +42,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
         // CLOSE DB AND RESPONSE
         client.close();
+        setTokenCookie(res, token);
         res.status(200).json({message:"registered successfully", token: token});
     } catch (error) {
         const err = error as Error;
