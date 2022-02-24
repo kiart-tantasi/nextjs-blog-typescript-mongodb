@@ -13,7 +13,7 @@ export default function CardUI(props:Article) {
     const router = useRouter();
 
     const pushLink = () => {
-        router.push("/" + linkHref);
+        router.push(linkHref);
     }
 
     return (

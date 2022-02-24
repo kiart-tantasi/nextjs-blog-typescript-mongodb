@@ -76,6 +76,7 @@
     border-radius: 3px;
     margin: 20px auto;
     max-height: 400px;
+    max-width: 90%;
 }
 
 /* date - views */
@@ -111,6 +112,13 @@
     margin-inline-end: 40px;
 }
 
+/* code */
+.article code {
+    font-size: 1rem;
+    line-height: 150%;
+}
+
+/* hr */
 .article hr {
     margin-bottom: 15px;
 }
