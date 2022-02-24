@@ -16,13 +16,11 @@ const NewArticle = () => {
                 setTokenChecked(true); 
                 return;
             }
-
             const response = await fetch("/api/validate-token", {
                 method: "POST",
                 headers: {"Content-Type" : "application/json"},
                 body: JSON.stringify({token: token})
             });
-
             if (!response.ok) {
                 localStorage.removeItem("adminToken");
                 setIsLoggedIn(false);
@@ -35,13 +33,11 @@ const NewArticle = () => {
     }, [])
 
     const handleAddNewArticle = async(sendingData: FormData) => {
-
         const response = await fetch("/api/new-article", {
             method: "POST",
             headers: {"Content-Type" : "application/json"},
             body: JSON.stringify(sendingData)
         });
-
         if (response.status === 401) {
             alert("session แอดมินหมดอายุ");
             return false;
@@ -79,7 +75,6 @@ const NewArticle = () => {
     }
 
     if (isLoggedIn) return <ArticleForm handleRequest={handleAddNewArticle} />;
-
     if (tokenChecked) {
         return (
             <div className="row" style={{textAlign:"center", padding:"100px 0"}}>
@@ -93,7 +88,6 @@ const NewArticle = () => {
             </div>
         )
     }
-
     return <div></div>
 }
 

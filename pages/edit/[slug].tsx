@@ -4,22 +4,23 @@ import { useState, useEffect } from "react";
 import ArticleForm from "../../components/ฺBlog/_ArticleForm"
 import { Article, FormData } from "../../models/article";
 
-const Edit: NextPage<{slug:string}> = (props) => {
+const Edit: NextPage = () => {
     
     const router = useRouter();
     const [ verified, setVerified ] = useState(false);
     const [ article, setArticle ] = useState<Article>();
 
     useEffect(() => {
+        if (!router.isReady) return;
+
         const validateUserToken = async() => {
-            const slug = props.slug;
+            const slug = router.query.slug;
             const token = localStorage.getItem("adminToken");
             if (!token) {
-                alert("ไม่พบ token แอดมิน");
+                alert("โปรดเข้าสู่ระบบแอดมิน");
                 router.replace("/");
                 return;
             }
-
             const response = await fetch("/api/edit-data", {
                 method: "POST",
                 headers: {"Content-Type" : "application/json"},
@@ -43,7 +44,7 @@ const Edit: NextPage<{slug:string}> = (props) => {
             }      
         }
         validateUserToken();
-    }, [props.slug, router]);
+    }, [router]);
 
     const handleEditArticle = async(sendingData: FormData) => {
         
@@ -71,14 +72,3 @@ const Edit: NextPage<{slug:string}> = (props) => {
 }
 
 export default Edit;
-//-----------------------------------------------------------------------//
-import { GetServerSideProps } from "next";
-
-export const getServerSideProps: GetServerSideProps = async(context) => {
-    let slug = null;
-    slug = context.query.slug;
-
-    return {
-        props: {slug: slug}
-    }
-}

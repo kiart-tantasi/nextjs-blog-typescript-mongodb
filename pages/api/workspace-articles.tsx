@@ -1,20 +1,8 @@
 import { MongoClient } from "mongodb";
 import { NextApiRequest, NextApiResponse } from "next";
-import { tokenValidation } from "../../utilities/token-validation";
+import isAuthenticated from "../../utils/jwt-token-validation";
 
-export default async function workspaceArticles(req: NextApiRequest, res: NextApiResponse) {
-    // ----------------------------------------------------------- //
-    const { token } = req.body;
-    if (!token) {
-        res.status(400).json({message:"no token found"});
-        return;
-    } 
-    const valid = tokenValidation(token);
-    if (!valid) {
-        res.status(401).json({message:"invalid token"});
-        return;
-    }
-    // ----------------------------------------------------------- //
+export default isAuthenticated(async function workspaceArticles(req: NextApiRequest, res: NextApiResponse) {
     if (req.method !== "POST") {
         res.status(400).json({message:"invalid method"});
         return;
@@ -30,4 +18,4 @@ export default async function workspaceArticles(req: NextApiRequest, res: NextAp
     });
     client.close();
     res.status(200).json(transformedData);
-}
+});

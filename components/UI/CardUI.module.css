@@ -23,21 +23,22 @@
     display: flex;
     justify-content: space-between;
 }
-.read-more-a-tag {
-    text-decoration: none;
-    color: inherit;
-}
 .date-div {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    margin-right: 10px;
+    margin-left: 10px;
+}
+.read-more-a-tag {
+    text-decoration: none;
+    color: inherit;
 }
 
 /* card */
 .card {
     width: 550px;
     margin: 0 auto 30px;
+    cursor: pointer;
 }
 
 /* media query */

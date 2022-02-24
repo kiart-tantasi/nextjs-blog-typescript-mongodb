@@ -3,7 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import slugify from "slugify";
 import Button from '@mui/material/Button';
-import { allowedCategories } from "../../utilities/sharedData";
+import { allowedCategories } from "../../utils/sharedData";
 import styles from "./_ArticleForm.module.css";
 import { ArticleTypes, ArticleForm } from "../../models/article";
 
@@ -41,13 +41,11 @@ const _ArticleForm = (props: ArticleForm) => {
 
     const handleSubmitForm = async(e: React.FormEvent) => {
         e.preventDefault();
-
         const token = localStorage.getItem("adminToken");
         if (!token) {
             alert("ไม่พบ token แอดมิน");
             return;
         }
-
         const title = titleRef.current!.value;
         const img = imgRef.current!.value;
         const alt = altRef.current!.value;
@@ -56,7 +54,6 @@ const _ArticleForm = (props: ArticleForm) => {
         const category = props.article? props.article.category: categoryValue;
         const slug = props.article? props.article.slug: slugify(slugRef.current!.value);
         const date = props.article? props.article.date: Date.now();
-
         if (props.article === undefined) {
             if (!title.length || !img.length || !alt.length || !desc.length || !markdown.length || !slug.length || category === "") {
                 alert("ข้อมูลไม่ครบถ้วน หรือ slug ไม่ใช่ภาษาอังกฤษ");
@@ -72,7 +69,6 @@ const _ArticleForm = (props: ArticleForm) => {
                 return;
             }
         }
-
         const sendingData = {
             title: title,
             img: img,

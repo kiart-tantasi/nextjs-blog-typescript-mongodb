@@ -17,7 +17,7 @@ export async function getStaticProps() {
     const db = client.db("blogDB");
     const collection = db.collection("bio");
     const bio = await collection.findOne({});
-    const { markdown, img, alt } = bio!;
+    const { markdown } = bio!;
     client.close();
     
     return {

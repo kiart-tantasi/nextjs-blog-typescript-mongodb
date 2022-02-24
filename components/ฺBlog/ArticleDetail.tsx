@@ -29,28 +29,30 @@ export default function ArticleDetail(props: Article) {
             <title>{props.title}</title>
             <meta name='description'content={props.desc} />
         </Head>
-        <div className={styles["article-author-container"]}>
+        <article className={styles["article-author-container"]}>
             <Card className={`${styles.article} ${styles["inside-container"]}`}>
-                <h1 className={styles.title}>{props.title}</h1>
-                <h2 className={styles.desc}>{props.desc}</h2>
-                <CardMedia 
-                sx={{maxHeight:"700px"}}
-                component="img"
-                image={props.img}
-                alt={props.alt}
-                />
-                <p className={styles["date-views"]}>{new Date(props.date).toLocaleString("th-TH", {day:"numeric", month:"long", year:"numeric"})}</p>
-                {props.views && 
-                <p className={styles["date-views"]}>เข้าชม {props.views} ครั้ง</p>
-                }
-                <hr />
-                <article className={styles["padding-bottom"]} dangerouslySetInnerHTML={{ __html: props.markdown }} />
+                <section>
+                    <h1 className={styles.title}>{props.title}</h1>
+                    <h2 className={styles.desc}>{props.desc}</h2>
+                    <CardMedia 
+                    sx={{maxHeight:"700px"}}
+                    component="img"
+                    image={props.img}
+                    alt={props.alt}
+                    />
+                    <p className={styles["date-views"]}>{new Date(props.date).toLocaleString("th-TH", {day:"numeric", month:"long", year:"numeric"})}</p>
+                    {props.views && 
+                    <p className={styles["date-views"]}>เข้าชม {props.views} ครั้ง</p>
+                    }
+                    <hr />
+                    <div className={styles["padding-bottom"]} dangerouslySetInnerHTML={{ __html: props.markdown }} />
+                </section>
             </Card>
             <div className={styles.author}>
                 <p>ผู้เขียน - เพชร</p><br/>
                 <Link href="/aboutme">ประวัติผู้เขียน</Link>
             </div>
-        </div>
+        </article>
         </>
     )
 }

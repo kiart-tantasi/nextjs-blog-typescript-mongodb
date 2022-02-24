@@ -22,7 +22,7 @@ export default async function newArticle(req: NextApiRequest, res: NextApiRespon
             const privateKey = process.env.PRIVATE_KEY as string;
             const token = jwt.sign({
                 data: {adminUsername, adminFirstName, adminLastName},
-                exp: Math.floor(Date.now() / 1000) + 1200
+                exp: Math.floor(Date.now() / 1000) + 1800
             }, privateKey);
             client.close();
             res.status(200).json({message:"registered successfully", token: token});

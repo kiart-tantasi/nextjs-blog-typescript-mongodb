@@ -1,21 +1,9 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { MongoClient } from 'mongodb';
-import { tokenValidation } from '../../utilities/token-validation';
 import { FindOneAndUpdateForm } from '../../models/article';
+import isAuthenticated from '../../utils/jwt-token-validation';
 
-export default async function newArticle(req: NextApiRequest, res: NextApiResponse) {
-    // ----------------------------------------------------------- //
-    const { token } = req.body;
-    if (!token) {
-        res.status(400).json({message:"no token found"});
-        return;
-    } 
-    const valid = tokenValidation(token);
-    if (!valid) {
-        res.status(401).json({message:"invalid token"});
-        return;
-    }
-    // ----------------------------------------------------------- //
+export default isAuthenticated(async function newArticle(req: NextApiRequest, res: NextApiResponse) {
     if (req.method === "PUT") {
         const {category, slug} = req.body;
         if (!category || !slug) {
@@ -52,4 +40,4 @@ export default async function newArticle(req: NextApiRequest, res: NextApiRespon
             res.status(400).json({message:err.message});
         }
     }
-}
+});

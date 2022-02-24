@@ -1,26 +1,13 @@
 import { MongoClient } from "mongodb";
 import { NextApiRequest, NextApiResponse } from "next";
-import { tokenValidation } from "../../utilities/token-validation";
+import isAuthenticated from "../../utils/jwt-token-validation";
 
-export default async function editData(req: NextApiRequest, res: NextApiResponse) {
-    // ----------------------------------------------------------- //
-    const { token } = req.body;
-    if (!token) {
-        res.status(400).json({message:"no token found"});
-        return;
-    } 
-    const valid = tokenValidation(token);
-    if (!valid) {
-        res.status(401).json({message:"invalid token"});
-        return;
-    }
-    // ----------------------------------------------------------- //
+export default isAuthenticated(async function editData(req: NextApiRequest, res: NextApiResponse) {
     const { slug } = req.body;
     if (!slug) {
         res.status(403).json({message:"no slug found"});
         return;
     }
-
     if (req.method !== "POST") {
         res.status(400).json({message:"invalid method"});
         return;
@@ -41,4 +28,4 @@ export default async function editData(req: NextApiRequest, res: NextApiResponse
     const article = {...articleNoTransformed, _id: objectIdAsString};
     client.close();
     res.status(200).json(article);
-}
+});
