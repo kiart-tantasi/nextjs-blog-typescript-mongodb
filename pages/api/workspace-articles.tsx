@@ -7,15 +7,23 @@ export default isAuthenticated(async function workspaceArticles(req: NextApiRequ
         res.status(400).json({message:"invalid method"});
         return;
     }
+
+    // CONNECT DB AND COLLECTION
     const dbUrl = process.env.DB_URL as string;
     const client = new MongoClient(dbUrl);
     await client.connect();
     const db = client.db("blogDB");
     const collection = db.collection("workspace");
+
+    // FIND WORKSPACE ARTICLES
     const articleNoTransformed = await collection.find({}).toArray();
+
+    // TRANSFORM DATA
     const transformedData = articleNoTransformed.map(x => {
       return {...x, _id: x._id.toString()}
     });
+
+    // CLOSE DB AND RESPONSE
     client.close();
     res.status(200).json(transformedData);
 });
