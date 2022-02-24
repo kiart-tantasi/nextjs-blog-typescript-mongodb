@@ -82,8 +82,10 @@ const _ArticleForm = (props: ArticleForm) => {
         }
         const result = await props.handleRequest(sendingData);
         if (result === false) return;
+
         if (props.article !== undefined) {
-            router.replace("/" + props.article.slug);
+            const linkToPushTo = (props.article.category === "workspace")? ("/workspace/" + props.article.slug): ("/" + props.article.slug);
+            router.push(linkToPushTo);
             return;
         }
         titleRef.current!.value = "";

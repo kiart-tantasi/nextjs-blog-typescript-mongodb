@@ -18,7 +18,7 @@ const Article: NextPage = () => {
             const token = localStorage.getItem("adminToken");
             if (!token) {
               alert("โปรดเข้าสู่ระบบแอดมิน");
-              router.back();
+              router.replace("/");
               return;
             }
             const slug = router.query.slug;

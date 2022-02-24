@@ -13,7 +13,7 @@ const WorkSpace: NextPage = () => {
       const token = localStorage.getItem("adminToken");
       if (!token) {
         alert("โปรดเข้าสู่ระบบแอดมิน");
-        router.back();
+        router.replace("/");
         return;
       }
       const response = await fetch("/api/workspace-articles", {

@@ -36,7 +36,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         const privateKey = process.env.PRIVATE_KEY as string;
         const token = jwt.sign({
             data: {adminUsername, adminFirstName, adminLastName},
-            exp: Math.floor(Date.now() / 1000) + 1800
+            exp: Math.floor(Date.now() / 1000) + 7200
         }, privateKey);
 
         // CLOSE DB AND RESPONSE
