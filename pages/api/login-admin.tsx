@@ -3,7 +3,7 @@ import { MongoClient } from 'mongodb';
 import bcryptjs from "bcryptjs";
 import jwt from "jsonwebtoken";
 
-export default async function newArticle(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     // DECLARE IT HERE BECAUSE IT NEEDS TO BE CLOSED IN CATCH(ERROR) IF AN ERROR IS THROWN
     const dbUrl = process.env.DB_URL as string;
     const client = new MongoClient(dbUrl);

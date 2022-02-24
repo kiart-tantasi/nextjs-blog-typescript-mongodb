@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import { NextApiRequest, NextApiResponse } from "next";
 
-export default function newArticle(req: NextApiRequest, res: NextApiResponse) {
+export default function handler(req: NextApiRequest, res: NextApiResponse) {
     const { token } = req.body;
     if (!token) {
         res.status(400).json({message:"no token found"});

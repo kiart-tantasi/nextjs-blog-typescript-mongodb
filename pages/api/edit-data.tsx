@@ -2,7 +2,7 @@ import { MongoClient } from "mongodb";
 import { NextApiRequest, NextApiResponse } from "next";
 import isAuthenticated from "../../utils/jwt-token-validation";
 
-export default isAuthenticated(async function editData(req: NextApiRequest, res: NextApiResponse) {
+export default isAuthenticated(async function handler(req: NextApiRequest, res: NextApiResponse) {
     const { slug } = req.body;
     if (!slug) {
         res.status(403).json({message:"missing slug or category information"});

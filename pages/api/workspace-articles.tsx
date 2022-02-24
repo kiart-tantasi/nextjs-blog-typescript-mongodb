@@ -2,7 +2,7 @@ import { MongoClient } from "mongodb";
 import { NextApiRequest, NextApiResponse } from "next";
 import isAuthenticated from "../../utils/jwt-token-validation";
 
-export default isAuthenticated(async function workspaceArticles(req: NextApiRequest, res: NextApiResponse) {
+export default isAuthenticated(async function handler(req: NextApiRequest, res: NextApiResponse) {
     if (req.method !== "POST") {
         res.status(400).json({message:"invalid method"});
         return;

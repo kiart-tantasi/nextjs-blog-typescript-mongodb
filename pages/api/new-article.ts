@@ -3,7 +3,7 @@ import { MongoClient } from 'mongodb';
 import { allowedCategories } from '../../utils/sharedData';
 import isAuthenticated from '../../utils/jwt-token-validation';
 
-export default isAuthenticated(async function newArticle(req: NextApiRequest, res: NextApiResponse) {
+export default isAuthenticated(async function handler(req: NextApiRequest, res: NextApiResponse) {
     if (req.method === "POST") {
         const dbUrl = process.env.DB_URL as string;
         const client = new MongoClient(dbUrl);

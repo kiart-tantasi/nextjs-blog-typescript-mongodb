@@ -3,7 +3,7 @@ import { MongoClient } from 'mongodb';
 import bcryptjs from "bcryptjs";
 import isAuthenticated from '../../utils/jwt-token-validation';
 
-export default isAuthenticated(async function newArticle(req: NextApiRequest, res: NextApiResponse) {
+export default isAuthenticated(async function handler(req: NextApiRequest, res: NextApiResponse) {
     if (req.method === "POST") {
         res.status(500).json({message:"admin registration is not available now."});
         return;

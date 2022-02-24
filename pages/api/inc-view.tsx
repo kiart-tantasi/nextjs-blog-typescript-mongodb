@@ -1,7 +1,7 @@
 import { MongoClient } from "mongodb";
 import { NextApiRequest, NextApiResponse } from "next";
 
-export default async function editData(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     // ALWAYS RETURN STATUS 200 TO NOT AFFECT USER EXPERIENCE
     const { slug, category } = req.body;
     if (!slug || !category) {

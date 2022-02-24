@@ -3,7 +3,7 @@ import { MongoClient } from 'mongodb';
 import { FindOneAndUpdateForm } from '../../models/article';
 import isAuthenticated from '../../utils/jwt-token-validation';
 
-export default isAuthenticated(async function newArticle(req: NextApiRequest, res: NextApiResponse) {
+export default isAuthenticated(async function handler(req: NextApiRequest, res: NextApiResponse) {
     if (req.method === "PUT") {
         try {
             // DATA PREPARATION
