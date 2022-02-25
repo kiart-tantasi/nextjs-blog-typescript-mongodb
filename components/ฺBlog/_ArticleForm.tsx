@@ -92,6 +92,11 @@ const _ArticleForm = (props: ArticleForm) => {
     }
 
     return (
+        <>
+        {(props.article === undefined) &&
+        <div className={styles["nav-top"]}>
+            <Link href="/workspace" passHref><Button type="button">กลับหน้า WORKSPACE</Button></Link>
+        </div>}
         <div className={`${styles["form-container"]} row`}>
             <h1 className={styles.heading}>{props.article? "แก้ไขบทความ": "เพิ่มบทความใหม่"}</h1>
             <form className={styles.form} onSubmit={handleSubmitForm}>
@@ -134,11 +139,9 @@ const _ArticleForm = (props: ArticleForm) => {
                 <div>
                     <Button type="submit" className={styles["submit-button"]}>{props.article? "แก้ไขบทความ": "เพิ่มบทความใหม่"}</Button>
                 </div>
-                <div>
-                    <Link href="/" passHref><Button type="button">กลับสู่หน้าหลัก</Button></Link>
-                </div>
             </form>
         </div>
+        </>
     )
 }
 

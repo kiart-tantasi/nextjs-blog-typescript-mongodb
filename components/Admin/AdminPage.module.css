@@ -1,0 +1,28 @@
+.nav-top {
+    text-align:right;
+    padding: 10px 30px;
+}
+
+.nav-top a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.flex-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.flex-left {
+    flex-grow: 1;
+    text-align: left;
+}
+
+.flex-left button {
+    margin-right: 20px;
+}
+
+.flex-right {
+    text-align: right;
+}

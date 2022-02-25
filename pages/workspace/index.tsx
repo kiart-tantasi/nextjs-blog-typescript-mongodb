@@ -1,19 +1,39 @@
 import type { NextPage } from 'next';
-import Head from 'next/head';
-import Articles from '../../components/ฺBlog/Articles';
+import { useRouter } from 'next/router';
+import LoginPage from '../../components/Admin/LoginPage';
+import AdminPage from '../../components/Admin/AdminPage';
 import { ArticleCard } from '../../models/article';
-import NotFoundPage from '../../components/ฺBlog/NotFoundPage';
 
 const WorkSpace: NextPage<{articles: ArticleCard[]}> = (props) => {
   const articles = props.articles;
+  const router = useRouter();
 
-  if (!articles) return <NotFoundPage />
-  return (
-      <>
-      <Head><title>WORKSPACE</title></Head>
-      <Articles articles={articles} />
-      </>
-  )
+  const handleLogIn = async(username: string, password: string) => {
+    const response = await fetch("/api/login-admin", {
+      method: "POST",
+      headers: {"Content-Type" : "application/json"},
+      body: JSON.stringify({username,password})
+    });
+    if (!response.ok) {
+      alert("โปรดตรวจสอบ username และ password");
+    } else {
+      alert("เข้าสู่ระบบสำเร็จ");
+      router.replace("/workspace");
+    }
+  }
+
+  const handleLogOut = async() => {
+    const response = await fetch("/api/logout-admin", {method:"POST"});
+    if (!response.ok) {
+      alert("session แอดมินหมดอายุก่อนออกจากระบบ");
+    } else {
+      alert("ออกจากระบบสำเร็จ");
+    }
+    router.replace("/workspace");
+  }
+
+  if (!articles) return <LoginPage handleLogIn={handleLogIn} />
+  return <AdminPage handleLogOut={handleLogOut} articles={articles} />;
 }
 
 export default WorkSpace;

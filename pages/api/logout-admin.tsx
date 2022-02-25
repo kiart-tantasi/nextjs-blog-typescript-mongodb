@@ -3,8 +3,8 @@ import { removeTokenCookie } from "../../lib/auth-cookie";
 import isAuthenticated from "../../lib/jwt-token-validation";
 
 export default isAuthenticated(async function handler(req: NextApiRequest, res: NextApiResponse) {
-    if (req.method !== "GET") {
-        res.status(400).json({message:"wrong method"});
+    if (req.method !== "POST") {
+        res.status(400).json({message:"route '/logout-admin' only accepts POST method."});
         return;
     }
     removeTokenCookie(res);
