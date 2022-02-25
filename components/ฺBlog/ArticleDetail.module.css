@@ -19,15 +19,21 @@
     border-right: 1px solid rgba(0,0,0,0.1);
 }
 
+.author h3, .author p, .author a {
+    display: inline-block;
+} 
+
 .author p {
     font-size: 0.85rem;
+    font-style: italic;
+    margin-right: 5px;
 }
 
 .author a {
     font-size: 0.85rem;
     text-decoration: none;
     font-style: italic;
-    color: rgb(55, 85, 182); 
+    color: rgb(55, 85, 182);
 }
 
 /* ----- ARTICLE SETTINGS ----- */
