@@ -112,8 +112,16 @@
     margin-inline-end: 40px;
 }
 
-/* code */
+/* pre and code */
+.article pre {
+    background-color: rgb(24, 66, 129);
+    padding: 20px 10px;
+    border-radius: 5px;
+    overflow-x: auto;
+}
+
 .article code {
+    color:rgb(255, 255, 255);
     font-size: 1rem;
     line-height: 150%;
 }
@@ -183,5 +191,28 @@
     .article p {
         font-size: 1rem;
         line-height: 250%;
+    }
+}
+
+/* media query for pre and code tag */
+
+@media (max-width: 800px) {
+    .article code {
+        font-size: 0.85rem;
+    }
+}
+
+@media (max-width: 650px) {
+    .article code {
+        font-size: 0.75rem;
+    }
+}
+
+@media (max-width: 450px) {
+    .article pre {
+        padding: 10px 5px;
+    }
+    .article code {
+        font-size: 0.7rem;
     }
 }
