@@ -1,10 +1,10 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import Articles from '../../components/ฺBlog/Articles';
-import { Article } from '../../models/article';
+import { ArticleCard } from '../../models/article';
 import NotFoundPage from '../../components/ฺBlog/NotFoundPage';
 
-const WorkSpace: NextPage<{articles: Article[]}> = (props) => {
+const WorkSpace: NextPage<{articles: ArticleCard[]}> = (props) => {
   const articles = props.articles;
 
   if (!articles) return <NotFoundPage />
@@ -20,8 +20,8 @@ export default WorkSpace;
 // ------------------------------------------------------- //
 import { GetServerSidePropsContext, NextApiResponse } from 'next';
 import { MongoClient } from 'mongodb';
-import { removeTokenCookie } from '../../utils/auth-cookie';
-import { tokenValidation } from '../../utils/jwt-token-validation';
+import { removeTokenCookie } from '../../lib/auth-cookie';
+import { tokenValidation } from '../../lib/jwt-token-validation';
 
 export const getServerSideProps = async(context: GetServerSidePropsContext) => {
 
@@ -46,8 +46,17 @@ export const getServerSideProps = async(context: GetServerSidePropsContext) => {
   client.close();
 
   // TRANSFORM DATA
-  const transformedData = articleNoTransformed.map(x => {
-    return {...x, _id: x._id.toString()};
+  const transformedData: ArticleCard[] = articleNoTransformed.map(x => {
+    return {
+      _id: x._id.toString(),
+      title: x.title,
+      desc: x.desc,
+      img: x.img,
+      alt: x.alt,
+      date: x.date,
+      category: x.category,
+      slug: x.slug
+    };
   });
 
   return {

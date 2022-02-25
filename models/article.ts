@@ -1,5 +1,5 @@
 export type Article = {
-    id?: string;
+    _id?: string;
     title: string;
     desc: string;
     markdown: string;
@@ -10,6 +10,18 @@ export type Article = {
     category: ArticleTypes;
     slug: string;
     views?: string;
+}
+//category slug img alt title desc date
+
+export type ArticleCard = {
+    _id: string;
+    title: string;
+    desc: string;
+    img: string;
+    alt: string;
+    date : number;
+    category: ArticleTypes;
+    slug: string;
 }
 
 export type ArticleTypes = "" | "tech" | "gaming" | "workoutandhealth"| "others" | "workspace";

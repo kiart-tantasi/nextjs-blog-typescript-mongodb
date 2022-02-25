@@ -8,9 +8,8 @@ const MAX_AGE = 7200;
 export function setTokenCookie(res: NextApiResponse, token: string) {
   const cookie = serialize("token", token, {
     maxAge: MAX_AGE,
-    expires: new Date(Date.now() + MAX_AGE * 1000),
     httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
+    secure: true,
     path: '/',
     sameSite: 'lax',
   })

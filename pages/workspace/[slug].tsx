@@ -14,8 +14,8 @@ const Article: NextPage<{article: Article}> = (props) => {
 export default Article;
 //--------------------------------//
 import { GetServerSidePropsContext, NextApiResponse } from "next";
-import { tokenValidation } from "../../utils/jwt-token-validation";
-import { removeTokenCookie } from "../../utils/auth-cookie";
+import { tokenValidation } from "../../lib/jwt-token-validation";
+import { removeTokenCookie } from "../../lib/auth-cookie";
 import { MongoClient } from "mongodb";
 import { Lexer, Parser } from "marked";
 

@@ -1,8 +1,8 @@
 import CardUI from "../UI/CardUI";
 import styles from "./Articles.module.css";
-import { Article } from "../../models/article";
+import { ArticleCard } from "../../models/article";
 
-const Articles = (props: {articles: Article[]; heading?:string}) => {
+const Articles = (props: {articles: ArticleCard[]; heading?:string}) => {
     const reversedArticles = [...props.articles].reverse();
 
     return (
@@ -12,7 +12,7 @@ const Articles = (props: {articles: Article[]; heading?:string}) => {
         <div className={`${styles.articles} `}>
             {reversedArticles.map(x => {
                 return (
-                    <CardUI key={x.title+x.date.toString()} title={x.title} desc={x.desc} markdown={x.markdown} date={x.date} img={x.img ? x.img: ""} alt={x.alt? x.alt: "img"} slug={x.slug} category={x.category} />
+                    <CardUI key={x._id} _id={x._id} title={x.title} desc={x.desc} date={x.date} img={x.img} alt={x.alt} slug={x.slug} category={x.category} />
                 )
             })}
         </div>

@@ -83,8 +83,8 @@ const NewArticle: NextPage<{isLoggedIn: boolean}> = (props) => {
 export default NewArticle;
 //-------------------------------------//
 import { GetServerSidePropsContext } from "next";
-import { removeTokenCookie } from "../utils/auth-cookie";
-import { tokenValidation } from "../utils/jwt-token-validation";
+import { removeTokenCookie } from "../lib/auth-cookie";
+import { tokenValidation } from "../lib/jwt-token-validation";
 
 export const getServerSideProps = (context: GetServerSidePropsContext) => {
     const token = context.req.cookies.token;

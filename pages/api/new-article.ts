@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { MongoClient } from 'mongodb';
 import { allowedCategories } from '../../utils/sharedData';
-import isAuthenticated from '../../utils/jwt-token-validation';
+import isAuthenticated from '../../lib/jwt-token-validation';
 
 export default isAuthenticated(async function handler(req: NextApiRequest, res: NextApiResponse) {
     if (req.method === "POST") {

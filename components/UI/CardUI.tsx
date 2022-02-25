@@ -1,4 +1,4 @@
-import { Article } from "../../models/article";
+import { ArticleCard } from "../../models/article";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import styles from "./CardUI.module.css";
@@ -8,7 +8,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import CardMedia from "@mui/material/CardMedia";
 
-export default function CardUI(props:Article) {
+export default function CardUI(props:ArticleCard) {
     const linkHref = (props.category === "workspace") ? ("/workspace/" + props.slug): ("/" + props.slug);
     const router = useRouter();
 

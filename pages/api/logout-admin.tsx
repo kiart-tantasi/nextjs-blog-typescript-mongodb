@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { removeTokenCookie } from "../../utils/auth-cookie";
-import isAuthenticated from "../../utils/jwt-token-validation";
+import { removeTokenCookie } from "../../lib/auth-cookie";
+import isAuthenticated from "../../lib/jwt-token-validation";
 
 export default isAuthenticated(async function handler(req: NextApiRequest, res: NextApiResponse) {
     if (req.method !== "GET") {

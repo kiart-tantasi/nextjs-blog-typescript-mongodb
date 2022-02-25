@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 import { NextApiRequest, NextApiResponse } from "next";
-import { getTokenCookie, removeTokenCookie } from "../../utils/auth-cookie";
+import { getTokenCookie, removeTokenCookie } from "../../lib/auth-cookie";
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
     const token = getTokenCookie(req);

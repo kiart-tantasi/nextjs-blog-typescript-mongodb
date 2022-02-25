@@ -2,7 +2,7 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import { MongoClient } from 'mongodb';
 import bcryptjs from "bcryptjs";
 import jwt from "jsonwebtoken";
-import { setTokenCookie } from '../../utils/auth-cookie';
+import { setTokenCookie } from '../../lib/auth-cookie';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     // DECLARE IT HERE BECAUSE IT NEEDS TO BE CLOSED IN CATCH(ERROR) IF AN ERROR IS THROWN
