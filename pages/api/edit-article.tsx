@@ -34,7 +34,7 @@ export default isAuthenticated(async function handler(req: NextApiRequest, res: 
             const main = db.collection("main");
             if (category !== "workspace") {
                 replaceMainResult = await main.findOneAndUpdate({slug:slug}, setDocument);
-                await main.updateOne({slug:slug}, {$push:{record:replaceMainResult}});
+                await main.updateOne({slug:slug}, {$push:{record:replaceMainResult.value}});
             }
             // CLOSE DB AND RESPONSE
             client.close();

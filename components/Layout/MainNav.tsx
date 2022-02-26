@@ -14,7 +14,11 @@ const MainNav = () => {
     const checkIfAdmin = async() => {
         const response = await fetch("/api/validate-token");
         if (response.ok) {
-          logIn();
+          const data = await response.json();
+          const isLoggedIn = data.isLoggedIn;
+          if (isLoggedIn === true) {
+            logIn();
+          }
         }
     }
     checkIfAdmin();
