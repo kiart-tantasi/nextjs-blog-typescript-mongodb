@@ -43,17 +43,31 @@ export const getStaticProps: GetStaticProps = async(context) => {
     const db = client.db("blogDB");
     const collection = db.collection("main");
     const articleNoTransformed = await collection.findOne({slug:slug});
+    client.close();
     if (articleNoTransformed === null) return {props: {article : null }};
-    const objectIdAsString = articleNoTransformed!._id.toString();
 
+    // TRANSFORM DATA
+    const objectIdAsString = articleNoTransformed!._id.toString();
     const markdownNoTransformed = articleNoTransformed.markdown;
     const lexed = Lexer.lex(markdownNoTransformed);
     const parsedMarkdown = Parser.parse(lexed);
-    const article = {...articleNoTransformed, _id: objectIdAsString, markdown: parsedMarkdown};
-    client.close();
+    const transformedData: Article = {
+        _id: objectIdAsString,
+        title: articleNoTransformed.title,
+        desc: articleNoTransformed.desc,
+        markdown: parsedMarkdown,
+        img: articleNoTransformed.img,
+        alt: articleNoTransformed.alt,
+        date: articleNoTransformed.date,
+        category: articleNoTransformed.category,
+        slug: articleNoTransformed.slug,
+        views: articleNoTransformed.views? articleNoTransformed.views: 1
+    };
 
     return {
-        props: { article },
+        props: {
+            article: transformedData
+        },
         revalidate: 10
     }
 }

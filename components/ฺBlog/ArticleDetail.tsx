@@ -1,7 +1,8 @@
 import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import AuthContext from '../../context/auth-context';
 import Card from '@mui/material/Card';
 import { Button, CardMedia } from '@mui/material';
 import styles from "./ArticleDetail.module.css";
@@ -10,7 +11,8 @@ import ModalUI from '../UI/ModalUI';
 
 export default function ArticleDetail(props: Article) {
     const router = useRouter();
-    const [ isAdmin, setIsAdmin ] = useState(false);
+    const AuthCtx = useContext(AuthContext);
+    const { isAdmin } = AuthCtx;
     const [ deleteModal, setDeleteModal ] = useState(false);
 
     useEffect(() => {
@@ -27,16 +29,6 @@ export default function ArticleDetail(props: Article) {
             incView();
         }, 2000);
     }, [props]);
-
-    useEffect(() => {
-        const checkIfAdmin = async() => {
-            const response = await fetch("/api/validate-token");
-            if (response.ok) {
-                setIsAdmin(true);
-            }
-        }
-        checkIfAdmin();
-    }, []);
 
     const handleDelete = async() => {
         const response = await fetch("/api/delete-article", {
@@ -73,15 +65,15 @@ export default function ArticleDetail(props: Article) {
 
             {/* NAV FOR ADMIN */}
             {isAdmin && <div className={styles["nav-top"]}>
-                <Button sx={{fontSize: 16}} onClick={() => router.back()}>กลับ</Button>
-                <Button sx={{fontSize: 16}}><Link href="/workspace">WORKSPACE</Link></Button>
-                <Button sx={{fontSize: 16}}><Link href={"/edit/" + props.slug}>แก้ไข</Link></Button>
-                <Button sx={{fontSize: 16}} color="warning" onClick={() => setDeleteModal(true)}>ลบ</Button>
+                <Button onClick={() => router.back()}>กลับ</Button>
+                <Button><Link href="/workspace">WORKSPACE</Link></Button>
+                <Button><Link href={"/edit/" + props.slug}>แก้ไข</Link></Button>
+                <Button color="warning" onClick={() => setDeleteModal(true)}>ลบ</Button>
             </div>}
 
             {/* ARTICLE  */}
             <article className={styles["article-author-container"]}>
-                <Card className={`${styles.article} ${styles["inside-container"]}`}>
+                <Card className={styles.article}>
                     <section>
                         <h1 className={styles.title}>{props.title}</h1>
                         <h2 className={styles.desc}>{props.desc}</h2>

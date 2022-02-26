@@ -48,8 +48,8 @@
     color: #fff;
 }
 
-/* media-query */
-
+/* MEDIA QUERY */
+/* nav */
 @media (max-width: 1250px) {
     .nav {
         width: 80%;
@@ -62,9 +62,27 @@
     }
 }
 
+@media (max-width: 375px) {
+    .nav-right p {
+        font-size: 0.65rem;
+    }
+}
+
+/* brand */
+@media (max-width: 800px) {
+    .blog-brand a {
+        margin-right: 0;
+    }
+
+    .blog-brand a:last-child {
+        display: none;
+    }
+}
+
+
 @media (max-width: 575px) {
-    /* remove เ-ชร */
-    .remove-brand {
+    /* hide เ-ชร at 575px*/
+    .hide-brand {
         display: none;
     }
     .blog-brand h1 {
@@ -72,11 +90,6 @@
     }
 }
 
-@media (max-width: 375px) {
-    .nav-right p {
-        font-size: 0.65rem;
-    }
-}
 
 /* hide others category at 500px */
 @media (max-width: 500px) {

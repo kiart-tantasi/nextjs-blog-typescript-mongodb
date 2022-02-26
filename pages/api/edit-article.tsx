@@ -27,12 +27,15 @@ export default isAuthenticated(async function handler(req: NextApiRequest, res: 
             // EDIT IN CHOSEN CATEGORY
             const collection = db.collection(category);
             const replaceCategoryResult = await collection.findOneAndUpdate({slug:slug}, setDocument);
+            await collection.updateOne({slug:slug}, {$push:{record:replaceCategoryResult.value}});
 
             // ALSO EDIT IN MAIN IF CATEGORY IS NOT WORKSPACE
             let replaceMainResult = null;
             const main = db.collection("main");
-            if (category !== "workspace") replaceMainResult = await main.findOneAndUpdate({slug:slug}, setDocument);
-
+            if (category !== "workspace") {
+                replaceMainResult = await main.findOneAndUpdate({slug:slug}, setDocument);
+                await main.updateOne({slug:slug}, {$push:{record:replaceMainResult}});
+            }
             // CLOSE DB AND RESPONSE
             client.close();
             res.status(200).json({message:replaceCategoryResult, message2: replaceMainResult});

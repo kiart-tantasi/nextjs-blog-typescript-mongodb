@@ -1,18 +1,20 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
+import AuthContext from "../../context/auth-context";
 import { AppBar } from '@mui/material';
 import styles from "./MainNav.module.css";
 
 const MainNav = () => {
   const router = useRouter();
-  const [ isAdmin, setIsAdmin ] = useState(false);
+  const AuthCtx = useContext(AuthContext);
+  const { isAdmin, logIn } = AuthCtx;
 
   useEffect(() => {
     const checkIfAdmin = async() => {
         const response = await fetch("/api/validate-token");
         if (response.ok) {
-            setIsAdmin(true);
+          logIn();
         }
     }
     checkIfAdmin();
@@ -24,20 +26,19 @@ const MainNav = () => {
           <span className={styles["blog-brand"]}>
             <Link href="/">
               <a>
-                <h1>
-                  <span className={styles["remove-brand"]}>เ</span>พ<span className={styles["remove-brand"]}>ชร BLOG</span>
-                </h1>
+                <h1><span className={styles["hide-brand"]}>เ</span>พ<span className={styles["hide-brand"]}>ชร BLOG</span></h1>
               </a>
             </Link>
-            {isAdmin && 
+            {isAdmin === true && 
             <Link href="/workspace">
               <a>
                 <h1>
-                  W<span className={styles["remove-brand"]}>ORKSPACE</span>
+                  W<span className={styles["hide-brand"]}>ORKSPACE</span>
                 </h1>
-              </a>
+            </a>
             </Link>}
-          </span>
+            </span>
+          
           <div className={styles["nav-right"]}>
             <Link href="/tech"><a className={router.pathname == "/tech" ? styles.active : ""}><p>เทค</p></a></Link>
             <Link href="/gaming"><a className={router.pathname == "/gaming" ? styles.active : ""}><p>เกมมิ่ง</p></a></Link>

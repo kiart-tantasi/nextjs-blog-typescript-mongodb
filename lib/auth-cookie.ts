@@ -3,11 +3,9 @@ import { NextApiRequest, NextApiResponse } from 'next'
 
 // SOURCE: https://github.com/vercel/next.js/blob/31ab12aaf779ba2d429d6093cf94281df40e9771/examples/with-passport/lib/auth-cookies.js#L28
 
-const MAX_AGE = 7200;
-
 export function setTokenCookie(res: NextApiResponse, token: string) {
   const cookie = serialize("token", token, {
-    maxAge: MAX_AGE,
+    maxAge: 60 * 60 * 24, // 1 day
     httpOnly: true,
     secure: true,
     path: '/',

@@ -68,13 +68,24 @@ export const getServerSideProps = async(context: GetServerSidePropsContext) => {
 
     //TRANSFORM DATA (IF FOUND)
     const objectIdAsString = articleNoTransformed!._id.toString();
-    const article = {...articleNoTransformed, _id: objectIdAsString};
+    const transformedData: Article = {
+        _id: objectIdAsString,
+        title: articleNoTransformed.title,
+        desc: articleNoTransformed.desc,
+        markdown: articleNoTransformed.markdown,
+        img: articleNoTransformed.img,
+        alt: articleNoTransformed.alt,
+        date: articleNoTransformed.date,
+        category: articleNoTransformed.category,
+        slug: articleNoTransformed.slug,
+        views: articleNoTransformed.views? articleNoTransformed.views: 1
+    };
 
     // CLOSE DB AND RETURN PROPS
     client.close();
     return {
         props: {
-            article: article
+            article: transformedData
         }
     }
 }

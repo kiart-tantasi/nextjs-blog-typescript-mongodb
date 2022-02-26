@@ -13,6 +13,7 @@
 .form-container {
     text-align: center;
     padding-top: 30px;
+    padding-bottom: 70px;
 }
 
 .heading {
@@ -54,9 +55,8 @@
 }
 
 .form textarea {
-    width: 850px;
-    height: 300px;
-    padding: 10px;
+    width: 1000px;
+    padding: 20px;
     font-size: 1rem;
     line-height: 175%;
 }
@@ -74,13 +74,28 @@
 
 /* media query */
 @media (max-width: 900px) {
-    .form textarea {
-        width: 600px;
-    }
-
     .form img {
         width: 90%;
         min-width: 300px;
+    }
+}
+
+@media (max-width: 450px) {
+    .form input {
+        width: 330px;
+    }
+}
+
+/* textarea */
+@media (max-width: 1000px) {
+    .form textarea {
+        width: 800px;
+    }
+}
+
+@media (max-width: 900px) {
+    .form textarea {
+        width: 600px;
     }
 }
 
@@ -90,8 +105,8 @@
     }
 }
 
-@media (max-width: 400px) {
-    .form input {
+@media (max-width: 450px) {
+    .form textarea {
         width: 330px;
     }
 }

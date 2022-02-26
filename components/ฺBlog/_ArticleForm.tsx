@@ -14,8 +14,9 @@ const _ArticleForm = (props: ArticleForm) => {
     const altRef = useRef<HTMLInputElement>(null);
     const descRef = useRef<HTMLInputElement>(null);
     const textAreaRef = useRef<HTMLTextAreaElement>(null);
-    const [categoryValue, setCategoryValue] = useState<ArticleTypes>("");
-    const [imgUrl, setImgUrl] = useState("");
+    const [ categoryValue, setCategoryValue ] = useState<ArticleTypes>("");
+    const [ imgUrl, setImgUrl ] = useState("");
+    const [ textareHeight, setTextareaHeight ] = useState(500);
 
     useEffect(() => {
         if (props.article === undefined) return;
@@ -27,6 +28,10 @@ const _ArticleForm = (props: ArticleForm) => {
         textAreaRef.current!.value = article!.markdown;
         setImgUrl(article!.img);
     }, [props.article]);
+
+    const expandTextarea = () => {
+        setTextareaHeight(800);
+    }
 
     const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const newValue = e.target.value as ArticleTypes;
@@ -119,8 +124,10 @@ const _ArticleForm = (props: ArticleForm) => {
                     <input className={styles.desc} type="text" ref={descRef} />
                 </div>
                 <div>
+                    <Button onClick={expandTextarea}>ขยาย Textarea</Button>
+                    <br/>
                     <h3>เนื้อหาบทความ</h3>
-                    <textarea ref={textAreaRef} />
+                    <textarea ref={textAreaRef} style={{height: textareHeight.toString() + "px"}} />
                 </div>
                 {!props.article && <div>
                     <label htmlFor="category">หมวดหมู่</label>

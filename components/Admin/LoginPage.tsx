@@ -1,5 +1,6 @@
 import { useRef } from "react";
 import { Button } from "@mui/material";
+import styles from "./LoginPage.module.css";
 
 const LoginPage = (props:{handleLogIn:(username:string, password:string) => void;}) => {
     const usernameRef = useRef<HTMLInputElement>(null);
@@ -14,8 +15,8 @@ const LoginPage = (props:{handleLogIn:(username:string, password:string) => void
     }
 
     return (
-        <div className="row" style={{textAlign:"center", padding:"100px 0"}}>
-            <form onSubmit={handleSubmitLogIn}>
+        <div className={styles.container}>
+            <form className={styles.form} onSubmit={handleSubmitLogIn}>
                 <label htmlFor="id">ชื่อผู้ใช้งาน</label><br />
                 <input type="text" ref={usernameRef} /><br />
                 <label htmlFor="password">รหัสผ่าน</label><br />

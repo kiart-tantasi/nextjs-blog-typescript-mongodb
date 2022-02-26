@@ -48,7 +48,18 @@ export const getServerSideProps = async(context: GetServerSidePropsContext) => {
     // TRANSFORM DATA
     const lexedMarkdown = Lexer.lex(articleNoTransformed.markdown);
     const parsedMarkdown = Parser.parse(lexedMarkdown);
-    const transformedData = {...articleNoTransformed, _id: articleNoTransformed!._id.toString(), markdown: parsedMarkdown};
+    const transformedData: Article = {
+        _id: articleNoTransformed!._id.toString(),
+        title: articleNoTransformed.title,
+        desc: articleNoTransformed.desc,
+        markdown: parsedMarkdown,
+        img: articleNoTransformed.img,
+        alt: articleNoTransformed.alt,
+        date: articleNoTransformed.date,
+        category: articleNoTransformed.category,
+        slug: articleNoTransformed.slug,
+        views: articleNoTransformed.views? articleNoTransformed.views: 1
+    };
 
     return {
         props:{

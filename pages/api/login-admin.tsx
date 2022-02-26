@@ -26,7 +26,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         if (adminUser === null) throw new Error("user not found");
 
         // CHECK DATA COMPLETENESS RETURNED FROM DB
-        const { username: adminUsername, password: adminHashedPassword, username: adminFirstName, lastName: adminLastName } = adminUser;
+        const { username: adminUsername, password: adminHashedPassword, firstName: adminFirstName, lastName: adminLastName } = adminUser;
         if (!adminUsername || !adminHashedPassword || !adminFirstName || !adminLastName) throw new Error("some data in admin account is missing.");
 
         // CHECK PASSWORD WITH BCRYPTJS

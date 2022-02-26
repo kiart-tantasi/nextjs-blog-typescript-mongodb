@@ -6,6 +6,7 @@ import { Button } from "@mui/material";
 import { ArticleCard } from "../../models/article";
 
 const AdminPage = (props:{handleLogOut:() => void; articles: ArticleCard[]}) => {
+
     return (
         <>
         <Head><title>WORKSPACE</title></Head>

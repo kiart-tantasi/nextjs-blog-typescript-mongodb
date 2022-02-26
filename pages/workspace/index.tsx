@@ -3,10 +3,14 @@ import { useRouter } from 'next/router';
 import LoginPage from '../../components/Admin/LoginPage';
 import AdminPage from '../../components/Admin/AdminPage';
 import { ArticleCard } from '../../models/article';
+import { useContext } from 'react';
+import AuthContext from '../../context/auth-context';
 
 const WorkSpace: NextPage<{articles: ArticleCard[]}> = (props) => {
   const articles = props.articles;
   const router = useRouter();
+  const AuthCtx = useContext(AuthContext);
+  const { logIn, logOut } = AuthCtx;
 
   const handleLogIn = async(username: string, password: string) => {
     const response = await fetch("/api/login-admin", {
@@ -18,6 +22,7 @@ const WorkSpace: NextPage<{articles: ArticleCard[]}> = (props) => {
       alert("โปรดตรวจสอบ username และ password");
     } else {
       alert("เข้าสู่ระบบสำเร็จ");
+      logIn();
       router.replace("/workspace");
     }
   }
@@ -29,6 +34,7 @@ const WorkSpace: NextPage<{articles: ArticleCard[]}> = (props) => {
     } else {
       alert("ออกจากระบบสำเร็จ");
     }
+    logOut();
     router.replace("/workspace");
   }
 
