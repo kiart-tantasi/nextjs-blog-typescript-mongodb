@@ -18,7 +18,7 @@ const MainNav = () => {
         }
     }
     checkIfAdmin();
-  }, []);
+  }, [logIn]);
 
   return (
     <AppBar position="static" sx={{height: {xs: 45, sm:50} , backgroundColor:"rgb(47, 102, 184)"}}>

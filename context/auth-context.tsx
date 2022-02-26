@@ -1,4 +1,4 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useCallback, useState } from "react";
 
 const AuthContext = createContext({
     isAdmin: false,
@@ -8,12 +8,13 @@ const AuthContext = createContext({
 
 const AuthContextProvider:React.FC = (props) => {
     const [ isAdmin, setIsLoggedIn ] = useState(false);
-    const logIn = () => {
+    const logIn = useCallback(() => {
         setIsLoggedIn(true);
-    }
-    const logOut = () => {
+    }, []);
+
+    const logOut = useCallback(() => {
         setIsLoggedIn(false);
-    }
+    }, []);
     
     const context = {isAdmin, logIn, logOut};
     return (
