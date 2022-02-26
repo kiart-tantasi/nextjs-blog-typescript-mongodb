@@ -27,7 +27,7 @@ const MainNav = () => {
   return (
     <AppBar position="static" sx={{height: {xs: 45, sm:50} , backgroundColor:"rgb(47, 102, 184)"}}>
         <div className={`${styles.nav}`}>
-          <span className={styles["blog-brand"]}>
+          <div className={styles["blog-brand"]}>
             <Link href="/">
               <a>
                 <h1><span className={styles["hide-brand"]}>เ</span>พ<span className={styles["hide-brand"]}>ชร BLOG</span></h1>
@@ -35,13 +35,12 @@ const MainNav = () => {
             </Link>
             {isAdmin === true && 
             <Link href="/workspace">
-              <a>
-                <h1>
-                  W<span className={styles["hide-brand"]}>ORKSPACE</span>
-                </h1>
-            </a>
-            </Link>}
-            </span>
+              <a className={styles["workspace-brand"]}>
+                <h1>WORKSPACE</h1>
+              </a>
+            </Link>
+            }
+          </div>
           
           <div className={styles["nav-right"]}>
             <Link href="/tech"><a className={router.pathname == "/tech" ? styles.active : ""}><p>เทค</p></a></Link>

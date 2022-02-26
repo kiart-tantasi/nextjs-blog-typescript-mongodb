@@ -11,7 +11,6 @@
 
 .blog-brand {
     display: flex;
-    flex-direction: row;
 }
 
 .blog-brand h1 {
@@ -74,11 +73,10 @@
         margin-right: 0;
     }
 
-    .blog-brand a:last-child {
+    .workspace-brand {
         display: none;
     }
 }
-
 
 @media (max-width: 575px) {
     /* hide เ-ชร at 575px*/
@@ -89,7 +87,6 @@
         font-size: 1.75rem;
     }
 }
-
 
 /* hide others category at 500px */
 @media (max-width: 500px) {
