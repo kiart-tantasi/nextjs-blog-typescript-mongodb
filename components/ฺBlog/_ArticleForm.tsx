@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from "react";
-import Link from "next/link";
 import { useRouter } from "next/router";
 import slugify from "slugify";
 import Button from '@mui/material/Button';
@@ -93,10 +92,9 @@ const _ArticleForm = (props: ArticleForm) => {
 
     return (
         <>
-        {(props.article === undefined) &&
         <div className={styles["nav-top"]}>
-            <Link href="/workspace" passHref><Button type="button">กลับหน้า WORKSPACE</Button></Link>
-        </div>}
+            <Button type="button" onClick={() => router.back()}>กลับ</Button>
+        </div>
         <div className={`${styles["form-container"]} row`}>
             <h1 className={styles.heading}>{props.article? "แก้ไขบทความ": "เพิ่มบทความใหม่"}</h1>
             <form className={styles.form} onSubmit={handleSubmitForm}>
@@ -133,7 +131,6 @@ const _ArticleForm = (props: ArticleForm) => {
                         <option value="workoutandhealth">ออกกำลังกายและสุขภาพ</option>
                         <option value="others">อื่น ๆ </option>
                         <option value="workspace">workspace</option>
-                        <option value="invalid">invalid category</option>
                     </select>
                 </div>}
                 <div>

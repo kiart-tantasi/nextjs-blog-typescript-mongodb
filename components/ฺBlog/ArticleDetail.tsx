@@ -1,12 +1,17 @@
 import Head from 'next/head';
 import Link from 'next/link';
-import { useEffect } from 'react';
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
 import Card from '@mui/material/Card';
-import { CardMedia } from '@mui/material';
+import { Button, CardMedia } from '@mui/material';
 import styles from "./ArticleDetail.module.css";
 import { Article } from '../../models/article';
+import ModalUI from '../UI/ModalUI';
 
 export default function ArticleDetail(props: Article) {
+    const router = useRouter();
+    const [ isAdmin, setIsAdmin ] = useState(false);
+    const [ deleteModal, setDeleteModal ] = useState(false);
 
     useEffect(() => {
         const incView = async() => {
@@ -21,39 +26,85 @@ export default function ArticleDetail(props: Article) {
         setTimeout(() => {
             incView();
         }, 2000);
-    }, [props])
+    }, [props]);
+
+    useEffect(() => {
+        const checkIfAdmin = async() => {
+            const response = await fetch("/api/validate-token");
+            if (response.ok) {
+                setIsAdmin(true);
+            }
+        }
+        checkIfAdmin();
+    }, []);
+
+    const handleDelete = async() => {
+        const response = await fetch("/api/delete-article", {
+            method: "POST",
+            headers: {"Content-Type":"application/json"},
+            body: JSON.stringify({slug: props.slug, category: props.category})
+        })
+        if (response.ok) {
+            setDeleteModal(false);
+            alert("ลบบทความสำเร็จ");
+            if (props.category === "workspace") {
+                router.replace("/workspace");
+            } else {
+                router.replace("/");
+            }
+        } else {
+            setDeleteModal(false);
+            alert("ลบบทความล้มเหลว");
+        }
+    }
 
     return (
         <>
-        <Head>
-            <title>{props.title}</title>
-            <meta name='description'content={props.desc} />
-        </Head>
-        <article className={styles["article-author-container"]}>
-            <Card className={`${styles.article} ${styles["inside-container"]}`}>
-                <section>
-                    <h1 className={styles.title}>{props.title}</h1>
-                    <h2 className={styles.desc}>{props.desc}</h2>
-                    <CardMedia 
-                    sx={{maxHeight:"700px"}}
-                    component="img"
-                    image={props.img}
-                    alt={props.alt}
-                    />
-                    <p className={styles["date-views"]}>{new Date(props.date).toLocaleString("th-TH", {day:"numeric", month:"long", year:"numeric"})}</p>
-                    {props.views && 
-                    <p className={styles["date-views"]}>เข้าชม {props.views} ครั้ง</p>
-                    }
-                    <hr />
-                    <div className={styles["padding-bottom"]} dangerouslySetInnerHTML={{ __html: props.markdown }} />
-                </section>
-            </Card>
-            <div className={styles.author}>
-                <p>ผู้เขียน:</p><h3><Link href="/aboutme">เพชร</Link></h3>
-                <br/><br/>
-                <p>GitHub:</p><a href="https://github.com/kiart-tantasi" target="_blank" rel="noopener noreferrer"><h3>kiart-tantasi</h3></a>
-            </div>
-        </article>
+            {/* TITLE AND META */}
+            <Head>
+                <title>{props.title}</title>
+                <meta name='description'content={props.desc} />
+            </Head>
+
+            {/* DELETE MODAL */}
+            {deleteModal &&
+            <ModalUI text="ต้องการลบบทความนี้" onConfirm={handleDelete} onClose={() => setDeleteModal(false)} />
+            }
+
+            {/* NAV FOR ADMIN */}
+            {isAdmin && <div className={styles["nav-top"]}>
+                <Button sx={{fontSize: 16}} onClick={() => router.back()}>กลับ</Button>
+                <Button sx={{fontSize: 16}}><Link href="/workspace">WORKSPACE</Link></Button>
+                <Button sx={{fontSize: 16}}><Link href={"/edit/" + props.slug}>แก้ไข</Link></Button>
+                <Button sx={{fontSize: 16}} color="warning" onClick={() => setDeleteModal(true)}>ลบ</Button>
+            </div>}
+
+            {/* ARTICLE  */}
+            <article className={styles["article-author-container"]}>
+                <Card className={`${styles.article} ${styles["inside-container"]}`}>
+                    <section>
+                        <h1 className={styles.title}>{props.title}</h1>
+                        <h2 className={styles.desc}>{props.desc}</h2>
+                        <CardMedia 
+                        sx={{maxHeight:"700px"}}
+                        component="img"
+                        image={props.img}
+                        alt={props.alt}
+                        />
+                        <p className={styles["date-views"]}>{new Date(props.date).toLocaleString("th-TH", {day:"numeric", month:"long", year:"numeric"})}</p>
+                        {props.views && 
+                        <p className={styles["date-views"]}>เข้าชม {props.views} ครั้ง</p>
+                        }
+                        <hr />
+                        <div className={styles["padding-bottom"]} dangerouslySetInnerHTML={{ __html: props.markdown }} />
+                    </section>
+                </Card>
+                <div className={styles.author}>
+                    <p>ผู้เขียน:</p><h3><Link href="/aboutme">เพชร</Link></h3>
+                    <br/><br/>
+                    <p>GitHub:</p><a href="https://github.com/kiart-tantasi" target="_blank" rel="noopener noreferrer"><h3>kiart-tantasi</h3></a>
+                </div>
+            </article>
         </>
     )
 }

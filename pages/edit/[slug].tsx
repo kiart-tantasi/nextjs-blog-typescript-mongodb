@@ -19,7 +19,7 @@ const Edit: NextPage<{article: Article}> = (props) => {
             alert("แก้ไขบทความล้มเหลว !");
             return false;
         } else {
-            alert("แก้ไขบทความสำเร็จ");
+            alert("แก้ไขบทความสำเร็จ - แอปพลิเคชั่นจะใช้เวลาประมาณ 10 วินาทีเพื่อ render หน้าบทความใหม่");
             return true;
         }
     }

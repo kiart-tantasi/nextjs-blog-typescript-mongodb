@@ -9,7 +9,7 @@ const Others: NextPage<{articles:ArticleCard[]}> = (props) => {
     return (
         <>
         <Head><title>เพชร BLOG - อื่น ๆ </title></Head>
-        <Articles articles={articles} heading="เข้าสู่ช่วงเพชรไร้สาระ" />
+        <Articles articles={articles} />
         </>
     )
 }
