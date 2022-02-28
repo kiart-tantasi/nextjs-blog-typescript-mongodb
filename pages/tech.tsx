@@ -1,6 +1,7 @@
 import type { NextPage } from 'next';
 import Head from "next/head";
 import Articles from "../components/ฺBlog/Articles";
+import { websiteName } from '../utils/sharedData';
 import { ArticleCard } from '../interfaces/article';
 
 const Tech: NextPage<{articles: ArticleCard[]}> = (props) => {
@@ -8,8 +9,8 @@ const Tech: NextPage<{articles: ArticleCard[]}> = (props) => {
     return (
         <>
         <Head>
-            <title>เพชร BLOG - เทคโนโลยี</title>
-            <meta name="description" content="บทความเทคโนโลยี รีวิวสินค้า สอนโค้ด สอนเขียนโปรแกรม ด้วยภาษา javascript react nodejs การใช้ database mysql mongodb รวมถึงการ สร้าง api สร้าง backend server ขึ้นเอง" />
+            <title>{websiteName} - เทคโนโลยี</title>
+            <meta name="description" content="บทความเทคโนโลยี สอนโค้ด สอนเขียนโปรแกรม ด้วยภาษา javascript react nodejs การใช้ database mysql mongodb รวมถึงการ สร้าง api สร้าง backend server ขึ้นเอง" />
         </Head>
         <Articles articles={articles} heading="ยินดีต้อนรับสู่โลกเทค!" />
         </>

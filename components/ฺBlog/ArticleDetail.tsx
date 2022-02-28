@@ -62,7 +62,7 @@ export default function ArticleDetail(props: Article) {
 
             {/* DELETE MODAL */}
             {deleteModal &&
-            <ModalUI text="ต้องการลบบทความนี้" important onConfirm={handleDelete} onClose={() => setDeleteModal(false)} />
+            <ModalUI text="โปรดพิมพ์ slug ของบทความนี้เพื่อยืนยันการลบ" important delete={{delete:true, slug: props.slug}} onConfirm={handleDelete} onClose={() => setDeleteModal(false)} />
             }
 
             {/* POST TO PUBLIC MODAL */}

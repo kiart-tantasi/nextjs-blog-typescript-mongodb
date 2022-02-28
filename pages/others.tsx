@@ -1,6 +1,7 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import Articles from '../components/ฺBlog/Articles';
+import { websiteName } from '../utils/sharedData';
 import { ArticleCard } from '../interfaces/article';
 
 const Others: NextPage<{articles:ArticleCard[]}> = (props) => {
@@ -8,7 +9,7 @@ const Others: NextPage<{articles:ArticleCard[]}> = (props) => {
 
     return (
         <>
-        <Head><title>เพชร BLOG - อื่น ๆ </title></Head>
+        <Head><title>{websiteName} - อื่น ๆ </title></Head>
         <Articles articles={articles} />
         </>
     )

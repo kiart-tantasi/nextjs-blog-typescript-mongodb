@@ -30,7 +30,7 @@ const MainNav = () => {
           <div className={styles["blog-brand"]}>
             <Link href="/">
               <a>
-                <h1><span className={styles["hide-brand"]}>เ</span>พ<span className={styles["hide-brand"]}>ชร BLOG</span></h1>
+                <h1><span className={styles["hide-brand"]}>เ</span>พ<span className={styles["hide-brand"]}>ชรดอทบล็อก</span></h1>
               </a>
             </Link>
             {isAdmin === true && 

@@ -1,6 +1,7 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import Articles from '../components/ฺBlog/Articles';
+import { websiteName } from '../utils/sharedData';
 import { ArticleCard } from '../interfaces/article';
 
 const Gaming: NextPage<{articles:ArticleCard[]}> = (props) => {
@@ -8,8 +9,8 @@ const Gaming: NextPage<{articles:ArticleCard[]}> = (props) => {
     return (
         <>
         <Head>
-            <title>เพชร BLOG - เกมมิ่ง</title>
-            <meta name="description" content="บทความเกมที่เพชรเล่น และแชร์เทคนิคการเล่นที่ทั้งกากและทั้ง(อาจจะ)เก่ง" />
+            <title>{websiteName} - เกมมิ่ง</title>
+            <meta name="description" content="บทความเกม แชร์เทคนิคการเล่นที่ทั้งกากและทั้ง(อาจจะ)เก่ง" />
         </Head>
         <Articles articles={articles} heading="ยินดีต้อนรับสู่โลกคนติดเกมส์!" />
         </>
