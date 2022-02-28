@@ -1,7 +1,7 @@
 import { NextPage } from "next";
-import ArticleFormPage from "../../components/ฺBlog/_ArticleForm"
-import NotFoundPage from "../../components/ฺBlog/NotFoundPage";
-import { Article, FormData } from "../../models/article";
+import ArticleFormPage from "../../../components/ฺBlog/_ArticleForm"
+import NotFoundPage from "../../../components/ฺBlog/NotFoundPage";
+import { Article, FormData } from "../../../models/article";
 
 const Edit: NextPage<{article: Article}> = (props) => {
     const article = props.article;
@@ -31,8 +31,8 @@ const Edit: NextPage<{article: Article}> = (props) => {
 export default Edit;
 // -------------------------------------------------------------------------------------------------------- //
 import { GetServerSidePropsContext, NextApiResponse } from "next";
-import { tokenValidation } from "../../lib/jwt-token-validation";
-import { removeTokenCookie } from "../../lib/auth-cookie";
+import { tokenValidation } from "../../../lib/jwt-token-validation";
+import { removeTokenCookie } from "../../../lib/auth-cookie";
 import { MongoClient } from "mongodb";
 
 export const getServerSideProps = async(context: GetServerSidePropsContext) => {

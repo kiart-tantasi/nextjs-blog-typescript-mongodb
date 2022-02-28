@@ -5,10 +5,14 @@
     overflow: hidden;
 }
 
-.title {
+.title-a-tag {
+    display: inline-block;
+    margin: 10px 15px;
+}
+
+.title-h1-tag {
     font-weight: 600;
     font-size: 1.5rem;
-    margin: 10px 15px;
 }
 
 .desc {

@@ -26,7 +26,7 @@ export default function CardUI(props:ArticleCard) {
             </Link>
 
             {/* TITLE */}
-            <Link href={href}><a><h1 className={styles.title}>{props.title}</h1></a></Link>
+            <Link href={href}><a className={styles["title-a-tag"]}><h1 className={styles["title-h1-tag"]}>{props.title}</h1></a></Link>
 
             {/* DESC */}
             <p className={styles.desc}>{props.desc}</p>

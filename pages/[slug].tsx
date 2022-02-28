@@ -1,6 +1,6 @@
-import ArticleDetail from "../../components/ฺBlog/ArticleDetail";
-import NotFoundPage from "../../components/ฺBlog/NotFoundPage";
-import { Article } from "../../models/article";
+import ArticleDetail from "../components/ฺBlog/ArticleDetail";
+import NotFoundPage from "../components/ฺBlog/NotFoundPage";
+import { Article } from "../models/article";
 
 const Article: NextPage<{article: Article}> = (props) => {
     const { article } = props;

@@ -67,7 +67,7 @@ export default function ArticleDetail(props: Article) {
             {isAdmin && <div className={styles["nav-top"]}>
                 <Button onClick={() => router.back()}>กลับ</Button>
                 <Button><Link href="/workspace">WORKSPACE</Link></Button>
-                <Button><Link href={"/edit/" + props.slug}>แก้ไข</Link></Button>
+                <Button><Link href={"/workspace/edit/" + props.slug}>แก้ไข</Link></Button>
                 <Button color="warning" onClick={() => setDeleteModal(true)}>ลบ</Button>
             </div>}
 
