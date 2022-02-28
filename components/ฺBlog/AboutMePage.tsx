@@ -5,10 +5,7 @@ const AboutMePage = (props: {markdown:string;} ) => {
     const lexed = Lexer.lex(props.markdown);
     const parsed = Parser.parse(lexed);
 
-    return <div className={`${styles.bio}`}>
-        <h2>ประวัติผู้เขียน</h2><br/>
-        <div dangerouslySetInnerHTML={{__html: parsed}} />
-    </div>
+    return <div className={`${styles.bio}`} dangerouslySetInnerHTML={{__html: parsed}} />;
 }
 
 export default AboutMePage;

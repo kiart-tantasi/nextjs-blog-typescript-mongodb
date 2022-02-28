@@ -5,7 +5,7 @@
     text-align: center;
 }
 
-.bio h2 {
+.bio h1, .bio h2 {
     margin: 20px 0 15px;
     font-style: italic;
 }
@@ -20,6 +20,12 @@
     line-height: 250%;
     font-size: 1.1rem;
     text-align: left;
+}
+
+.bio a {
+    text-decoration: none;
+    font-style: italic;
+    color: rgb(55, 85, 182);
 }
 
 @media (max-width: 850px) {
