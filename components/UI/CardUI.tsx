@@ -8,7 +8,7 @@ import Typography from '@mui/material/Typography';
 import CardMedia from "@mui/material/CardMedia";
 
 export default function CardUI(props:ArticleCard) {
-    const href = (props.category === "workspace") ? ("/workspace/" + props.slug): ("/" + props.slug);
+    const href = (props.category === "workspace") ? ("/workspace/" + props.slug): ("/article/" + props.slug);
 
     return (
     <article className={styles.card}>

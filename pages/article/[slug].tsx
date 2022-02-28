@@ -1,10 +1,10 @@
-import ArticleDetail from "../components/ฺBlog/ArticleDetail";
-import NotFoundPage from "../components/ฺBlog/NotFoundPage";
-import { Article } from "../models/article";
+import { NextPage } from "next";
+import ArticleDetail from "../../components/ฺBlog/ArticleDetail";
+import NotFoundPage from "../../components/ฺBlog/NotFoundPage";
+import { Article } from "../../models/article";
 
 const Article: NextPage<{article: Article}> = (props) => {
     const { article } = props;
-
     if (article !== null) {
         return <ArticleDetail title={article.title} desc={article.desc} img={article.img} alt={article.alt} date={article.date} markdown={article.markdown} category={article.category} slug={article.slug} views={article.views} />
     }
@@ -14,12 +14,11 @@ const Article: NextPage<{article: Article}> = (props) => {
 export default Article;
 // ------------------------------------------------------- //
 import { MongoClient } from "mongodb";
-import { GetStaticPaths, GetStaticProps, NextPage } from "next";
+import { GetStaticPaths, GetStaticProps } from "next";
 import { Lexer, Parser } from "marked";
 
-const dbUrl = process.env.DB_URL as string;
-
 export const getStaticPaths: GetStaticPaths = async() => {
+    const dbUrl = process.env.DB_URL as string;
     const client = new MongoClient(dbUrl);
     await client.connect();
     const db = client.db("blogDB");
@@ -38,6 +37,7 @@ export const getStaticPaths: GetStaticPaths = async() => {
 
 export const getStaticProps: GetStaticProps = async(context) => {
     const slug = context.params!.slug;
+    const dbUrl = process.env.DB_URL as string;
     const client = new MongoClient(dbUrl);
     await client.connect();
     const db = client.db("blogDB");

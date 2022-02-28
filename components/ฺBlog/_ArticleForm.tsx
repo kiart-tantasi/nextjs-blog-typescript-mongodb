@@ -82,7 +82,7 @@ const _ArticleForm = (props: ArticleForm) => {
         if (result === false) return;
 
         if (props.article !== undefined) {
-            const linkToPushTo = (props.article.category === "workspace")? ("/workspace/" + props.article.slug): ("/" + props.article.slug);
+            const linkToPushTo = (props.article.category === "workspace")? ("/workspace/" + props.article.slug): ("/article/" + props.article.slug);
             router.push(linkToPushTo);
             return;
         }
