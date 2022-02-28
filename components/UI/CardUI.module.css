@@ -19,7 +19,7 @@
 }
 
 /*  readmore & date */
-.readmore-date {
+.date-readmore {
     display: flex;
     justify-content: space-between;
 }
@@ -38,7 +38,11 @@
 .card {
     width: 550px;
     margin: 0 auto 30px;
-    cursor: pointer;
+}
+
+.card a {
+    text-decoration: none;
+    color: inherit;
 }
 
 /* media query */
