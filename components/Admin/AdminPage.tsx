@@ -14,6 +14,7 @@ const AdminPage = (props:{handleLogOut:() => void; articles: ArticleCard[]}) => 
             <div className={styles["flex-container"]}>
                 <div className={styles["flex-left"]}>
                     <Button><Link href="/workspace/new-article">เพิ่มบทความใหม่</Link></Button>
+                    <Button color="warning"><Link href="/workspace/bin">บทความที่ถูกลบ</Link></Button>
                 </div>
                 <div className={styles["flex-right"]}>
                     <Button onClick={props.handleLogOut}>ออกจากระบบ</Button>

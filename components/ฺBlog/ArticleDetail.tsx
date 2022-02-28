@@ -8,12 +8,14 @@ import { Button, CardMedia } from '@mui/material';
 import styles from "./ArticleDetail.module.css";
 import { Article } from '../../models/article';
 import ModalUI from '../UI/ModalUI';
+import PostToPublicModalUI from '../UI/PostToPublicModalUI';
 
 export default function ArticleDetail(props: Article) {
     const router = useRouter();
     const AuthCtx = useContext(AuthContext);
     const { isAdmin } = AuthCtx;
     const [ deleteModal, setDeleteModal ] = useState(false);
+    const [ postPublicModal, setPostPublicModal ] = useState(false);
 
     useEffect(() => {
         const incView = async() => {
@@ -60,15 +62,20 @@ export default function ArticleDetail(props: Article) {
 
             {/* DELETE MODAL */}
             {deleteModal &&
-            <ModalUI text="ต้องการลบบทความนี้" onConfirm={handleDelete} onClose={() => setDeleteModal(false)} />
+            <ModalUI text="ต้องการลบบทความนี้" important onConfirm={handleDelete} onClose={() => setDeleteModal(false)} />
+            }
+
+            {/* POST TO PUBLIC MODAL */}
+            {postPublicModal &&
+            <PostToPublicModalUI article={props} onClose={() => setPostPublicModal(false)} replaceWithHome={() => router.replace("/")} />
             }
 
             {/* NAV FOR ADMIN */}
             {isAdmin && <div className={styles["nav-top"]}>
                 <Button onClick={() => router.back()}>กลับ</Button>
-                <Button><Link href="/workspace">WORKSPACE</Link></Button>
+                {props.category === "workspace" && <Button color="success" onClick={() => setPostPublicModal(true)}>โพสต์ไปยัง public</Button>}
                 <Button><Link href={"/workspace/edit/" + props.slug}>แก้ไข</Link></Button>
-                <Button color="warning" onClick={() => setDeleteModal(true)}>ลบ</Button>
+                <Button color="error" onClick={() => setDeleteModal(true)}>ลบ</Button>
             </div>}
 
             {/* ARTICLE  */}

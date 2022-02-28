@@ -37,6 +37,22 @@ export default isAuthenticated(async function handler (req: NextApiRequest, res:
                 resultOne = await collection.findOneAndDelete({slug: slug});
             }
 
+            // MOVE ARTICLE TO BIN COLLECTION
+            const bin = db.collection("bin");
+            const dataNoTransformed = resultOne.value;
+            const insertToBin = {
+                title: dataNoTransformed!.title,
+                desc: dataNoTransformed!.desc,
+                markdown: dataNoTransformed!.markdown,
+                img: dataNoTransformed!.img,
+                alt: dataNoTransformed!.alt,
+                date: dataNoTransformed!.date,
+                category: dataNoTransformed!.category,
+                slug: dataNoTransformed!.slug,
+                views: dataNoTransformed!.views
+            }
+            await bin.insertOne(insertToBin);
+
             // CLOSE DB AND RESPONSE
             client.close();
             res.status(200).json({message: resultOne, message2: resultTwo});
