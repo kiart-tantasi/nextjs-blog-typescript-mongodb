@@ -9,8 +9,8 @@ export default isAuthenticated(async function handler(req: NextApiRequest, res: 
         const client = new MongoClient(dbUrl);
         try {
             // DATA PREPARATION
-            const { title, desc, markdown, img, alt, date, category, slug } = req.body;
-            if (!title || !desc || !markdown || !img || !alt || !date || !category || !slug) throw new Error("some information is missing.");
+            const { title, desc, markdown, img, alt, category, slug } = req.body;
+            if (!title || !desc || !markdown || !img || !alt || !category || !slug) throw new Error("some information is missing.");
             if (!allowedCategories.includes(category)) throw new Error("category not allowed");
 
             // CONNECT DB
@@ -30,7 +30,7 @@ export default isAuthenticated(async function handler(req: NextApiRequest, res: 
             }
 
             // INSERT TO CHOSEN CATEGORY AND ALSO MAIN CATEGORY(IF NOT WORKSPACE)
-            const dataToInsert = { title, desc, markdown, img, alt, date, category, slug, views: 1 };
+            const dataToInsert = { title, desc, markdown, img, alt, date: Date.now(), category, slug, views: 1 };
             const categoryInsertResult = await collection.insertOne(dataToInsert);
             let mainCategoryInsertResult = null;
             if (category !== "workspace") mainCategoryInsertResult = await main.insertOne(dataToInsert);

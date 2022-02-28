@@ -1,7 +1,7 @@
 import { NextPage } from "next";
 import ArticleDetail from "../../components/ฺBlog/ArticleDetail";
 import NotFoundPage from "../../components/ฺBlog/NotFoundPage";
-import { Article } from "../../models/article";
+import { Article } from "../../interfaces/article";
 
 const Article: NextPage<{article: Article}> = (props) => {
     const article = props.article;

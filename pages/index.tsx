@@ -1,6 +1,6 @@
 import type { NextPage } from 'next';
 import Articles from '../components/ฺBlog/Articles';
-import { ArticleCard } from '../models/article';
+import { ArticleCard } from '../interfaces/article';
 
 const Home: NextPage<{articles: ArticleCard[]}> = (props) => {
   const articles = props.articles;

@@ -1,12 +1,12 @@
-import React, { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/router";
+import React, { useEffect, useRef, useState } from "react";
 import slugify from "slugify";
-import Button from '@mui/material/Button';
 import { allowedCategories } from "../../utils/sharedData";
-import styles from "./_ArticleForm.module.css";
-import { ArticleTypes, ArticleForm } from "../../models/article";
+import { Button } from "@mui/material";
+import styles from "./Form.module.css";
+import { ArticleTypes } from "../../interfaces/article";
 
-const _ArticleForm = (props: ArticleForm) => {
+const NewArticleForm = () => {
     const router = useRouter();
     const titleRef = useRef<HTMLInputElement>(null);
     const slugRef = useRef<HTMLInputElement>(null);
@@ -15,23 +15,10 @@ const _ArticleForm = (props: ArticleForm) => {
     const descRef = useRef<HTMLInputElement>(null);
     const textAreaRef = useRef<HTMLTextAreaElement>(null);
     const [ categoryValue, setCategoryValue ] = useState<ArticleTypes>("");
-    const [ imgUrl, setImgUrl ] = useState("");
     const [ textareHeight, setTextareaHeight ] = useState(500);
 
-    useEffect(() => {
-        if (props.article === undefined) return;
-        const article = props.article;
-        titleRef.current!.value = article!.title;
-        imgRef.current!.value = article!.img;
-        altRef.current!.value = article!.alt;
-        descRef.current!.value = article!.desc;
-        textAreaRef.current!.value = article!.markdown;
-        setImgUrl(article!.img);
-    }, [props.article]);
-
-    const expandTextarea = () => {
-        setTextareaHeight(800);
-    }
+    const [ preChangeImgUrl, setPreChangeImgUrl ] = useState("");
+    const [ imgUrl, setImgUrl ] = useState("");
 
     const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const newValue = e.target.value as ArticleTypes;
@@ -40,7 +27,18 @@ const _ArticleForm = (props: ArticleForm) => {
 
     const handleImgUrlChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
-        setImgUrl(value);
+        setPreChangeImgUrl(value);
+    }
+
+    useEffect(() => {
+        const changeUrlTimer = setTimeout(() => {
+            setImgUrl(preChangeImgUrl);
+        }, 1000);
+        return () => clearTimeout(changeUrlTimer);
+    }, [preChangeImgUrl]);
+
+    const expandTextarea = () => {
+        setTextareaHeight(800);
     }
 
     const handleSubmitForm = async(e: React.FormEvent) => {
@@ -50,23 +48,15 @@ const _ArticleForm = (props: ArticleForm) => {
         const alt = altRef.current!.value;
         const desc = descRef.current!.value;
         const markdown = textAreaRef.current!.value;
-        const category = props.article? props.article.category: categoryValue;
-        const slug = props.article? props.article.slug: slugify(slugRef.current!.value);
-        const date = props.article? props.article.date: Date.now();
-        if (props.article === undefined) {
-            if (!title.length || !img.length || !alt.length || !desc.length || !markdown.length || !slug.length || category === "") {
-                alert("ข้อมูลไม่ครบถ้วน หรือ slug ไม่ใช่ภาษาอังกฤษ");
-                return;
-            }
-            if (!allowedCategories.includes(category)) {
-                alert("หมวดหมู่ไม่ถูกต้อง");
-                return;
-            }
-        } else {
-            if (!title.length || !img.length || !alt.length || !desc.length || !markdown.length) {
-                alert("ข้อมูลในการแก้ไขบทความไม่ครบถ้วน");
-                return;
-            }
+        const category = categoryValue;
+        const slug = slugify(slugRef.current!.value);
+        if (!title.length || !img.length || !alt.length || !desc.length || !markdown.length || !slug.length || category === "") {
+            alert("ข้อมูลไม่ครบถ้วน หรือ slug ไม่ใช่ภาษาอังกฤษ");
+            return;
+        }
+        if (!allowedCategories.includes(category)) {
+            alert("หมวดหมู่ไม่ถูกต้อง");
+            return;
         }
         const sendingData = {
             title: title,
@@ -74,25 +64,30 @@ const _ArticleForm = (props: ArticleForm) => {
             alt: alt,
             desc: desc,
             markdown: markdown,
-            date: date,
             category: category,
             slug: slug
         }
-        const result = await props.handleRequest(sendingData);
-        if (result === false) return;
-
-        if (props.article !== undefined) {
-            const linkToPushTo = (props.article.category === "workspace")? ("/workspace/" + props.article.slug): ("/article/" + props.article.slug);
-            router.push(linkToPushTo);
+        const response = await fetch("/api/new-article", {
+            method: "POST",
+            headers: {"Content-Type" : "application/json"},
+            body: JSON.stringify(sendingData)
+        });
+        if (response.status === 401) {
+            alert("session แอดมินหมดอายุ");
             return;
+        } else if (!response.ok) {
+            alert("เพิ่มบทความล้มเหลว !");
+            return;
+        } else {
+            alert("เพิ่มบทความสำเร็จ");
+            titleRef.current!.value = "";
+            slugRef.current!.value = "";
+            imgRef.current!.value = "";
+            altRef.current!.value = "";
+            descRef.current!.value = "";
+            textAreaRef.current!.value = "";
+            setImgUrl("");
         }
-        titleRef.current!.value = "";
-        slugRef.current!.value = "";
-        imgRef.current!.value = "";
-        altRef.current!.value = "";
-        descRef.current!.value = "";
-        textAreaRef.current!.value = "";
-        setImgUrl("");
     }
 
     return (
@@ -101,16 +96,15 @@ const _ArticleForm = (props: ArticleForm) => {
             <Button type="button" onClick={() => router.back()}>กลับ</Button>
         </div>
         <div className={`${styles["form-container"]} row`}>
-            <h1 className={styles.heading}>{props.article? "แก้ไขบทความ": "เพิ่มบทความใหม่"}</h1>
+            <h1 className={styles.heading}>เพิ่มบทความใหม่</h1>
             <form className={styles.form} onSubmit={handleSubmitForm}>
                 <div>
                     <label>หัวข้อ</label>
                     <input type="text" ref={titleRef} />
-                    {!props.article &&
-                    <>
+                    
                     <label>slug (ภาษาอังกฤษ)</label>
                     <input className={styles["secondary-input"]} type="text" ref={slugRef} />
-                    </>}
+
                 </div>
                 {imgUrl !== "" && <img src={imgUrl} alt="รูปตัวอย่าง" />}
                 <div> 
@@ -129,7 +123,7 @@ const _ArticleForm = (props: ArticleForm) => {
                     <h3>เนื้อหาบทความ</h3>
                     <textarea ref={textAreaRef} style={{height: textareHeight.toString() + "px"}} />
                 </div>
-                {!props.article && <div>
+                <div>
                     <label htmlFor="category">หมวดหมู่</label>
                     <select name="category" onChange={handleSelectChange}>
                         <option value="">เลือก</option>
@@ -139,9 +133,9 @@ const _ArticleForm = (props: ArticleForm) => {
                         <option value="others">อื่น ๆ </option>
                         <option value="workspace">workspace</option>
                     </select>
-                </div>}
+                </div>
                 <div>
-                    <Button type="submit" className={styles["submit-button"]}>{props.article? "แก้ไขบทความ": "เพิ่มบทความใหม่"}</Button>
+                    <Button type="submit" className={styles["submit-button"]}>เพิ่มบทความใหม่</Button>
                 </div>
             </form>
         </div>
@@ -149,4 +143,4 @@ const _ArticleForm = (props: ArticleForm) => {
     )
 }
 
-export default _ArticleForm;
+export default NewArticleForm;

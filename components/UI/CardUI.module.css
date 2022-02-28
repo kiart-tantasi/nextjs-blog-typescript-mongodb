@@ -79,4 +79,9 @@
     }
 }
 
-
+/* hover effect if not mobile phone */
+@media (min-width: 426px) {
+    .title-h1-tag:hover {
+        color: rgb(47, 102, 184);
+    }
+}

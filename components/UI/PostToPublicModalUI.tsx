@@ -1,7 +1,7 @@
 import { Button } from "@mui/material";
 import { ChangeEvent, useRef, useState } from "react";
 import styles from "./ModalUI.module.css";
-import { Article, ArticleTypes } from "../../models/article";
+import { Article, ArticleTypes } from "../../interfaces/article";
 import { allowedCategories } from "../../utils/sharedData";
 import slugify from "slugify";
 

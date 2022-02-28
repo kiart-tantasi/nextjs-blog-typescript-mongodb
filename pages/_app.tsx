@@ -12,6 +12,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           <title>เพชร BLOG</title>
           <meta name="description" content="เพชร Perosnal Blog - รวบรวมเนื้อหา เทคโนโลยี เกม ภาษาอังกฤษ การออกกำลังกาย และสุขภาพ" />
           <link rel="shortcut icon" href="/images/favicon.ico" />
+
         </Head>
         <Component {...pageProps} />
       </Layout>

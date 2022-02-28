@@ -1,30 +1,11 @@
 import { NextPage } from "next";
-import ArticleFormPage from "../../../components/ฺBlog/_ArticleForm"
+import EditArticleForm from "../../../components/Form/EditArticleForm";
 import NotFoundPage from "../../../components/ฺBlog/NotFoundPage";
-import { Article, FormData } from "../../../models/article";
+import { Article } from "../../../interfaces/article";
 
 const Edit: NextPage<{article: Article}> = (props) => {
     const article = props.article;
-
-    const handleEditArticle = async(sendingData: FormData) => {
-        const response = await fetch("/api/edit-article", {
-            method: "PUT",
-            headers: {"Content-Type" : "application/json"},
-            body: JSON.stringify(sendingData)
-        });
-        if (response.status === 401) {
-            alert("session admin หมดอายุ");
-            return false;
-        } else if (!response.ok) {
-            alert("แก้ไขบทความล้มเหลว !");
-            return false;
-        } else {
-            alert("แก้ไขบทความสำเร็จ - แอปพลิเคชั่นจะใช้เวลาประมาณ 10 วินาทีเพื่อ render หน้าบทความใหม่");
-            return true;
-        }
-    }
-
-    if (article) return <ArticleFormPage handleRequest={handleEditArticle} article={article} />
+    if (article) return <EditArticleForm article={article} />
     return <NotFoundPage />
 }
 

@@ -1,5 +1,5 @@
 import type { NextPage } from 'next';
-import { ArticleCard } from '../../models/article';
+import { ArticleCard } from '../../interfaces/article';
 
 const WorkSpace: NextPage<{articles: ArticleCard[]}> = (props) => {
   const articles = props.articles;

@@ -1,6 +1,6 @@
 import Head from "next/head";
 import Articles from "../ฺBlog/Articles";
-import { ArticleCard } from "../../models/article";
+import { ArticleCard } from "../../interfaces/article";
 
 const BinPage = (props:{articles: ArticleCard[]}) => {
 

@@ -2,7 +2,7 @@ import type { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import LoginPage from '../../components/Admin/LoginPage';
 import AdminPage from '../../components/Admin/AdminPage';
-import { ArticleCard } from '../../models/article';
+import { ArticleCard } from '../../interfaces/article';
 import { useContext } from 'react';
 import AuthContext from '../../context/auth-context';
 

@@ -6,7 +6,7 @@ import AuthContext from '../../context/auth-context';
 import Card from '@mui/material/Card';
 import { Button, CardMedia } from '@mui/material';
 import styles from "./ArticleDetail.module.css";
-import { Article } from '../../models/article';
+import { Article } from '../../interfaces/article';
 import ModalUI from '../UI/ModalUI';
 import PostToPublicModalUI from '../UI/PostToPublicModalUI';
 

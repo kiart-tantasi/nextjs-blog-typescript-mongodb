@@ -1,4 +1,4 @@
-import { Article } from "../models/article";
+import { Article } from "../interfaces/article";
 
 export const DUMMY_DATA: Article[] = [
     { title: "First Post", desc: "This is my first post.", markdown:" This is some markdown.", img:"https://images.contentstack.io/v3/assets/blt370612131b6e0756/blta1d3d18c029012e8/60107b5b3e567f1011da3594/Teemo_TurnTable_img.jpg", alt:"Teemo", slug: Math.random().toString(), category: "others", date:1645015239154 },

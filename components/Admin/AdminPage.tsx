@@ -3,7 +3,7 @@ import Link from "next/link";
 import Articles from "../ฺBlog/Articles";
 import styles from "./AdminPage.module.css";
 import { Button } from "@mui/material";
-import { ArticleCard } from "../../models/article";
+import { ArticleCard } from "../../interfaces/article";
 
 const AdminPage = (props:{handleLogOut:() => void; articles: ArticleCard[]}) => {
 

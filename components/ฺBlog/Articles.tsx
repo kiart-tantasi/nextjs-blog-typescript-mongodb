@@ -1,6 +1,6 @@
 import CardUI from "../UI/CardUI";
 import styles from "./Articles.module.css";
-import { ArticleCard } from "../../models/article";
+import { ArticleCard } from "../../interfaces/article";
 
 const Articles = (props: {articles: ArticleCard[]; heading?:string}) => {
     const reversedArticles = [...props.articles].reverse();
