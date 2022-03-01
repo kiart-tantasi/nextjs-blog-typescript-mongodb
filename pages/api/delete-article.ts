@@ -23,35 +23,34 @@ export default isAuthenticated(async function handler (req: NextApiRequest, res:
             // CONNECT DB
             await client.connect();
             const db = client.db("blogDB");
-            let resultOne = null;
-            let resultTwo = null;
+            const collection = db.collection(category);
 
-            // WORKSPACE OR NOT
-            if (category !== "workspace") {
-                const collection = db.collection(category);
-                const main = db.collection("main");
-                resultOne = await collection.findOneAndDelete({slug: slug});
-                resultTwo = await main.findOneAndDelete({slug: slug});
-            } else {
-                const collection = db.collection("workspace");
-                resultOne = await collection.findOneAndDelete({slug: slug});
-            }
-
-            // MOVE ARTICLE TO BIN COLLECTION
-            const bin = db.collection("bin");
-            const dataNoTransformed = resultOne.value;
+            // FIND ARTICLE IN SPECIFIC COLLECTION AND SAVE IT TO BIN COLLECTION
+            const articleNoTransformed = await collection.findOne({slug: slug});
             const insertToBin = {
-                title: dataNoTransformed!.title,
-                desc: dataNoTransformed!.desc,
-                markdown: dataNoTransformed!.markdown,
-                img: dataNoTransformed!.img,
-                alt: dataNoTransformed!.alt,
-                date: dataNoTransformed!.date,
-                category: dataNoTransformed!.category,
-                slug: dataNoTransformed!.slug,
-                views: dataNoTransformed!.views
+                title: articleNoTransformed!.title,
+                desc: articleNoTransformed!.desc,
+                markdown: articleNoTransformed!.markdown,
+                img: articleNoTransformed!.img,
+                alt: articleNoTransformed!.alt,
+                date: articleNoTransformed!.date,
+                category: articleNoTransformed!.category,
+                slug: articleNoTransformed!.slug,
+                views: articleNoTransformed?.views,
+                record: articleNoTransformed?.record
             }
+            const bin = db.collection("bin");
             await bin.insertOne(insertToBin);
+
+            // DELETE IN SPECIFIC CATEGORY
+            const resultOne = await collection.findOneAndDelete({slug: slug});
+
+            // IF NOT WORKSPACE, ALSO DELETE IN MAIN
+            let resultTwo = null;
+            if (category !== "workspace") {
+                const main = db.collection("main");
+                resultTwo = await main.findOneAndDelete({slug: slug});
+            }
 
             // CLOSE DB AND RESPONSE
             client.close();
