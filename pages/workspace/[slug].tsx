@@ -1,12 +1,12 @@
 import { NextPage } from "next";
-import ArticleDetail from "../../components/ฺBlog/ArticleDetail";
+import ArticlePage from "../../components/ฺBlog/ArticlePage";
 import NotFoundPage from "../../components/ฺBlog/NotFoundPage";
 import { Article } from "../../interfaces/article";
 
 const Article: NextPage<{article: Article}> = (props) => {
     const article = props.article;
     if (article) {
-        return <ArticleDetail title={article.title} desc={article.desc} img={article.img} alt={article.alt} date={article.date} markdown={article.markdown} category={article.category} slug={article.slug} views={article.views} />
+        return <ArticlePage title={article.title} desc={article.desc} img={article.img} alt={article.alt} date={article.date} markdown={article.markdown} category={article.category} slug={article.slug} views={article.views} />
     }
     return <NotFoundPage />
 }

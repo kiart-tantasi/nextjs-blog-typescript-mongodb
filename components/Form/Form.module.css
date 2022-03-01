@@ -70,6 +70,14 @@
     background-color: rgb(100, 177, 240);
     color: #fff;
     border: 1px solid #000;
+    margin-bottom: 100px;
+}
+
+.form .preview-button {
+    display: block;
+    background-color: rgb(156, 151, 156);
+    color: #fff;
+    border: 1px solid #000;
 }
 
 /* media query */

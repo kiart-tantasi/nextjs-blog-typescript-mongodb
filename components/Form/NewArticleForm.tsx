@@ -1,12 +1,15 @@
 import { useRouter } from "next/router";
 import React, { useEffect, useRef, useState } from "react";
 import slugify from "slugify";
+import { Lexer, Parser } from "marked";
+import ArticleCard from "../UI/ArticleCard";
 import { allowedCategories } from "../../utils/sharedData";
 import { Button } from "@mui/material";
 import styles from "./Form.module.css";
 import { ArticleTypes } from "../../interfaces/article";
 
 const NewArticleForm = () => {
+    // FORM
     const router = useRouter();
     const titleRef = useRef<HTMLInputElement>(null);
     const slugRef = useRef<HTMLInputElement>(null);
@@ -16,7 +19,10 @@ const NewArticleForm = () => {
     const textAreaRef = useRef<HTMLTextAreaElement>(null);
     const [ categoryValue, setCategoryValue ] = useState<ArticleTypes>("");
     const [ textareHeight, setTextareaHeight ] = useState(500);
-
+    // PREVIEW
+    const [ preview, setPreview ] = useState(false);
+    const [ parsedMarkdown, setParsedMarkdown ] = useState("");
+    // PREVIEW IMG
     const [ preChangeImgUrl, setPreChangeImgUrl ] = useState("");
     const [ imgUrl, setImgUrl ] = useState("");
 
@@ -39,6 +45,13 @@ const NewArticleForm = () => {
 
     const expandTextarea = () => {
         setTextareaHeight(800);
+    }
+
+    const handleTogglePreview = () => {
+        const lexed = Lexer.lex(textAreaRef.current?.value || "ไม่มี markdown");
+        const parsed = Parser.parse(lexed);
+        setParsedMarkdown(parsed);
+        setPreview(prev => !prev);
     }
 
     const handleSubmitForm = async(e: React.FormEvent) => {
@@ -136,9 +149,23 @@ const NewArticleForm = () => {
                 </div>
                 <div>
                     <Button type="submit" className={styles["submit-button"]}>เพิ่มบทความใหม่</Button>
+                    <Button type="button" size="small" className={styles["preview-button"]} onClick={handleTogglePreview}>เปิด/ปิดตัวอย่าง</Button>
                 </div>
             </form>
         </div>
+        {preview &&
+        <>
+        <hr />
+        <ArticleCard
+        title={titleRef.current?.value || "ไม่มีหัวข้อ"}
+        img={imgRef.current?.value || "ไม่มีรูปภาพ"}
+        alt={altRef.current?.value || "ไม่มี alternatives"}
+        desc={descRef.current?.value || "ไม่มีคำอธิบายบทความ"}
+        markdown={parsedMarkdown || "ไม่มี markdown"}
+        date={Date.now()}
+        views={999}
+        />
+        </>}
         </>
     )
 }

@@ -9,7 +9,7 @@ export type Article = {
     author?: string;
     category: ArticleTypes;
     slug: string;
-    views?: string;
+    views?: number;
 }
 //category slug img alt title desc date
 
