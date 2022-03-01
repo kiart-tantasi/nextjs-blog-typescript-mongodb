@@ -10,6 +10,7 @@ export default function ArticleDetail(props: Article) {
     const { isAdmin } = AuthCtx;
 
     useEffect(() => {
+        if (isAdmin) return;
         const increaseView = async() => {
             if (!props.slug || !props.category) return;
             const { slug, category } = props;

@@ -54,6 +54,16 @@
     text-align: center;
 }
 
+.expand-button {
+    padding: 10px;
+    border-radius: 3px;
+    background-color: rgba(0, 0, 0, 0.87);
+    color: #fff;
+    border: 1px solid #000;
+    margin-bottom: 30px;
+    cursor: pointer;
+}
+
 .form textarea {
     width: 1000px;
     padding: 20px;
@@ -61,19 +71,39 @@
     line-height: 175%;
 }
 
+.form select {
+    height: 30px;
+    cursor: pointer;
+}
+
+.form select {
+    font-size: 1rem;
+}
+
 .form img {
     max-height: 300px;
     max-width: 900;
 }
 
-.form .submit-button {
+.two-buttons {
+    display: flex;
+    flex-direction: column;
+}
+
+.submit-button, .preview-button {
+    padding: 10px;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.submit-button {
     background-color: rgb(100, 177, 240);
     color: #fff;
     border: 1px solid #000;
     margin-bottom: 100px;
 }
 
-.form .preview-button {
+.preview-button {
     display: block;
     background-color: rgb(156, 151, 156);
     color: #fff;

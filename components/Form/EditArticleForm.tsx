@@ -1,5 +1,7 @@
 import { useRouter } from "next/router";
 import React, { useEffect, useRef, useState } from "react";
+import { Lexer, Parser } from "marked";
+import ArticleCard from "../UI/ArticleCard";
 import Button from '@mui/material/Button';
 import styles from "./Form.module.css";
 import { Article } from "../../interfaces/article";
@@ -12,8 +14,9 @@ const EditArticleForm = (props: {article: Article}) => {
     const descRef = useRef<HTMLInputElement>(null);
     const textAreaRef = useRef<HTMLTextAreaElement>(null);
     const [ textareHeight, setTextareaHeight ] = useState(500);
-    const [ preChangeImgUrl, setPreChangeImgUrl ] = useState("");
-    const [ imgUrl, setImgUrl ] = useState("");
+    // PREVIEW
+    const [ preview, setPreview ] = useState(false);
+    const [ parsedMarkdown, setParsedMarkdown ] = useState("");
 
     useEffect(() => {
         if (!props.article) return;
@@ -23,24 +26,19 @@ const EditArticleForm = (props: {article: Article}) => {
         altRef.current!.value = article!.alt;
         descRef.current!.value = article!.desc;
         textAreaRef.current!.value = article!.markdown;
-        setPreChangeImgUrl(article!.img);
+        handleTogglePreview();
     }, [props.article]);
 
     const expandTextarea = () => {
         setTextareaHeight(800);
     }
 
-    const handleImgUrlChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const value = e.target.value;
-        setPreChangeImgUrl(value);
+    const handleTogglePreview = () => {
+        const lexed = Lexer.lex(textAreaRef.current?.value || "ไม่มี markdown");
+        const parsed = Parser.parse(lexed);
+        setParsedMarkdown(parsed);
+        setPreview(prev => !prev);
     }
-
-    useEffect(() => {
-        const changeUrlTimer = setTimeout(() => {
-            setImgUrl(preChangeImgUrl);
-        }, 1000);
-        return () => clearTimeout(changeUrlTimer);
-    }, [preChangeImgUrl]);
 
     const handleSubmitForm = async(e: React.FormEvent) => {
         e.preventDefault();
@@ -97,10 +95,9 @@ const EditArticleForm = (props: {article: Article}) => {
                     <label>หัวข้อ</label>
                     <input type="text" ref={titleRef} />
                 </div>
-                {imgUrl !== "" && <img src={imgUrl} alt="รูปตัวอย่าง" />}
                 <div> 
                     <label>url รูปภาพ</label>
-                    <input onChange={handleImgUrlChange} type="text" ref={imgRef} />
+                    <input type="text" ref={imgRef} />
                     <label>คำอธิบายรูปภาพ (กรณีไฟล์รูปหาย)</label>
                     <input className={styles["secondary-input"]} type="text" ref={altRef} />
                 </div>
@@ -109,16 +106,30 @@ const EditArticleForm = (props: {article: Article}) => {
                     <input className={styles.desc} type="text" ref={descRef} />
                 </div>
                 <div>
-                    <Button onClick={expandTextarea}>ขยาย Textarea</Button>
+                    <button type="button" className={styles["expand-button"]} onClick={expandTextarea}>ขยาย Textarea</button>
                     <br/>
                     <h3>เนื้อหาบทความ</h3>
                     <textarea ref={textAreaRef} style={{height: textareHeight.toString() + "px"}} />
                 </div>
-                <div>
-                    <Button type="submit" className={styles["submit-button"]}>แก้ไขบทความ</Button>
+                <div className={styles["two-buttons"]}>
+                    <button type="submit" className={styles["submit-button"]}>เพิ่มบทความใหม่</button>
+                    <button type="button" className={styles["preview-button"]} onClick={handleTogglePreview}>เปิด/ปิดตัวอย่าง</button>
                 </div>
             </form>
         </div>
+        {preview &&
+        <>
+        <hr />
+        <ArticleCard
+        title={titleRef.current?.value || "ไม่มีหัวข้อ"}
+        img={imgRef.current?.value || "ไม่มีรูปภาพ"}
+        alt={altRef.current?.value || "ไม่มี alternatives"}
+        desc={descRef.current?.value || "ไม่มีคำอธิบายบทความ"}
+        markdown={parsedMarkdown || "ไม่มี markdown"}
+        date={Date.now()}
+        views={123}
+        />
+        </>}
         </>
     )
 }

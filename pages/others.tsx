@@ -1,15 +1,13 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import Articles from '../components/ฺBlog/Articles';
-import { websiteName } from '../utils/sharedData';
 import { ArticleCard } from '../interfaces/article';
 
 const Others: NextPage<{articles:ArticleCard[]}> = (props) => {
     const { articles } = props;
-
     return (
         <>
-        <Head><title>{websiteName} - อื่น ๆ </title></Head>
+        <Head><title>เรื่องเล่านายเพชร | เพชรดอทบล็อก</title></Head>
         <Articles articles={articles} />
         </>
     )

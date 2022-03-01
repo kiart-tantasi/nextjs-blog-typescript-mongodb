@@ -2,8 +2,8 @@ import { useRouter } from "next/router";
 import React, { useEffect, useRef, useState } from "react";
 import slugify from "slugify";
 import { Lexer, Parser } from "marked";
-import ArticleCard from "../UI/ArticleCard";
 import { allowedCategories } from "../../utils/sharedData";
+import ArticleCard from "../UI/ArticleCard";
 import { Button } from "@mui/material";
 import styles from "./Form.module.css";
 import { ArticleTypes } from "../../interfaces/article";
@@ -22,26 +22,11 @@ const NewArticleForm = () => {
     // PREVIEW
     const [ preview, setPreview ] = useState(false);
     const [ parsedMarkdown, setParsedMarkdown ] = useState("");
-    // PREVIEW IMG
-    const [ preChangeImgUrl, setPreChangeImgUrl ] = useState("");
-    const [ imgUrl, setImgUrl ] = useState("");
 
     const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const newValue = e.target.value as ArticleTypes;
         setCategoryValue(newValue);
     }
-
-    const handleImgUrlChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const value = e.target.value;
-        setPreChangeImgUrl(value);
-    }
-
-    useEffect(() => {
-        const changeUrlTimer = setTimeout(() => {
-            setImgUrl(preChangeImgUrl);
-        }, 1000);
-        return () => clearTimeout(changeUrlTimer);
-    }, [preChangeImgUrl]);
 
     const expandTextarea = () => {
         setTextareaHeight(800);
@@ -99,7 +84,6 @@ const NewArticleForm = () => {
             altRef.current!.value = "";
             descRef.current!.value = "";
             textAreaRef.current!.value = "";
-            setImgUrl("");
         }
     }
 
@@ -119,10 +103,9 @@ const NewArticleForm = () => {
                     <input className={styles["secondary-input"]} type="text" ref={slugRef} />
 
                 </div>
-                {imgUrl !== "" && <img src={imgUrl} alt="รูปตัวอย่าง" />}
                 <div> 
                     <label>url รูปภาพ</label>
-                    <input onChange={handleImgUrlChange} type="text" ref={imgRef} />
+                    <input type="text" ref={imgRef} />
                     <label>คำอธิบายรูปภาพ (กรณีไฟล์รูปหาย)</label>
                     <input className={styles["secondary-input"]} type="text" ref={altRef} />
                 </div>
@@ -131,7 +114,7 @@ const NewArticleForm = () => {
                     <input className={styles.desc} type="text" ref={descRef} />
                 </div>
                 <div>
-                    <Button onClick={expandTextarea}>ขยาย Textarea</Button>
+                    <button type="button" className={styles["expand-button"]} onClick={expandTextarea}>ขยาย Textarea</button>
                     <br/>
                     <h3>เนื้อหาบทความ</h3>
                     <textarea ref={textAreaRef} style={{height: textareHeight.toString() + "px"}} />
@@ -147,9 +130,9 @@ const NewArticleForm = () => {
                         <option value="workspace">workspace</option>
                     </select>
                 </div>
-                <div>
-                    <Button type="submit" className={styles["submit-button"]}>เพิ่มบทความใหม่</Button>
-                    <Button type="button" size="small" className={styles["preview-button"]} onClick={handleTogglePreview}>เปิด/ปิดตัวอย่าง</Button>
+                <div className={styles["two-buttons"]}>
+                    <button type="submit" className={styles["submit-button"]}>เพิ่มบทความใหม่</button>
+                    <button type="button" className={styles["preview-button"]} onClick={handleTogglePreview}>เปิด/ปิดตัวอย่าง</button>
                 </div>
             </form>
         </div>
@@ -163,7 +146,7 @@ const NewArticleForm = () => {
         desc={descRef.current?.value || "ไม่มีคำอธิบายบทความ"}
         markdown={parsedMarkdown || "ไม่มี markdown"}
         date={Date.now()}
-        views={999}
+        views={123}
         />
         </>}
         </>

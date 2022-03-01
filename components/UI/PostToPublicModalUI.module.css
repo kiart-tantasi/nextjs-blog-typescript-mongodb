@@ -1,0 +1,49 @@
+.modalBackdrop {
+    z-index: 100;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0,0,0,0.5);
+}
+
+.modal {
+    z-index: 200;
+    position: fixed;
+    width: 400px;
+    left: calc(50% - 200px);
+    top: 150px;
+    padding: 20px;
+    border-radius: 2px;
+    background-color: #fff;
+}
+
+.modal-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.modal-content input, .modal-content select {
+    width: 50%;
+    height: 25px;
+}
+
+.modal-content label {
+    margin-top: 10px;
+}
+
+.buttons {
+    display: flex;
+    justify-content: space-between;
+}
+
+@media (max-width: 450px) {
+    .modal {
+        width: 90%;
+        left: 5%;
+    }
+}
