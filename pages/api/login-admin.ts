@@ -8,6 +8,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     // DECLARE IT HERE BECAUSE IT NEEDS TO BE CLOSED IN CATCH(ERROR) IF AN ERROR IS THROWN
     const dbUrl = process.env.DB_URL as string;
     const client = new MongoClient(dbUrl);
+    let connectClient = false;
 
     try {
         if (req.method !== "POST") throw new Error("wrong method");
@@ -18,12 +19,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
         // CONNECT DB
         await client.connect();
+        connectClient = true;
         const db = client.db("blogDB");
         const collection = db.collection("admin");
 
         // CHECK IF ACCOUNT EXISTS
         const adminUser = await collection.findOne({username:username});
         if (adminUser === null) throw new Error("user not found");
+        if (adminUser.incorrectPasswordTimes === 10) throw new Error("incorrect password quota exceeded");
 
         // CHECK DATA COMPLETENESS RETURNED FROM DB
         const { username: adminUsername, password: adminHashedPassword, firstName: adminFirstName, lastName: adminLastName } = adminUser;
@@ -31,7 +34,16 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
         // CHECK PASSWORD WITH BCRYPTJS
         const comparing = await bcryptjs.compare(password, adminHashedPassword);
-        if (comparing === false) throw new Error("incorrect password");
+        
+        // IF WRONG PASSWORD COUNT IT
+        if (comparing === false) {
+            const newIncorrectPasswordCount = adminUser.incorrectPasswordTimes + 1 || 1;
+            await collection.updateOne({username:username}, {$set:{incorrectPasswordTimes: newIncorrectPasswordCount}});
+            throw new Error("incorrect password");
+        }
+
+        // IF PASSWORD IS CORRECT, RESET TIMES OF INCORRECT PASSWORD TO ZERO
+        await collection.updateOne({username:username}, {$set:{incorrectPasswordTimes: 0}});
 
         // SIGN JWT
         const privateKey = process.env.PRIVATE_KEY as string;
@@ -48,7 +60,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         const err = error as Error;
         
         // CLOSE DB BEFORE RESPONSE 400 IN SOME CASES
-        if (err.message !== "wrong method" && err.message !== "some information is missing.") client.close();
-        res.status(400).json({message: err.message});
+        if (connectClient) client.close();
+        if (err.message === "incorrect password quota exceeded") res.status(403);
+        else res.status(400);
+        res.json({message: err.message});
     }
 }

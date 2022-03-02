@@ -1,8 +1,13 @@
-import { useRef } from "react";
+import { useRouter } from "next/router";
+import { useContext, useRef } from "react";
+import AuthContext from "../../context/auth-context";
 import { Button } from "@mui/material";
 import styles from "./LoginPage.module.css";
 
-const LoginPage = (props:{handleLogIn:(username:string, password:string) => void;}) => {
+const LoginPage = () => {
+    const router = useRouter();
+    const AuthCtx = useContext(AuthContext);
+    const { logIn } = AuthCtx;
     const usernameRef = useRef<HTMLInputElement>(null);
     const passwordRef = useRef<HTMLInputElement>(null);
 
@@ -10,8 +15,24 @@ const LoginPage = (props:{handleLogIn:(username:string, password:string) => void
         e.preventDefault();
         const username = usernameRef.current!.value;
         const password = passwordRef.current!.value;
-        if (!username.length || !password.length) alert("โปรดระบุ username และ password ให้ครบถ้วน");
-        else props.handleLogIn(username, password);
+        if (!username.length || !password.length) {
+            alert("โปรดระบุ username และ password ให้ครบถ้วน");
+            return;
+        }
+        const response = await fetch("/api/login-admin", {
+            method: "POST",
+            headers: {"Content-Type" : "application/json"},
+            body: JSON.stringify({username: username, password: password})
+        });
+        if (response.status === 403) {
+            alert("ใส่พาสเวิร์ดผิดเกินจำนวนครั้งที่กำหนด!");
+        } else if (!response.ok) {
+            alert("โปรดตรวจสอบ username และ password");
+        } else {
+            alert("เข้าสู่ระบบสำเร็จ");
+            logIn();
+            router.replace("/workspace");
+        }
     }
 
     return (

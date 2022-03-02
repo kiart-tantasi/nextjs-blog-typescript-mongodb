@@ -1,45 +1,12 @@
 import type { NextPage } from 'next';
-import { useRouter } from 'next/router';
 import LoginPage from '../../components/Admin/LoginPage';
 import AdminPage from '../../components/Admin/AdminPage';
 import { ArticleCard } from '../../interfaces/article';
-import { useContext } from 'react';
-import AuthContext from '../../context/auth-context';
 
 const WorkSpace: NextPage<{articles: ArticleCard[]}> = (props) => {
   const articles = props.articles;
-  const router = useRouter();
-  const AuthCtx = useContext(AuthContext);
-  const { logIn, logOut } = AuthCtx;
-
-  const handleLogIn = async(username: string, password: string) => {
-    const response = await fetch("/api/login-admin", {
-      method: "POST",
-      headers: {"Content-Type" : "application/json"},
-      body: JSON.stringify({username,password})
-    });
-    if (!response.ok) {
-      alert("โปรดตรวจสอบ username และ password");
-    } else {
-      alert("เข้าสู่ระบบสำเร็จ");
-      logIn();
-      router.replace("/workspace");
-    }
-  }
-
-  const handleLogOut = async() => {
-    const response = await fetch("/api/logout-admin", {method:"POST"});
-    if (!response.ok) {
-      alert("session แอดมินหมดอายุก่อนออกจากระบบ");
-    } else {
-      alert("ออกจากระบบสำเร็จ");
-    }
-    logOut();
-    router.replace("/workspace");
-  }
-
-  if (!articles) return <LoginPage handleLogIn={handleLogIn} />
-  return <AdminPage handleLogOut={handleLogOut} articles={articles} />;
+  if (!articles) return <LoginPage />
+  return <AdminPage articles={articles} />;
 }
 
 export default WorkSpace;

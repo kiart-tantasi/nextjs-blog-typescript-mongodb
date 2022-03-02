@@ -10,6 +10,7 @@ export default isAuthenticated(async function handler(req: NextApiRequest, res: 
 
         const dbUrl = process.env.DB_URL as string;
         const client = new MongoClient(dbUrl);
+        let connectClient = false;
         try {
             // DATA PREPARATION
             const {username, password, firstName, lastName} = req.body;
@@ -17,6 +18,7 @@ export default isAuthenticated(async function handler(req: NextApiRequest, res: 
 
             // CONNECT DB AND COLLECTION ADMIN
             await client.connect();
+            connectClient = true;
             const db = client.db("blogDB");
             const collection = db.collection("admin");
 
@@ -33,10 +35,9 @@ export default isAuthenticated(async function handler(req: NextApiRequest, res: 
             client.close();
             res.status(200).json({message:"registered successfully"});
         } catch (error) {
-            const err = error as Error;
-
             // CLOSE DB IN SOME CASES
-            if (err.message !== "missing information") client.close();
+            if (connectClient) client.close();
+            const err = error as Error;
             res.status(400).json({message: err.message});
         }
     }

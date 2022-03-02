@@ -1,11 +1,28 @@
 import Head from "next/head";
 import Link from "next/link";
+import { useRouter } from "next/router";
+import { useContext } from "react";
+import AuthContext from "../../context/auth-context";
 import Articles from "../ฺBlog/Articles";
-import styles from "./AdminPage.module.css";
 import { Button } from "@mui/material";
+import styles from "./AdminPage.module.css";
 import { ArticleCard } from "../../interfaces/article";
 
-const AdminPage = (props:{handleLogOut:() => void; articles: ArticleCard[]}) => {
+const AdminPage = (props:{articles: ArticleCard[]}) => {
+    const router = useRouter();
+    const AuthCtx = useContext(AuthContext);
+    const { logOut } = AuthCtx;
+
+    const handleLogOut = async() => {
+        const response = await fetch("/api/logout-admin", {method:"POST"});
+        if (!response.ok) {
+            alert("session แอดมินหมดอายุก่อนออกจากระบบ");
+        } else {
+            alert("ออกจากระบบสำเร็จ");
+        }
+        logOut();
+        router.replace("/workspace");
+    }
 
     return (
         <>
@@ -17,7 +34,7 @@ const AdminPage = (props:{handleLogOut:() => void; articles: ArticleCard[]}) => 
                     <Button color="warning"><Link href="/workspace/bin">บทความที่ถูกลบ</Link></Button>
                 </div>
                 <div className={styles["flex-right"]}>
-                    <Button onClick={props.handleLogOut}>ออกจากระบบ</Button>
+                    <Button onClick={handleLogOut}>ออกจากระบบ</Button>
                 </div>
             </div>
         </div>

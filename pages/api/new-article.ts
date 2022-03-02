@@ -7,6 +7,7 @@ export default isAuthenticated(async function handler(req: NextApiRequest, res: 
     if (req.method === "POST") {
         const dbUrl = process.env.DB_URL as string;
         const client = new MongoClient(dbUrl);
+        let connectClient = false;
         try {
             // DATA PREPARATION
             const { title, desc, markdown, img, alt, category, slug } = req.body;
@@ -15,6 +16,7 @@ export default isAuthenticated(async function handler(req: NextApiRequest, res: 
 
             // CONNECT DB
             await client.connect();
+            connectClient = true;
             const db = client.db("blogDB");
 
             // CHECK CHOSEN CATEGORY IF SLUG IS USED OR NOT
@@ -38,11 +40,10 @@ export default isAuthenticated(async function handler(req: NextApiRequest, res: 
             // CLOSE DB AND RESPONSE
             client.close();
             res.status(200).json({message:categoryInsertResult, message2: mainCategoryInsertResult});
-        } catch (error) {
-            const err = error as Error;
-            
+        } catch (error) {            
             // CLOSE DB BEFORE RESPONSE 400 IN SOME CASES
-            if (err.message !== "some information is missing." && err.message !== "category not allowed") client.close();
+            if (connectClient) client.close();
+            const err = error as Error;
             res.status(400).json({message: err.message});
         }
     }

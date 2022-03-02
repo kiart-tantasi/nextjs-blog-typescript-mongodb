@@ -5,7 +5,7 @@ import AdminNav from './AdminNav';
 import ArticleCardUI from '../UI/ArticleCardUI';
 import { Article } from '../../interfaces/article';
 
-export default function ArticleDetail(props: Article) {
+export default function ArticlePage(props: Article) {
     const AuthCtx = useContext(AuthContext);
     const { isAdmin } = AuthCtx;
 
