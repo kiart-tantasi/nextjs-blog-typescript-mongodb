@@ -2,10 +2,9 @@
 import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
 import Link from "next/link";
-import styles from "./ArticleCard.module.css"
+import styles from "./ArticleCardUI.module.css"
 
-
-const ArticleCard = (props:{title:string; desc:string; img:string; alt: string; date:number; views:number | undefined; markdown:string}) => {
+const ArticleCardUI = (props:{title:string; desc:string; img:string; alt: string; date:number; views:number | undefined; markdown:string}) => {
     return (
         <article className={styles["article-author-container"]}>
                 <Card className={styles.article}>
@@ -32,4 +31,4 @@ const ArticleCard = (props:{title:string; desc:string; img:string; alt: string; 
     )
 }
 
-export default ArticleCard;
+export default ArticleCardUI;

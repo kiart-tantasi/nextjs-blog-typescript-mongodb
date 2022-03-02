@@ -2,7 +2,7 @@ import Head from 'next/head';
 import { useContext, useEffect } from 'react';
 import AuthContext from '../../context/auth-context';
 import AdminNav from './AdminNav';
-import ArticleCard from '../UI/ArticleCard';
+import ArticleCardUI from '../UI/ArticleCardUI';
 import { Article } from '../../interfaces/article';
 
 export default function ArticleDetail(props: Article) {
@@ -32,7 +32,7 @@ export default function ArticleDetail(props: Article) {
             <meta name='description'content={props.desc} />
         </Head>
         {isAdmin && <AdminNav {...props} />}
-        <ArticleCard title={props.title} desc={props.desc} img={props.img} alt={props.alt} date={props.date} views={props.views} markdown={props.markdown} />
+        <ArticleCardUI title={props.title} desc={props.desc} img={props.img} alt={props.alt} date={props.date} views={props.views} markdown={props.markdown} />
         </>
     )
 }

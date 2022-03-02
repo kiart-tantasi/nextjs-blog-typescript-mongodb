@@ -1,48 +1,44 @@
 import { useRouter } from "next/router";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import slugify from "slugify";
 import { Lexer, Parser } from "marked";
-import { allowedCategories } from "../../utils/sharedData";
-import ArticleCard from "../UI/ArticleCard";
-import { Button } from "@mui/material";
+import Button from '@mui/material/Button';
 import styles from "./Form.module.css";
-import { ArticleTypes } from "../../interfaces/article";
+import { PreviewDataInterface } from "../../interfaces/article";
+import Preview from "./Preview";
 
 const NewArticleForm = () => {
-    // FORM
     const router = useRouter();
+    // FORM
     const titleRef = useRef<HTMLInputElement>(null);
-    const slugRef = useRef<HTMLInputElement>(null);
     const imgRef = useRef<HTMLInputElement>(null);
     const altRef = useRef<HTMLInputElement>(null);
     const descRef = useRef<HTMLInputElement>(null);
     const textAreaRef = useRef<HTMLTextAreaElement>(null);
-    const [ categoryValue, setCategoryValue ] = useState<ArticleTypes>("");
-    const [ textareHeight, setTextareaHeight ] = useState(500);
+    // EXPAND TEXTAREA
+    const [ isExpanded, setIsExpanded ] = useState(false);
     // PREVIEW
     const [ preview, setPreview ] = useState(false);
-    const [ parsedMarkdown, setParsedMarkdown ] = useState("");
+    const [ previewData, setPreviewData ] = useState<PreviewDataInterface>({} as PreviewDataInterface);
 
-    const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        const newValue = e.target.value as ArticleTypes;
-        setCategoryValue(newValue);
+    const handleToggleExpandTextarea = () => {
+        setIsExpanded(prev => !prev);
     }
 
-    const expandTextarea = () => {
-        setTextareaHeight(800);
-    }
-
-    const handleTurnonPreview = () => {
+    const handlePreview = () => {
         const lexed = Lexer.lex(textAreaRef.current?.value || "ไม่มี markdown");
         const parsed = Parser.parse(lexed);
-        setParsedMarkdown(parsed);
-        setPreview(true);
-    }
-
-    const handleRefreshPreview = () => {
-        const lexed = Lexer.lex(textAreaRef.current?.value || "ไม่มี markdown");
-        const parsed = Parser.parse(lexed);
-        setParsedMarkdown(parsed);
+        const dataToSet: PreviewDataInterface = {
+            title: titleRef.current?.value || "ไม่มีหัวข้อ" ,
+            img: imgRef.current?.value || "ไม่มี url รูปภาพ",
+            alt: altRef.current?.value || "ไม่มี alt รูปภาพ",
+            desc: descRef.current?.value || "ไม่มีคำอธิบายบทความ",
+            markdown: parsed,
+            date: Date.now(),
+            views: 100
+        }
+        setPreviewData(dataToSet)
+        if (preview === false) setPreview(true);
     }
 
     const handleSubmitForm = async(e: React.FormEvent) => {
@@ -52,14 +48,9 @@ const NewArticleForm = () => {
         const alt = altRef.current!.value;
         const desc = descRef.current!.value;
         const markdown = textAreaRef.current!.value;
-        const category = categoryValue;
-        const slug = slugify(slugRef.current!.value);
-        if (!title.length || !img.length || !alt.length || !desc.length || !markdown.length || !slug.length || category === "") {
+        const slug = slugify("workspace" + new Date().toLocaleString() + "randomNum:" + Math.floor(Math.random() * 100));
+        if (!title.length || !img.length || !alt.length || !desc.length || !markdown.length || !slug.length) {
             alert("ข้อมูลไม่ครบถ้วน หรือ slug ไม่ใช่ภาษาอังกฤษ");
-            return;
-        }
-        if (!allowedCategories.includes(category)) {
-            alert("หมวดหมู่ไม่ถูกต้อง");
             return;
         }
         const sendingData = {
@@ -68,7 +59,7 @@ const NewArticleForm = () => {
             alt: alt,
             desc: desc,
             markdown: markdown,
-            category: category,
+            category: "workspace",
             slug: slug
         }
         const response = await fetch("/api/new-article", {
@@ -85,7 +76,6 @@ const NewArticleForm = () => {
         } else {
             alert("เพิ่มบทความสำเร็จ");
             titleRef.current!.value = "";
-            slugRef.current!.value = "";
             imgRef.current!.value = "";
             altRef.current!.value = "";
             descRef.current!.value = "";
@@ -104,10 +94,6 @@ const NewArticleForm = () => {
                 <div>
                     <label>หัวข้อ</label>
                     <input type="text" ref={titleRef} />
-                    
-                    <label>slug (ภาษาอังกฤษ)</label>
-                    <input className={styles["secondary-input"]} type="text" ref={slugRef} />
-
                 </div>
                 <div> 
                     <label>url รูปภาพ</label>
@@ -120,42 +106,18 @@ const NewArticleForm = () => {
                     <input className={styles.desc} type="text" ref={descRef} />
                 </div>
                 <div>
-                    <button type="button" className={styles["expand-button"]} onClick={expandTextarea}>ขยาย Textarea</button>
+                    <button type="button" className={styles["expand-button"]} onClick={handleToggleExpandTextarea}>{isExpanded? "ย่อ Textarea": "ขยาย Textarea"}</button>
                     <br/>
                     <h3>เนื้อหาบทความ</h3>
-                    <textarea ref={textAreaRef} style={{height: textareHeight.toString() + "px"}} />
-                </div>
-                <div>
-                    <label htmlFor="category">หมวดหมู่</label>
-                    <select name="category" onChange={handleSelectChange}>
-                        <option value="">เลือก</option>
-                        <option value="tech">เทค</option>
-                        <option value="gaming">เกมมิ่ง</option>
-                        <option value="workoutandhealth">ออกกำลังกายและสุขภาพ</option>
-                        <option value="others">อื่น ๆ </option>
-                        <option value="workspace">workspace</option>
-                    </select>
+                    <textarea ref={textAreaRef} style={{height: isExpanded? "900px": "500px", width: isExpanded? "1000px": "800px"}} />
                 </div>
                 <div className={styles["two-buttons"]}>
-                    <button type="submit" className={styles["submit-button"]}>เพิ่มบทความใหม่</button>
-                    {!preview && <button type="button" className={styles["preview-button"]} onClick={handleTurnonPreview}>ดูตัวอย่าง</button>}
-                    {preview && <button type="button" className={styles["preview-button"]} onClick={handleRefreshPreview}>รีเฟรช</button>}
+                    <button type="submit" className={styles["submit-button"]}>เพิ่มบทความใหม่ไปยัง WORKSPACE</button>
+                    <button type="button" className={styles["preview-button"]} onClick={handlePreview}>{preview? "รีเฟรช": "ดูตัวอย่าง"}</button>
                 </div>
             </form>
         </div>
-        {preview &&
-        <>
-        <hr />
-        <ArticleCard
-        title={titleRef.current?.value || "ไม่มีหัวข้อ"}
-        img={imgRef.current?.value || "ไม่มีรูปภาพ"}
-        alt={altRef.current?.value || "ไม่มี alternatives"}
-        desc={descRef.current?.value || "ไม่มีคำอธิบายบทความ"}
-        markdown={parsedMarkdown || "ไม่มี markdown"}
-        date={Date.now()}
-        views={123}
-        />
-        </>}
+        {preview && <Preview previewData={previewData} category={"workspace"} slug={"no-sample-here"} />}
         </>
     )
 }

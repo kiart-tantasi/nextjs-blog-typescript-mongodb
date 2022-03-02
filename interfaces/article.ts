@@ -51,3 +51,13 @@ export type ArticleForm = {
     handleRequest: (article: FormData) => Promise<boolean>;
     article?: Article;
 }
+
+export type PreviewDataInterface = {
+    title:string; 
+    desc:string; 
+    img:string; 
+    alt: string; 
+    date:number; 
+    views:number | undefined; 
+    markdown:string
+};
