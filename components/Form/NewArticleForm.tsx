@@ -4,7 +4,7 @@ import slugify from "slugify";
 import { Lexer, Parser } from "marked";
 import Button from '@mui/material/Button';
 import styles from "./Form.module.css";
-import { PreviewDataInterface } from "../../interfaces/article";
+import { PreviewData } from "../../interfaces/article";
 import Preview from "./Preview";
 
 const NewArticleForm = () => {
@@ -19,16 +19,17 @@ const NewArticleForm = () => {
     const [ isExpanded, setIsExpanded ] = useState(false);
     // PREVIEW
     const [ preview, setPreview ] = useState(false);
-    const [ previewData, setPreviewData ] = useState<PreviewDataInterface>({} as PreviewDataInterface);
+    const [ previewData, setPreviewData ] = useState<PreviewData>({} as PreviewData);
 
     const handleToggleExpandTextarea = () => {
         setIsExpanded(prev => !prev);
     }
 
     const handlePreview = () => {
+        // const value = textAreaRef.current?.value || "ไม่มี markdown";
         const lexed = Lexer.lex(textAreaRef.current?.value || "ไม่มี markdown");
         const parsed = Parser.parse(lexed);
-        const dataToSet: PreviewDataInterface = {
+        const dataToSet: PreviewData = {
             title: titleRef.current?.value || "ไม่มีหัวข้อ" ,
             img: imgRef.current?.value || "ไม่มี url รูปภาพ",
             alt: altRef.current?.value || "ไม่มี alt รูปภาพ",

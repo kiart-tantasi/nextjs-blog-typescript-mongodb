@@ -10,10 +10,9 @@ export default isAuthenticated(async function handler(req: NextApiRequest, res: 
         let connectClient = false;
         try {
             // DATA PREPARATION
-            const { title, desc, markdown, img, alt, category, slug, workspaceSlug } = req.body;
-            if (!title || !desc || !markdown || !img || !alt || !category || !slug || !workspaceSlug) throw new Error("some information is missing.");
-            if (!allowedCategories.includes(category)) throw new Error("category not allowed");
-            if (category === "workspace") throw new Error("cannot post from workspace to workspace");
+            const { category, slug, workspaceSlug } = req.body;
+            if (!category || !slug || !workspaceSlug) throw new Error("some information is missing.");
+            if (!allowedCategories.includes(category) || category === "workspace") throw new Error("category not allowed");
 
             // CONNECT DB
             await client.connect();
@@ -27,23 +26,38 @@ export default isAuthenticated(async function handler(req: NextApiRequest, res: 
             const findDuplicateFromMainCategory = await main.findOne({slug:slug});
             if (findDuplicateFromCategory !== null || findDuplicateFromMainCategory !== null) throw new Error("slug is already used.");            
 
+            // FIND FROM WORKSPACE
+            const workspace = db.collection("workspace");
+            const articleFromWorkspace = await workspace.findOne({slug: workspaceSlug});
+
+            // PREPARE DATA
+            const dataToInsert = {
+                title: articleFromWorkspace!.title,
+                desc: articleFromWorkspace!.desc, 
+                markdown: articleFromWorkspace!.markdown, 
+                img: articleFromWorkspace!.img,
+                alt: articleFromWorkspace!.alt,
+                date: Date.now(),
+                category: category,
+                slug: slug,
+                views: 1,
+                record: articleFromWorkspace?.record || []
+            }
+
             // INSERT TO CHOSEN CATEGORY AND MAIN CATEGORY
-            const dataToInsert = { title, desc, markdown, img, alt, date: Date.now(), category, slug, views: 1 };
             const categoryInsertResult = await collection.insertOne(dataToInsert);
             const mainCategoryInsertResult = await main.insertOne(dataToInsert);
 
-            // DELETE FROM WORKSPACE
-            const workspace = db.collection("workspace");
-            await workspace.findOneAndDelete({slug: workspaceSlug});
-            
+            // DELETE IN WORKSPACE
+            await workspace.deleteOne({slug: workspaceSlug});
+
             // CLOSE DB AND RESPONSE
             client.close();
             res.status(200).json({message:categoryInsertResult, message2: mainCategoryInsertResult});
         } catch (error) {
-            const err = error as Error;
-            
             // CLOSE DB BEFORE RESPONSE 400 IN SOME CASES
             if (connectClient) client.close();
+            const err = error as Error;
             res.status(400).json({message: err.message});
         }
     }

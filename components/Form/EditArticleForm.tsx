@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { Lexer, Parser } from "marked";
 import Button from '@mui/material/Button';
 import styles from "./Form.module.css";
-import { Article, PreviewDataInterface } from "../../interfaces/article";
+import { Article, PreviewData } from "../../interfaces/article";
 import Preview from "./Preview";
 
 const EditArticleForm = (props: {article: Article}) => {
@@ -18,7 +18,7 @@ const EditArticleForm = (props: {article: Article}) => {
     const [ isExpanded, setIsExpanded ] = useState(false);
     // PREVIEW
     const [ preview, setPreview ] = useState(false);
-    const [ previewData, setPreviewData ] = useState<PreviewDataInterface>({} as PreviewDataInterface);
+    const [ previewData, setPreviewData ] = useState<PreviewData>({} as PreviewData);
 
     useEffect(() => {
         if (!props.article) return;
@@ -35,9 +35,10 @@ const EditArticleForm = (props: {article: Article}) => {
     }
 
     const handlePreview = () => {
+        // const value = textAreaRef.current?.value || "ไม่มี markdown";
         const lexed = Lexer.lex(textAreaRef.current?.value || "ไม่มี markdown");
         const parsed = Parser.parse(lexed);
-        const dataToSet: PreviewDataInterface = {
+        const dataToSet: PreviewData = {
             title: titleRef.current?.value || "ไม่มีหัวข้อ" ,
             img: imgRef.current?.value || "ไม่มี url รูปภาพ",
             alt: altRef.current?.value || "ไม่มี alt รูปภาพ",

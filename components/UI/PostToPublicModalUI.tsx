@@ -6,13 +6,8 @@ import slugify from "slugify";
 import styles from "./PostToPublicModalUI.module.css";
 
 const PostToPublicModalUI = (props:{article: Article; onClose: () => void; replaceWithHome: () => void;}) => {
-    const [ categoryValue, setCategoryValue ] = useState<ArticleTypes>("");
+    const selectRef = useRef<HTMLSelectElement>(null)
     const slugRef = useRef<HTMLInputElement>(null);
-
-    const handleSelectChange = (e: ChangeEvent<HTMLSelectElement>) => {
-        const selectValue = e.target.value as ArticleTypes;
-        setCategoryValue(selectValue);
-    }
 
     const handlePostToPublic = async() => {
         const slugValue = slugRef.current!.value;
@@ -21,22 +16,16 @@ const PostToPublicModalUI = (props:{article: Article; onClose: () => void; repla
             alert("slug ไม่ถูกต้อง");
             return;
         }
-        if (!allowedCategories.includes(categoryValue) || categoryValue === "workspace") {
+        const category = selectRef.current!.value;
+        if (!allowedCategories.includes(category) || category === "workspace") {
             alert("หมวดหมู่ไม่ถูกต้อง");
             return;
         }
-        const sendingArticle: Article = {
-            title: props.article.title,
-            desc: props.article.desc,
-            markdown: props.article.markdown,
-            img: props.article.img,
-            alt: props.article.alt,
-            date: Date.now(),
-            category: categoryValue,
+        const sendingData = {
+            category: category,
             slug: slugRef.current!.value,
+            workspaceSlug: props.article.slug
         }
-        const workspaceSlug = props.article.slug;
-        const sendingData = {...sendingArticle, workspaceSlug: workspaceSlug};
         const response = await fetch("/api/workspace-to-public", {
             method: "POST",
             headers: {"Content-Type":"application/json"},
@@ -61,7 +50,7 @@ const PostToPublicModalUI = (props:{article: Article; onClose: () => void; repla
                 <label>slug</label>
                 <input type="text" ref={slugRef} />
                 <label>หมวดหมู่</label>
-                <select name="category" onChange={handleSelectChange}>
+                <select name="category" ref={selectRef}>
                     <option value="">เลือก</option>
                     <option value="tech">เทค</option>
                     <option value="gaming">เกมมิ่ง</option>

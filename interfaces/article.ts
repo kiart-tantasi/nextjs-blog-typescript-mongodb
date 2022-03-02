@@ -10,8 +10,8 @@ export type Article = {
     category: ArticleTypes;
     slug: string;
     views?: number;
+    record?: Article[]
 }
-//category slug img alt title desc date
 
 export type ArticleCard = {
     _id: string;
@@ -52,7 +52,7 @@ export type ArticleForm = {
     article?: Article;
 }
 
-export type PreviewDataInterface = {
+export type PreviewData = {
     title:string; 
     desc:string; 
     img:string; 

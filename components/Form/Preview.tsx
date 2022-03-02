@@ -1,8 +1,8 @@
-import { ArticleTypes, PreviewDataInterface } from "../../interfaces/article";
+import { ArticleTypes, PreviewData } from "../../interfaces/article";
 import ArticleCardUI from "../UI/ArticleCardUI";
 import CardUI from "../UI/CardUI";
 
-const Preview = (props:{previewData:PreviewDataInterface; category: ArticleTypes; slug: string}) => {
+const Preview = (props:{previewData: PreviewData; category: ArticleTypes; slug: string}) => {
 
     return (
         <>
