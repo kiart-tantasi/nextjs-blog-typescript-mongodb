@@ -26,18 +26,23 @@ const EditArticleForm = (props: {article: Article}) => {
         altRef.current!.value = article!.alt;
         descRef.current!.value = article!.desc;
         textAreaRef.current!.value = article!.markdown;
-        handleTogglePreview();
     }, [props.article]);
 
     const expandTextarea = () => {
         setTextareaHeight(800);
     }
 
-    const handleTogglePreview = () => {
+    const handleTurnOnPreview = () => {
         const lexed = Lexer.lex(textAreaRef.current?.value || "ไม่มี markdown");
         const parsed = Parser.parse(lexed);
         setParsedMarkdown(parsed);
-        setPreview(prev => !prev);
+        setPreview(true);
+    }
+
+    const handleRefreshPreview = () => {
+        const lexed = Lexer.lex(textAreaRef.current?.value || "ไม่มี markdown");
+        const parsed = Parser.parse(lexed);
+        setParsedMarkdown(parsed);
     }
 
     const handleSubmitForm = async(e: React.FormEvent) => {
@@ -112,8 +117,9 @@ const EditArticleForm = (props: {article: Article}) => {
                     <textarea ref={textAreaRef} style={{height: textareHeight.toString() + "px"}} />
                 </div>
                 <div className={styles["two-buttons"]}>
-                    <button type="submit" className={styles["submit-button"]}>เพิ่มบทความใหม่</button>
-                    <button type="button" className={styles["preview-button"]} onClick={handleTogglePreview}>เปิด/ปิดตัวอย่าง</button>
+                    <button type="submit" className={styles["submit-button"]}>แก้ไขบทความ</button>
+                    {!preview && <button type="button" className={styles["preview-button"]} onClick={handleTurnOnPreview}>ดูตัวอย่าง</button>}
+                    {preview && <button type="button" className={styles["preview-button"]} onClick={handleRefreshPreview}>รีเฟรช</button>}
                 </div>
             </form>
         </div>

@@ -1,7 +1,6 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import Articles from '../components/ฺBlog/Articles';
-import { websiteName } from '../utils/sharedData';
 import { ArticleCard } from '../interfaces/article';
 
 const WorkoutAndHealth:NextPage<{articles:ArticleCard[]}> = (props) => {

@@ -23,7 +23,7 @@ export default function ArticleDetail(props: Article) {
         setTimeout(() => {
             increaseView();
         }, 2000);
-    }, [props]);
+    }, [props, isAdmin]);
 
     return (
         <>

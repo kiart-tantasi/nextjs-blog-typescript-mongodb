@@ -32,11 +32,17 @@ const NewArticleForm = () => {
         setTextareaHeight(800);
     }
 
-    const handleTogglePreview = () => {
+    const handleTurnonPreview = () => {
         const lexed = Lexer.lex(textAreaRef.current?.value || "ไม่มี markdown");
         const parsed = Parser.parse(lexed);
         setParsedMarkdown(parsed);
-        setPreview(prev => !prev);
+        setPreview(true);
+    }
+
+    const handleRefreshPreview = () => {
+        const lexed = Lexer.lex(textAreaRef.current?.value || "ไม่มี markdown");
+        const parsed = Parser.parse(lexed);
+        setParsedMarkdown(parsed);
     }
 
     const handleSubmitForm = async(e: React.FormEvent) => {
@@ -132,7 +138,8 @@ const NewArticleForm = () => {
                 </div>
                 <div className={styles["two-buttons"]}>
                     <button type="submit" className={styles["submit-button"]}>เพิ่มบทความใหม่</button>
-                    <button type="button" className={styles["preview-button"]} onClick={handleTogglePreview}>เปิด/ปิดตัวอย่าง</button>
+                    {!preview && <button type="button" className={styles["preview-button"]} onClick={handleTurnonPreview}>ดูตัวอย่าง</button>}
+                    {preview && <button type="button" className={styles["preview-button"]} onClick={handleRefreshPreview}>รีเฟรช</button>}
                 </div>
             </form>
         </div>
