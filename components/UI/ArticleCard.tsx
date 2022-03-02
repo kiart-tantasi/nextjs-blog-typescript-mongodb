@@ -2,10 +2,8 @@
 import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
 import Link from "next/link";
-
 import styles from "./ArticleCard.module.css"
 
-import { Article } from "../../interfaces/article";
 
 const ArticleCard = (props:{title:string; desc:string; img:string; alt: string; date:number; views:number | undefined; markdown:string}) => {
     return (
@@ -21,9 +19,6 @@ const ArticleCard = (props:{title:string; desc:string; img:string; alt: string; 
                         alt={props.alt}
                         />
                         <p className={styles["date-views"]}>{new Date(props.date).toLocaleString("th-TH", {day:"numeric", month:"long", year:"numeric"})}</p>
-                        {props.views && 
-                        <p className={styles["date-views"]}>เข้าชม {props.views} ครั้ง</p>
-                        }
                         <hr />
                         <div className={styles["padding-bottom"]} dangerouslySetInnerHTML={{ __html: props.markdown }} />
                     </section>
