@@ -1,3 +1,22 @@
+
+2 things to config in your .env.local file at root directory (for dev) or Environment Variables on your hosting website (for production)
+
+*if you don't have .env.local file, create one at root directory. ("/my-project/.env.local")
+
+
+1. DB_URL= your mongodb url
+
+2. PRIVATE_KEY= your private key for jwt's signing and verifying
+
+
+For example (for dev) in .env.local file
+
+DB_URL=mongodb://localhost:27017
+
+PRIVATE_KEY=THIS_IS_MY_PRIVATE_KEY_DONT_TELL_ANYBODY_123456#$%^&
+
+==========================================================================
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
