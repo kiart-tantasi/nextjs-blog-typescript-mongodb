@@ -13,23 +13,11 @@ const Article: NextPage<{article: Article}> = (props) => {
 
 export default Article;
 //--------------------------------//
-import { GetServerSidePropsContext, NextApiResponse } from "next";
-import { tokenValidation } from "../../lib/jwt-token-validation";
-import { removeTokenCookie } from "../../lib/auth-cookie";
+import { GetServerSidePropsContext } from "next";
 import { MongoClient } from "mongodb";
 import { Lexer, Parser } from "marked";
 
 export const getServerSideProps = async(context: GetServerSidePropsContext) => {
-
-    // CHECK TOKEN - IF INVALID, RETURN NULL AND REMOVE TOKEN IN COOKIE
-    const token = context.req.cookies.token;
-    let result = tokenValidation(token);
-    if (result === false) {
-        const response = context.res as NextApiResponse;
-        removeTokenCookie(response);
-        return {props: {}}
-    }
-
     // CONNECT DB AND COLLECTION
     const dbUrl = process.env.DB_URL as string;
     const client = new MongoClient(dbUrl);

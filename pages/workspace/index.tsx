@@ -17,7 +17,6 @@ import { removeTokenCookie } from '../../lib/auth-cookie';
 import { tokenValidation } from '../../lib/jwt-token-validation';
 
 export const getServerSideProps = async(context: GetServerSidePropsContext) => {
-
   // CHECK TOKEN - IF INVALID, RETURN NULL AND REMOVE TOKEN IN COOKIE
   const token = context.req.cookies.token;
   let result = tokenValidation(token);

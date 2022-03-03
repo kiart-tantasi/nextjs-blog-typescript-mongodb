@@ -1,32 +1,17 @@
 import type { NextPage } from 'next';
+import BinPage from '../../components/Admin/BinPage';
 import { ArticleCard } from '../../interfaces/article';
 
 const WorkSpace: NextPage<{articles: ArticleCard[]}> = (props) => {
   const articles = props.articles;
-
-  if (!articles) return <div></div>
   return <BinPage articles={articles} />
 }
 
 export default WorkSpace;
 // ------------------------------------------------------- //
-import { GetServerSidePropsContext, NextApiResponse } from 'next';
 import { MongoClient } from 'mongodb';
-import { removeTokenCookie } from '../../lib/auth-cookie';
-import { tokenValidation } from '../../lib/jwt-token-validation';
-import BinPage from '../../components/Admin/BinPage';
 
-export const getServerSideProps = async(context: GetServerSidePropsContext) => {
-
-  // CHECK TOKEN - IF INVALID, RETURN NULL AND REMOVE TOKEN IN COOKIE
-  const token = context.req.cookies.token;
-  let result = tokenValidation(token);
-  if (result === false) {
-    const response = context.res as NextApiResponse;
-    removeTokenCookie(response);
-    return {props: {}}
-  }
-
+export const getServerSideProps = async() => {
   // CONNECT DB AND WORKSPACE COLLECTION
   const dbUrl = process.env.DB_URL as string;
   const client = new MongoClient(dbUrl);
