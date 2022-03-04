@@ -10,7 +10,6 @@ const ArticleCardUI = (props:{title:string; desc:string; img:string; alt: string
                 <Card className={styles.article}>
                     <section>
                         <h1 className={styles.title}>{props.title}</h1>
-                        <h2 className={styles.desc}>{props.desc}</h2>
                         <CardMedia 
                         sx={{maxHeight:"700px"}}
                         component="img"
