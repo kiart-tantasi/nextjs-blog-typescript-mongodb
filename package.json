@@ -13,7 +13,6 @@
     "@mui/material": "^5.4.2",
     "bcryptjs": "^2.4.3",
     "cookie": "^0.4.2",
-    "dompurify": "^2.3.5",
     "jsonwebtoken": "^8.5.1",
     "marked": "^4.0.12",
     "mongodb": "^4.3.1",

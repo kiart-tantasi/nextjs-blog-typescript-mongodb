@@ -45,9 +45,8 @@ const MainNav = () => {
           <nav className={styles["main-nav"]}>
             <ul>
               <li><Link href="/tech"><a className={router.pathname == "/tech" ? styles.active : ""}><p>เทค</p></a></Link></li>
-              <li><Link href="/gaming"><a className={router.pathname == "/gaming" ? styles.active : ""}><p>เกมมิ่ง</p></a></Link></li>
-              <li><Link href="/workoutandhealth"><a className={router.pathname == "/workoutandhealth" ? styles.active : ""}><p>ออกกำลังกายและสุขภาพ</p></a></Link></li>
-              <span className={styles.others}><li><Link href="/others"><a className={router.pathname == "/others" ? styles.active : ""}><p>อื่น ๆ </p></a></Link></li></span>
+              <li><Link href="/HowIBuildThisWebsite"><a className={router.pathname == "/HowIBuildThisWebsite" ? styles.active : ""}><p>How I Build This Website</p></a></Link></li>
+              <span className={styles.others}><li><Link href="/others"><a className={router.pathname == "/others" ? styles.active : ""}><p>บทความอื่น ๆ </p></a></Link></li></span>
             </ul>
           </nav>
         </div>

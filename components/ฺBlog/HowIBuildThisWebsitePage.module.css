@@ -1,0 +1,83 @@
+.container {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    text-align: center;
+    padding-bottom: 30px;
+}
+
+.container li {
+    margin: 50px 0;
+    list-style: none;
+}
+
+.container li:first-child {
+    margin: 70px 0 50px;
+}
+
+.container img {
+    border-radius: 3px;
+}
+
+.container a {
+    text-decoration: none;
+    color: inherit;
+    font-size: 3rem;
+    letter-spacing: 2px;
+}
+
+.normal-text-li {
+    margin: 100px 0 !important;
+}
+
+/* ----- LOGO ----- */
+.container img {
+    max-height: 150px;
+}
+
+.nextjs {
+    max-height: 300px !important;
+}
+
+.mongodb {
+    height: 120px !important;
+}
+
+.marked {
+    max-height: 250px !important;
+}
+
+.slugify {
+    color: rgb(219, 73, 219) !important;
+}
+
+.cookie {
+    color: brown !important;
+}
+
+.bcryptjs {
+    color: rgba(255, 0, 0, 0.849) !important;
+}
+
+.slugify, .cookie, .bcryptjs {
+    font-family: fantasy;
+    letter-spacing: 5px !important;
+}
+
+/* MEDIA QUERY */
+@media (max-width: 650px) {
+    .container img  {
+        max-width: 90%;
+    }
+}
+
+/* HOVER */
+@media (min-width: 1024px) {
+    .container li img:hover  {
+        transform: scale(1.2);
+        transition: transform 0.3s;
+    }  
+
+    .container a:hover {
+        font-size: 4rem;
+        transition: font-size 0.3s;
+    }
+}
