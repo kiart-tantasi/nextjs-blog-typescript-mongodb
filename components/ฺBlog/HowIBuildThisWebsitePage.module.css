@@ -37,6 +37,14 @@
     max-height: 300px !important;
 }
 
+.nodejs {
+    max-height: 200px !important;
+}
+
+.nodejs-li {
+    margin-bottom: 80px !important;
+}
+
 .mongodb {
     height: 120px !important;
 }
