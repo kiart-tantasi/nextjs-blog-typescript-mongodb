@@ -13,15 +13,6 @@ const HowIBuildThisWebsitePage = () => {
             <img className={styles.nextjs} src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Nextjs-logo.svg/2560px-Nextjs-logo.svg.png" alt="Nextjs" />
           </a>
         </li>
-        <li className={styles["nodejs-li"]}>
-          <a
-            href="https://nodejs.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <img className={styles.nodejs} src="https://nodejs.org/static/images/logos/nodejs-new-pantone-black.svg" alt="Nodejs" />
-          </a>
-        </li>
         <li>
           <a
             href="https://www.typescriptlang.org/"
@@ -29,6 +20,15 @@ const HowIBuildThisWebsitePage = () => {
             rel="noopener noreferrer"
           >
             <img src="https://cdn.worldvectorlogo.com/logos/typescript-2.svg" alt="TypeScript" />
+          </a>
+        </li>
+        <li className={styles["nodejs-li"]}>
+          <a
+            href="https://nodejs.org/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <img className={styles.nodejs} src="https://nodejs.org/static/images/logos/nodejs-new-pantone-black.svg" alt="Nodejs" />
           </a>
         </li>
         <li>
