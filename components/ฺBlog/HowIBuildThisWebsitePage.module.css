@@ -80,12 +80,12 @@
 /* HOVER */
 @media (min-width: 1024px) {
     .container li img:hover  {
-        transform: scale(1.2);
-        transition: transform 0.3s;
-    }  
+        transform: scale(1.35);
+        transition: transform 0.5s;
+    } 
 
-    .container a:hover {
-        font-size: 4rem;
-        transition: font-size 0.3s;
+    .container .normal-text-li a:hover {
+        font-size: 5rem;
+        transition: font-size 0.5s; 
     }
 }
