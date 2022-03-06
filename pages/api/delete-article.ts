@@ -9,12 +9,10 @@ export default isAuthenticated(async function handler (req: NextApiRequest, res:
         // CHECK DATA AND CATEGORY
         const {slug, category} = req.body;
         if ( !slug || !category) {
-            res.status(400).json({message:"some information is missing."});
-            return;
+            return res.status(400).json({message:"some information is missing."});
         }
         if (!allowedCategories.includes(category)) {
-            res.status(400).json({message:"wrong category"});
-            return; 
+            return res.status(400).json({message:"wrong category"});
         }
 
         const dbUrl = process.env.DB_URL as string;

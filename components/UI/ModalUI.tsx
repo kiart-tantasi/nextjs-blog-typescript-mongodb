@@ -7,8 +7,7 @@ const ModalUI = (props:{text: string; onConfirm: () => void; onClose: () => void
 
     const handleConfirm = () => {
         if (props.delete?.delete && props.delete?.slug !== slugInputRef.current?.value) {
-            alert("slug ไม่ถูกต้อง");
-            return;
+            return alert("slug ไม่ถูกต้อง");
         }
         props.onConfirm();
     }

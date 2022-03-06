@@ -61,9 +61,9 @@ const EditArticleForm = (props: {article: Article}) => {
         const category = props.article.category;
         const slug = props.article.slug;
         if (!title.length || !img.length || !alt.length || !desc.length || !markdown.length || !category.length || !slug.length) {
-            alert("ข้อมูลไม่ครบถ้วน");
-            return;
+            return alert("ข้อมูลไม่ครบถ้วน");
         }
+
         const sendingData = {
             title: title,
             img: img,
@@ -78,18 +78,13 @@ const EditArticleForm = (props: {article: Article}) => {
             headers: {"Content-Type" : "application/json"},
             body: JSON.stringify(sendingData)
         });
-        if (response.status === 401) {
-            alert("session admin หมดอายุ");
-            return;
-        } else if (!response.ok) {
-            alert("แก้ไขบทความล้มเหลว !");
-            return;
-        } else {
-            if (props.article?.category !== "workspace") alert("แก้ไขบทความสำเร็จ - แอปพลิเคชั่นจะใช้เวลาประมาณ 10 วินาทีเพื่อ render หน้าบทความใหม่");
-            else if (props.article.category === "workspace") alert("แก้ไขบทความสำเร็จ (workspace)");
-            const linkToPushTo = (props.article!.category === "workspace")? ("/workspace/" + props.article!.slug): ("/article/" + props.article!.slug);
-            router.push(linkToPushTo);
-        }
+        
+        if (response.status === 401) return alert("session admin หมดอายุ"); 
+        if (!response.ok) return alert("แก้ไขบทความล้มเหลว !");
+
+        alert((props.article.category === "workspace")? "แก้ไขบทความสำเร็จ (workspace)": "แก้ไขบทความสำเร็จ - แอปพลิเคชั่นจะใช้เวลาประมาณ 10 วินาทีเพื่อ render หน้าบทความใหม่");
+        const linkToPushTo = (props.article!.category === "workspace")? ("/workspace/" + props.article!.slug): ("/article/" + props.article!.slug);
+        router.push(linkToPushTo);
     }
 
     return (

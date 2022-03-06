@@ -5,8 +5,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     // ALWAYS RETURN STATUS 200 TO NOT AFFECT USER EXPERIENCE
     const { slug, category } = req.body;
     if (!slug || !category) {
-        res.status(200).json({message:"no slug or category found"});
-        return;
+        return res.status(200).json({message:"no slug or category found"});
     }
     const dbUrl = process.env.DB_URL as string;
     const client = new MongoClient(dbUrl);

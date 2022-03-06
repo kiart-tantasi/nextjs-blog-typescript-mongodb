@@ -5,8 +5,7 @@ import isAuthenticated from '../../lib/jwt-token-validation';
 
 export default isAuthenticated(async function handler(req: NextApiRequest, res: NextApiResponse) {
     if (req.method === "POST") {
-        res.status(500).json({message:"admin registration is not available now."});
-        return;
+        return res.status(500).json({message:"admin registration is not available now."});
 
         const dbUrl = process.env.DB_URL as string;
         const client = new MongoClient(dbUrl);

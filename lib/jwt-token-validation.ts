@@ -18,10 +18,7 @@ export const tokenValidation = (token: string) => {
 const isAuthenticated = (fn: NextApiHandler) => async(req: NextApiRequest, res: NextApiResponse) => {
     const token = getTokenCookie(req);
 
-    if (!token) {
-        res.status(400).json({message: "no token found"});
-        return;
-    }
+    if (!token) return res.status(400).json({message: "no token found"});
     const valid = tokenValidation(token);
     if (!valid) {
         res.status(401).json({message: "invalid token"});

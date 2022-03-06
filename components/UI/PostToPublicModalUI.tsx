@@ -13,13 +13,11 @@ const PostToPublicModalUI = (props:{article: Article; onClose: () => void; repla
         const slugValue = slugRef.current!.value;
         const slug = slugify(slugValue);
         if (!slug.length) {
-            alert("slug ไม่ถูกต้อง");
-            return;
+            return alert("slug ไม่ถูกต้อง");
         }
         const category = selectRef.current!.value;
         if (!allowedCategories.includes(category) || category === "workspace") {
-            alert("หมวดหมู่ไม่ถูกต้อง");
-            return;
+            return alert("หมวดหมู่ไม่ถูกต้อง");
         }
         const sendingData = {
             category: category,

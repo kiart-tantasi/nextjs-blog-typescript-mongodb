@@ -51,8 +51,7 @@ const NewArticleForm = () => {
         const markdown = textAreaRef.current!.value;
         const slug = slugify("workspace" + new Date().toLocaleString() + "randomNum:" + Math.floor(Math.random() * 100));
         if (!title.length || !img.length || !alt.length || !desc.length || !markdown.length || !slug.length) {
-            alert("ข้อมูลไม่ครบถ้วน หรือ slug ไม่ใช่ภาษาอังกฤษ");
-            return;
+            return alert("ข้อมูลไม่ครบถ้วน หรือ slug ไม่ใช่ภาษาอังกฤษ");
         }
         const sendingData = {
             title: title,
@@ -69,11 +68,9 @@ const NewArticleForm = () => {
             body: JSON.stringify(sendingData)
         });
         if (response.status === 401) {
-            alert("session แอดมินหมดอายุ");
-            return;
+            return alert("session แอดมินหมดอายุ");
         } else if (!response.ok) {
-            alert("เพิ่มบทความล้มเหลว !");
-            return;
+            return alert("เพิ่มบทความล้มเหลว !");
         } else {
             alert("เพิ่มบทความสำเร็จ");
             titleRef.current!.value = "";

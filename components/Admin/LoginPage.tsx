@@ -15,10 +15,7 @@ const LoginPage = () => {
         e.preventDefault();
         const username = usernameRef.current!.value;
         const password = passwordRef.current!.value;
-        if (!username.length || !password.length) {
-            alert("โปรดระบุ username และ password ให้ครบถ้วน");
-            return;
-        }
+        if (!username.length || !password.length) return alert("โปรดระบุ username และ password ให้ครบถ้วน");
         const response = await fetch("/api/login-admin", {
             method: "POST",
             headers: {"Content-Type" : "application/json"},
