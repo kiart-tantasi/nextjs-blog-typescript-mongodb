@@ -2,10 +2,11 @@ import { useRouter } from "next/router";
 import React, { useRef, useState } from "react";
 import slugify from "slugify";
 import { Lexer, Parser } from "marked";
+import CardPreview from "./CardPreview";
+import ArticlePreview from "./ArticlePreview";
 import Button from '@mui/material/Button';
 import styles from "./Form.module.css";
 import { PreviewData } from "../../interfaces/article";
-import Preview from "./Preview";
 
 const NewArticleForm = () => {
     const router = useRouter();
@@ -15,18 +16,11 @@ const NewArticleForm = () => {
     const altRef = useRef<HTMLInputElement>(null);
     const descRef = useRef<HTMLInputElement>(null);
     const textAreaRef = useRef<HTMLTextAreaElement>(null);
-    // EXPAND TEXTAREA
-    const [ isExpanded, setIsExpanded ] = useState(false);
     // PREVIEW
     const [ preview, setPreview ] = useState(false);
     const [ previewData, setPreviewData ] = useState<PreviewData>({} as PreviewData);
 
-    const handleToggleExpandTextarea = () => {
-        setIsExpanded(prev => !prev);
-    }
-
     const handlePreview = () => {
-        // const value = textAreaRef.current?.value || "ไม่มี markdown";
         const lexed = Lexer.lex(textAreaRef.current?.value || "ไม่มี markdown");
         const parsed = Parser.parse(lexed);
         const dataToSet: PreviewData = {
@@ -103,19 +97,25 @@ const NewArticleForm = () => {
                     <label>คำอธิบายบทความ</label>
                     <input className={styles.desc} type="text" ref={descRef} />
                 </div>
-                <div>
-                    <button type="button" className={styles["expand-button"]} onClick={handleToggleExpandTextarea}>{isExpanded? "ย่อ Textarea": "ขยาย Textarea"}</button>
-                    <br/>
-                    <h3>เนื้อหาบทความ</h3>
-                    <textarea ref={textAreaRef} style={{height: isExpanded? "900px": "500px", width: isExpanded? "1000px": "800px"}} />
+
+                {/* EDIT AND PREVIEW SECTION */}
+                <button type="button" className={styles["preview-button"]} onClick={handlePreview}>{preview? "รีเฟรช": "ดูตัวอย่าง"}</button>
+                <div className={styles["edit-preview"]}>
+                    <div className={styles.edit}>
+                        <br/>
+                        <h3>เนื้อหาบทความ</h3>
+                        <textarea ref={textAreaRef} />
+                    </div>
+                    {preview && <div className={styles.preview}>
+                        <ArticlePreview previewData={previewData} />
+                    </div>}
                 </div>
-                <div className={styles["two-buttons"]}>
-                    <button type="submit" className={styles["submit-button"]}>เพิ่มบทความใหม่ไปยัง WORKSPACE</button>
-                    <button type="button" className={styles["preview-button"]} onClick={handlePreview}>{preview? "รีเฟรช": "ดูตัวอย่าง"}</button>
-                </div>
+                {/* ----------------------- */}
+
+                <button type="submit" className={styles["submit-button"]}>เพิ่มบทความใหม่ไปยัง WORKSPACE</button>
             </form>
         </div>
-        {preview && <Preview previewData={previewData} category={"workspace"} slug={"no-sample-here"} />}
+        {preview && <CardPreview previewData={previewData} category={"workspace"} slug={"no-sample-here"} />}
         </>
     )
 }
