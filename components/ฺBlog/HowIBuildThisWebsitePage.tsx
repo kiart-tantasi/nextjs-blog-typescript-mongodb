@@ -33,6 +33,18 @@ const HowIBuildThisWebsitePage = () => {
         </li>
         <li>
           <a
+            href="https://reactjs.org/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <img
+              className={styles.react}
+              src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9Ii0xMS41IC0xMC4yMzE3NCAyMyAyMC40NjM0OCI+CiAgPHRpdGxlPlJlYWN0IExvZ288L3RpdGxlPgogIDxjaXJjbGUgY3g9IjAiIGN5PSIwIiByPSIyLjA1IiBmaWxsPSIjNjFkYWZiIi8+CiAgPGcgc3Ryb2tlPSIjNjFkYWZiIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9Im5vbmUiPgogICAgPGVsbGlwc2Ugcng9IjExIiByeT0iNC4yIi8+CiAgICA8ZWxsaXBzZSByeD0iMTEiIHJ5PSI0LjIiIHRyYW5zZm9ybT0icm90YXRlKDYwKSIvPgogICAgPGVsbGlwc2Ugcng9IjExIiByeT0iNC4yIiB0cmFuc2Zvcm09InJvdGF0ZSgxMjApIi8+CiAgPC9nPgo8L3N2Zz4K"
+              alt="react" />
+          </a>
+        </li>
+        <li>
+          <a
             href="https://www.mongodb.com/"
             target="_blank"
             rel="noopener noreferrer"
@@ -51,7 +63,10 @@ const HowIBuildThisWebsitePage = () => {
         </li>
         <li>
           <a href="https://mui.com/" target="_blank" rel="noopener noreferrer">
-            <img src="https://mui.com/static/logo.png" alt="material ui" />
+            <img
+              className={styles.mui}
+              src="https://mui.com/static/logo.png"
+              alt="material ui" />
           </a>
         </li>
         <li>
@@ -91,6 +106,15 @@ const HowIBuildThisWebsitePage = () => {
             className={styles.bcryptjs}
           >
             Bcryptjs
+          </a>
+        </li>
+        <li className={styles["normal-text-li"]}>
+          <a
+            href="https://github.com/kiart-tantasi/Nextjs-Blog-with-TypeScript-Marked-JWT-MongoDB"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            SOURCE CODE
           </a>
         </li>
       </ul>

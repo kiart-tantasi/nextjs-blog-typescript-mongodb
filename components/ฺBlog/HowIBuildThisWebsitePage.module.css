@@ -52,12 +52,20 @@
     margin-top: 80px !important;
 }
 
+.react {
+    max-height: 200px !important;
+}
+
 .mongodb {
     height: 120px !important;
 }
 
 .marked {
     max-height: 250px !important;
+}
+
+.mui {
+    max-height: 200px !important;
 }
 
 .slugify {
