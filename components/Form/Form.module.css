@@ -149,7 +149,7 @@
         max-height: 100vh;
     }
 
-    .preview-button, .preview {
+    .preview-button, .preview, .card-preview {
         display: none;
     }
 }

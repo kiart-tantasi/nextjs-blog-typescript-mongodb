@@ -115,7 +115,7 @@ const NewArticleForm = () => {
                 <button type="submit" className={styles["submit-button"]}>เพิ่มบทความใหม่ไปยัง WORKSPACE</button>
             </form>
         </div>
-        {preview && <CardPreview previewData={previewData} category={"workspace"} slug={"no-sample-here"} />}
+        {preview && <div className={styles["card-preview"]}><CardPreview previewData={previewData} category={"workspace"} slug={"no-sample-here"} /></div>}
         </>
     )
 }

@@ -121,7 +121,7 @@ const EditArticleForm = (props: {article: Article}) => {
                 <button type="submit" className={styles["submit-button"]}>แก้ไขบทความ</button>
             </form>
         </div>
-        {preview && <CardPreview previewData={previewData} category={props.article!.category} slug={props.article!.slug} />}
+        {preview && <div className={styles["card-preview"]}><CardPreview previewData={previewData} category={props.article!.category} slug={props.article!.slug} /></div>}
         </>
     )
 }
