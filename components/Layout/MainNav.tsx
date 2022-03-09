@@ -8,21 +8,22 @@ import styles from "./MainNav.module.css";
 const MainNav = () => {
   const router = useRouter();
   const AuthCtx = useContext(AuthContext);
-  const { isAdmin, logIn } = AuthCtx;
+  const { fetched, isAdmin, logIn } = AuthCtx;
 
   useEffect(() => {
     const checkIfAdmin = async() => {
-        const response = await fetch("/api/validate-token");
-        if (response.ok) {
-          const data = await response.json();
-          const isLoggedIn = data.isLoggedIn;
-          if (isLoggedIn === true) {
-            logIn();
-          }
+      const response = await fetch("/api/validate-token");
+      if (response.ok) {
+        const data = await response.json();
+        const isLoggedIn = data.isLoggedIn;
+        if (isLoggedIn === true) {
+          logIn();
         }
+      }
+      fetched();
     }
     checkIfAdmin();
-  }, [logIn]);
+  }, [logIn, fetched]);
 
   return (
     <AppBar position="static" sx={{height: {xs: 45, sm:50} , backgroundColor:"rgb(47, 102, 184)"}}>

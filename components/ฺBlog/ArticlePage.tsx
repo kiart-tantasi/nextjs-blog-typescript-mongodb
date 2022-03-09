@@ -8,9 +8,10 @@ import { Article } from '../../interfaces/article';
 
 export default function ArticlePage(props: Article) {
     const AuthCtx = useContext(AuthContext);
-    const { isAdmin } = AuthCtx;
+    const { isFetched, isAdmin } = AuthCtx;
 
     useEffect(() => {
+        if (!isFetched) return;
         if (isAdmin) return;
         const increaseView = async() => {
             if (!props.slug || !props.category) return;
@@ -21,10 +22,8 @@ export default function ArticlePage(props: Article) {
                 body: JSON.stringify({ slug, category })
             });
         }
-        setTimeout(() => {
-            increaseView();
-        }, 2000);
-    }, [props, isAdmin]);
+        increaseView();
+    }, [isFetched, isAdmin, props]);
 
     return (
         <>
