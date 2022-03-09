@@ -26,7 +26,7 @@ const MainNav = () => {
   }, [logIn, fetched]);
 
   return (
-    <AppBar position="static" sx={{height: {xs: 45, sm:50} , backgroundColor:"rgb(47, 102, 184)"}}>
+    <AppBar position="static" sx={{height: {xs: 45, sm:50} , backgroundColor: isAdmin? "rgb(18, 60, 124)": "rgb(47, 102, 184)"}}>
         <div className={`${styles.nav}`}>
           <div className={styles["blog-brand"]}>
             <Link href="/">
