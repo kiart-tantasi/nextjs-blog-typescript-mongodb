@@ -108,13 +108,22 @@ const HowIBuildThisWebsitePage = () => {
             Bcryptjs
           </a>
         </li>
-        <li className={styles["normal-text-li"]}>
+
+        <div className={styles["source-code"]}>
+          <span><h1>source code</h1></span>
+          <img src="https://cdn-icons-png.flaticon.com/512/37/37413.png" alt="arrow down" />
+        </div>
+        
+        <li>
           <a
             href="https://github.com/kiart-tantasi/Nextjs-Blog-with-TypeScript-Marked-JWT-MongoDB"
             target="_blank"
             rel="noopener noreferrer"
           >
-            SOURCE CODE
+            <img
+            src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
+            alt="GitHub"
+            className={styles.github} />
           </a>
         </li>
       </ul>

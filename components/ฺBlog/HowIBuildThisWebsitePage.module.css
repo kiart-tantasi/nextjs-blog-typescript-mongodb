@@ -9,7 +9,7 @@
     list-style: none;
 }
 
-.container li:first-child {
+.container li:first-child, .container li:last-child {
     margin: 70px 0 50px;
 }
 
@@ -80,9 +80,26 @@
     color: rgb(47, 102, 184) !important;
 }
 
-.slugify, .cookie, .bcryptjs {
+.slugify, .cookie, .bcryptjs, .source-code h1 {
     font-family: fantasy;
     letter-spacing: 5px !important;
+}
+
+.source-code {
+    display: flex;
+    flex: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.source-code h1 {
+    font-size: 3rem;
+    margin-right: 10px;
+}
+
+.github {
+    height: 300px !important;
+    max-height: 300px !important;
 }
 
 /* MEDIA QUERY */
