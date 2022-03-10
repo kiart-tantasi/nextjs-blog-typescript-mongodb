@@ -11,6 +11,7 @@
 
 .blog-brand {
     display: flex;
+    align-items: center;
 }
 
 .blog-brand h1 {
@@ -72,29 +73,38 @@
     }
 }
 
-/* brand */
-@media (max-width: 800px) {
-    .blog-brand a {
-        margin-right: 0;
-    }
-
-    .workspace-brand {
-        display: none;
-    }
-}
-
-@media (max-width: 575px) {
-    /* hide เ-ชร at 575px*/
+/* HIDE BRAND AND WORKSPACE AT 860PX */
+@media (max-width: 860px) {
     .hide-brand {
         display: none;
     }
+
     .blog-brand h1 {
         font-size: 1.75rem;
     }
+
+    .hide-workspace-brand {
+        display: none;
+    }
+
+    .blog-brand a {
+        margin-right: 20px;
+    }
 }
 
-/* hide others category at 500px */
-@media (max-width: 500px) {
+@media (max-width: 400px) {
+    .blog-brand a {
+        margin-right: 9px;
+    }
+
+    .workspace-brand h1 {
+        font-size: 1.5rem;
+    }
+}
+
+
+/* hide others category at 520px */
+@media (max-width: 520px) {
     .others {
         display: none;
     }

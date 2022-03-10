@@ -1,6 +1,7 @@
 .nav-top {
     text-align:right;
     padding: 10px 30px;
+    min-width: 300px;
 }
 
 .nav-top a {
@@ -25,4 +26,5 @@
 
 .flex-right {
     text-align: right;
+    min-width: 100px;
 }
