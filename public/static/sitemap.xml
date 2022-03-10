@@ -9,42 +9,47 @@
 
 <url>
   <loc>https://petch.blog/</loc>
-  <lastmod>2022-03-06T09:05:10+00:00</lastmod>
+  <lastmod>2022-03-10T08:33:55+00:00</lastmod>
   <priority>1.00</priority>
 </url>
 <url>
   <loc>https://petch.blog/tech</loc>
-  <lastmod>2022-03-06T09:05:10+00:00</lastmod>
+  <lastmod>2022-03-10T08:33:55+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://petch.blog/HowIBuildThisWebsite</loc>
-  <lastmod>2022-03-06T09:05:10+00:00</lastmod>
-  <priority>0.80</priority>
+  <lastmod>2022-03-10T08:33:55+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
   <loc>https://petch.blog/others</loc>
-  <lastmod>2022-03-06T09:05:10+00:00</lastmod>
+  <lastmod>2022-03-10T08:33:55+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://petch.blog/article/jwt-nodejs</loc>
+  <lastmod>2022-03-10T08:33:55+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://petch.blog/article/is-my-password-pwned</loc>
-  <lastmod>2022-03-06T09:05:10+00:00</lastmod>
+  <lastmod>2022-03-10T08:33:55+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://petch.blog/article/cyber-security-101-lesson-1</loc>
-  <lastmod>2022-03-06T09:05:10+00:00</lastmod>
+  <lastmod>2022-03-10T08:33:55+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://petch.blog/article/mern-stack</loc>
-  <lastmod>2022-03-06T09:05:10+00:00</lastmod>
+  <lastmod>2022-03-10T08:33:55+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://petch.blog/aboutme</loc>
-  <lastmod>2022-03-06T09:05:10+00:00</lastmod>
+  <lastmod>2022-03-10T08:33:55+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 
