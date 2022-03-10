@@ -54,9 +54,8 @@ const EditArticleForm = (props: {article: Article}) => {
         const markdown = textAreaRef.current!.value;
         const category = props.article.category;
         const slug = props.article.slug;
-        if (!title.length || !img.length || !alt.length || !desc.length || !markdown.length || !category.length || !slug.length) {
-            return alert("ข้อมูลไม่ครบถ้วน");
-        }
+        if (!title.length || !img.length || !alt.length || !desc.length || !markdown.length) return alert("ข้อมูลไม่ครบถ้วน");
+        if (!category.length || !slug.length) return alert("ไม่พบ หมวดหมู่ หรือ slug");
 
         const sendingData = {
             title: title,

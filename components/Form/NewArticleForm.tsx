@@ -43,9 +43,9 @@ const NewArticleForm = () => {
         const alt = altRef.current!.value;
         const desc = descRef.current!.value;
         const markdown = textAreaRef.current!.value;
-        const slug = slugify("workspace" + new Date().toLocaleString() + "randomNum:" + Math.floor(Math.random() * 100));
+        const slug = slugify("workspace" + new Date().toLocaleString() + "randomNum:" + Math.floor(Math.random() * 1000));
         if (!title.length || !img.length || !alt.length || !desc.length || !markdown.length || !slug.length) {
-            return alert("ข้อมูลไม่ครบถ้วน หรือ slug ไม่ใช่ภาษาอังกฤษ");
+            return alert("ข้อมูลไม่ครบถ้วน");
         }
         const sendingData = {
             title: title,
