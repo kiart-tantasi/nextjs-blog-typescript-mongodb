@@ -1,9 +1,9 @@
 import Link from "next/link";
+import Image from "next/image";
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import CardMedia from "@mui/material/CardMedia";
 import styles from "./CardUI.module.css";
 import { ArticleCard } from "../../interfaces/article";
 
@@ -16,11 +16,14 @@ export default function CardUI(props:ArticleCard) {
             {/* IMG */}
             <Link href={href}>
                 <a>
-                    <CardMedia
-                    component="img"
-                    sx={{maxHeight:300}}
-                    image={props.img}
-                    alt={props.alt ? props.alt : props.title}
+                    <Image 
+                        unoptimized
+                        src={props.img}
+                        alt={props.alt}
+                        width="550px"
+                        height="300px"
+                        placeholder="blur"
+                        blurDataURL="/images/blur-image.png"
                     />
                 </a>
             </Link>
