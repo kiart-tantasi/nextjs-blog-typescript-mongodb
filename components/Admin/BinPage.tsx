@@ -1,15 +1,31 @@
 import Head from "next/head";
-import Articles from "../ฺBlog/Articles";
+import styles from "./BinPage.module.css";
 import { ArticleCard } from "../../interfaces/article";
+import CardUI from "../UI/CardUI";
 
 const BinPage = (props:{articles: ArticleCard[]}) => {
+    const reversedArticles = [...props.articles].reverse();
 
     return (
         <>
         <Head><title>BIN</title></Head>
-        <div>
-            <h3 style={{textAlign:"center", margin: "30px 0"}}>บทความที่ถูกลบ ไม่สามารถเปิดดูได้ (404)</h3>
-            <Articles articles={props.articles} />
+        <h2 className={styles["top-text"]}>บทความที่ถูกลบ</h2>
+        <div className={`${styles.articles} `}>
+            {reversedArticles.map((x, index) => {
+                const articleCardData = {
+                    index: index,
+                    _id: x._id,
+                    title: x.title,
+                    desc: x.desc,
+                    date: x.date,
+                    img: x.img,
+                    alt: x.alt,
+                    slug: x.slug,
+                    category: x.category
+                }
+
+                return <CardUI key={x._id} bin articleCard={articleCardData} />;
+            })}
         </div>
         </>
     )

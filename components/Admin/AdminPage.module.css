@@ -17,6 +17,7 @@
 
 .flex-left {
     flex-grow: 1;
+    max-width: 50%;
     text-align: left;
 }
 
@@ -25,6 +26,13 @@
 }
 
 .flex-right {
+    flex-grow: 1;
+    min-width: 50%;
     text-align: right;
-    min-width: 100px;
+}
+
+@media (max-width: 450px) {
+    .nav-top {
+        padding: 10px 10px;
+    }
 }

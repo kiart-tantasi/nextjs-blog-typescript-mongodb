@@ -25,17 +25,22 @@ export default isAuthenticated(async function handler (req: NextApiRequest, res:
 
             // FIND ARTICLE IN SPECIFIC COLLECTION AND SAVE IT TO BIN COLLECTION
             const articleNoTransformed = await collection.findOne({slug: slug});
+
+            if (!articleNoTransformed || !articleNoTransformed.title || !articleNoTransformed.desc || !articleNoTransformed.markdown
+                || !articleNoTransformed.img || !articleNoTransformed.alt || !articleNoTransformed.date || !articleNoTransformed.category
+                || !articleNoTransformed.slug) throw new Error("article not found in the category or some information is missing.");
+
             const insertToBin = {
-                title: articleNoTransformed!.title,
-                desc: articleNoTransformed!.desc,
-                markdown: articleNoTransformed!.markdown,
-                img: articleNoTransformed!.img,
-                alt: articleNoTransformed!.alt,
-                date: articleNoTransformed!.date,
-                category: articleNoTransformed!.category,
-                slug: articleNoTransformed!.slug,
-                views: articleNoTransformed?.views,
-                record: articleNoTransformed?.record
+                title: articleNoTransformed.title,
+                desc: articleNoTransformed.desc,
+                markdown: articleNoTransformed.markdown,
+                img: articleNoTransformed.img,
+                alt: articleNoTransformed.alt,
+                date: articleNoTransformed.date,
+                category: articleNoTransformed.category,
+                slug: articleNoTransformed.slug,
+                views: articleNoTransformed?.views || 1,
+                record: articleNoTransformed?.record || []
             }
             const bin = db.collection("bin");
             await bin.insertOne(insertToBin);

@@ -11,8 +11,20 @@ const Articles = (props: {articles: ArticleCard[]; heading?:string}) => {
         {!props.heading && <div style={{height: "30px"}}></div>}
         <div className={`${styles.articles} `}>
             {reversedArticles.map((x, index) => {
+                const articleCardData = {
+                    index: index,
+                    _id: x._id,
+                    title: x.title,
+                    desc: x.desc,
+                    date: x.date,
+                    img: x.img,
+                    alt: x.alt,
+                    slug: x.slug,
+                    category: x.category
+                }
+
                 return (
-                    <CardUI index={index} key={x._id} _id={x._id} title={x.title} desc={x.desc} date={x.date} img={x.img} alt={x.alt} slug={x.slug} category={x.category} />
+                    <CardUI key={x._id} articleCard={articleCardData} />
                 )
             })}
         </div>

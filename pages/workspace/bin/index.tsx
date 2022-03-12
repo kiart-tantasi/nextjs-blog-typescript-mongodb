@@ -1,13 +1,13 @@
 import type { NextPage } from 'next';
-import BinPage from '../../components/Admin/BinPage';
-import { ArticleCard } from '../../interfaces/article';
+import BinPage from '../../../components/Admin/BinPage';
+import { ArticleCard } from '../../../interfaces/article';
 
-const WorkSpace: NextPage<{articles: ArticleCard[]}> = (props) => {
+const ArticleBin: NextPage<{articles: ArticleCard[]}> = (props) => {
   const articles = props.articles;
   return <BinPage articles={articles} />
 }
 
-export default WorkSpace;
+export default ArticleBin;
 // ------------------------------------------------------- //
 import { MongoClient } from 'mongodb';
 

@@ -1,6 +1,6 @@
 import { Button } from "@mui/material";
-import { ChangeEvent, useRef, useState } from "react";
-import { Article, ArticleTypes } from "../../interfaces/article";
+import { useRef } from "react";
+import { Article } from "../../interfaces/article";
 import { allowedCategories } from "../../utils/sharedData";
 import slugify from "slugify";
 import styles from "./PostToPublicModalUI.module.css";
@@ -21,7 +21,7 @@ const PostToPublicModalUI = (props:{article: Article; onClose: () => void; repla
         }
         const sendingData = {
             category: category,
-            slug: slugRef.current!.value,
+            slug: slug,
             workspaceSlug: props.article.slug
         }
         const response = await fetch("/api/workspace-to-public", {
