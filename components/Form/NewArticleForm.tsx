@@ -72,6 +72,7 @@ const NewArticleForm = () => {
             altRef.current!.value = "";
             descRef.current!.value = "";
             textAreaRef.current!.value = "";
+            router.push("/workspace");
         }
     }
 
