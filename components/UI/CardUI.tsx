@@ -9,6 +9,8 @@ import { ArticleCard } from "../../interfaces/article";
 
 export default function CardUI(props:ArticleCard) {
     const href = (props.category === "workspace") ? ("/workspace/" + props.slug): ("/article/" + props.slug);
+    const index = (props.index === 0)? 0: (props.index) ? props.index : 100;
+    const imgShouldBeOptimized = [0,1,2].includes(index);
 
     return (
     <article className={styles.card}>
@@ -16,7 +18,8 @@ export default function CardUI(props:ArticleCard) {
             {/* IMG */}
             <Link href={href}>
                 <a>
-                    <Image 
+                    <Image
+                        priority={imgShouldBeOptimized}
                         unoptimized
                         src={props.img}
                         alt={props.alt}

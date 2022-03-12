@@ -14,6 +14,7 @@ export type Article = {
 }
 
 export type ArticleCard = {
+    index?: number
     _id: string;
     title: string;
     desc: string;
