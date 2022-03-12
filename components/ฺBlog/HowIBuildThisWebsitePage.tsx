@@ -11,7 +11,7 @@ const HowIBuildThisWebsitePage = () => {
             rel="noopener noreferrer"
           >
             <img className={styles.nextjs}
-              src="https://petchdotblog.s3-accelerate.amazonaws.com/articlecardimages/HowIBuildNextjs.png"
+              src="https://petchdotblog.s3-accelerate.amazonaws.com/HowIBuild/Nextjs.png"
               alt="Nextjs" />
           </a>
         </li>
@@ -22,7 +22,7 @@ const HowIBuildThisWebsitePage = () => {
             rel="noopener noreferrer"
           >
             <img
-            src="https://petchdotblog.s3-accelerate.amazonaws.com/articlecardimages/HowIBuildTypeScript.png"
+            src="https://petchdotblog.s3-accelerate.amazonaws.com/HowIBuild/TypeScript.png"
             alt="TypeScript" />
           </a>
         </li>
@@ -33,7 +33,7 @@ const HowIBuildThisWebsitePage = () => {
             rel="noopener noreferrer"
           >
             <img className={styles.nodejs}
-            src="https://petchdotblog.s3-accelerate.amazonaws.com/articlecardimages/HowIBuildNodejs.png"
+            src="https://petchdotblog.s3-accelerate.amazonaws.com/HowIBuild/Nodejs.png"
             alt="Nodejs" />
           </a>
         </li>
