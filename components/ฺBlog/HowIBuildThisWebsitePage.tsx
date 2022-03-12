@@ -10,7 +10,9 @@ const HowIBuildThisWebsitePage = () => {
             target="_blank"
             rel="noopener noreferrer"
           >
-            <img className={styles.nextjs} src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Nextjs-logo.svg/2560px-Nextjs-logo.svg.png" alt="Nextjs" />
+            <img className={styles.nextjs}
+              src="/images/HowIBuild/HowIBuild1.png"
+              alt="Nextjs" />
           </a>
         </li>
         <li>
@@ -19,7 +21,7 @@ const HowIBuildThisWebsitePage = () => {
             target="_blank"
             rel="noopener noreferrer"
           >
-            <img src="https://cdn.worldvectorlogo.com/logos/typescript-2.svg" alt="TypeScript" />
+            <img src="/images/HowIBuild/HowIBuild2.svg" alt="TypeScript" />
           </a>
         </li>
         <li className={styles["nodejs-li"]}>
@@ -28,7 +30,9 @@ const HowIBuildThisWebsitePage = () => {
             target="_blank"
             rel="noopener noreferrer"
           >
-            <img className={styles.nodejs} src="https://nodejs.org/static/images/logos/nodejs-new-pantone-black.svg" alt="Nodejs" />
+            <img className={styles.nodejs}
+            src="/images/HowIBuild/HowIBuild3.png"
+            alt="Nodejs" />
           </a>
         </li>
         <li>
@@ -39,7 +43,7 @@ const HowIBuildThisWebsitePage = () => {
           >
             <img
               className={styles.react}
-              src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9Ii0xMS41IC0xMC4yMzE3NCAyMyAyMC40NjM0OCI+CiAgPHRpdGxlPlJlYWN0IExvZ288L3RpdGxlPgogIDxjaXJjbGUgY3g9IjAiIGN5PSIwIiByPSIyLjA1IiBmaWxsPSIjNjFkYWZiIi8+CiAgPGcgc3Ryb2tlPSIjNjFkYWZiIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9Im5vbmUiPgogICAgPGVsbGlwc2Ugcng9IjExIiByeT0iNC4yIi8+CiAgICA8ZWxsaXBzZSByeD0iMTEiIHJ5PSI0LjIiIHRyYW5zZm9ybT0icm90YXRlKDYwKSIvPgogICAgPGVsbGlwc2Ugcng9IjExIiByeT0iNC4yIiB0cmFuc2Zvcm09InJvdGF0ZSgxMjApIi8+CiAgPC9nPgo8L3N2Zz4K"
+              src="/images/HowIBuild/HowIBuild4.svg"
               alt="react" />
           </a>
         </li>
@@ -49,7 +53,9 @@ const HowIBuildThisWebsitePage = () => {
             target="_blank"
             rel="noopener noreferrer"
           >
-            <img className={styles.mongodb} src="https://webimages.mongodb.com/_com_assets/cms/kuyjf3vea2hg34taa-horizontal_default_slate_blue.svg?auto=format%252Ccompress" alt="MongoDB" />
+            <img className={styles.mongodb} 
+              src="/images/HowIBuild/HowIBuild5.svg"
+              alt="MongoDB" />
           </a>
         </li>
         <li>
@@ -58,14 +64,16 @@ const HowIBuildThisWebsitePage = () => {
             target="_blank"
             rel="noopener noreferrer"
           >
-            <img className={styles.marked} src="https://marked.js.org/img/logo-black.svg" alt="Marked" />
+            <img className={styles.marked}
+              src="/images/HowIBuild/HowIBuild6.svg"
+              alt="Marked" />
           </a>
         </li>
         <li>
           <a href="https://mui.com/" target="_blank" rel="noopener noreferrer">
             <img
               className={styles.mui}
-              src="https://mui.com/static/logo.png"
+              src="/images/HowIBuild/HowIBuild7.png"
               alt="material ui" />
           </a>
         </li>
@@ -75,7 +83,9 @@ const HowIBuildThisWebsitePage = () => {
             target="_blank"
             rel="noopener noreferrer"
           >
-            <img src="http://jwt.io/img/logo-asset.svg" alt="JWT" />
+            <img
+            src="/images/HowIBuild/HowIBuild8.svg"
+            alt="JWT" />
           </a>
         </li>
         <li className={styles["normal-text-li"]}>
@@ -121,7 +131,7 @@ const HowIBuildThisWebsitePage = () => {
             rel="noopener noreferrer"
           >
             <img
-            src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
+            src="/images/HowIBuild/HowIBuildGitHub.png"
             alt="GitHub"
             className={styles.github} />
           </a>
