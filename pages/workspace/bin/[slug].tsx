@@ -14,6 +14,7 @@ import { GetServerSidePropsContext } from "next";
 import { MongoClient } from "mongodb";
 import { Lexer, Parser } from "marked";
 import DeletedArticlePage from "../../../components/Admin/DeleteArticlePage";
+import { transformImgUrl } from "../../../lib/transform-data";
 
 export const getServerSideProps = async(context: GetServerSidePropsContext) => {
     // CONNECT DB AND COLLECTION
@@ -23,10 +24,9 @@ export const getServerSideProps = async(context: GetServerSidePropsContext) => {
     const db = client.db("blogDB");
     const collection = db.collection("bin");
 
-    // FIND THE ARTICLE AND CLOSE DB
+    // FIND THE ARTICLE
     const slug = context.params!.slug;
     const articleNoTransformed = await collection.findOne({slug: slug});
-    client.close();
 
     // IMMEDIATELY RETURN IF ARTICLE MATCHED TO SLUG IS NOT FOUND
     if (articleNoTransformed === null) return {props: {}};
@@ -34,12 +34,14 @@ export const getServerSideProps = async(context: GetServerSidePropsContext) => {
     // TRANSFORM DATA
     const lexedMarkdown = Lexer.lex(articleNoTransformed.markdown);
     const parsedMarkdown = Parser.parse(lexedMarkdown);
+    const transformedImgUrl = await transformImgUrl(articleNoTransformed.img, db, false);
+
     const transformedData: Article = {
         _id: articleNoTransformed!._id.toString(),
         title: articleNoTransformed.title,
         desc: articleNoTransformed.desc,
         markdown: parsedMarkdown,
-        img: articleNoTransformed.img,
+        img: transformedImgUrl,
         alt: articleNoTransformed.alt,
         date: articleNoTransformed.date,
         category: articleNoTransformed.category,
@@ -47,6 +49,8 @@ export const getServerSideProps = async(context: GetServerSidePropsContext) => {
         views: articleNoTransformed.views? articleNoTransformed.views: 1
     };
 
+    // CLOSE DB AND RETURN
+    client.close();
     return {
         props:{
             article: transformedData

@@ -10,6 +10,8 @@ const ArticleBin: NextPage<{articles: ArticleCard[]}> = (props) => {
 export default ArticleBin;
 // ------------------------------------------------------- //
 import { MongoClient } from 'mongodb';
+import { transformCardData } from '../../../lib/transform-data';
+import { Article } from '../../../interfaces/article';
 
 export const getServerSideProps = async() => {
   // CONNECT DB AND WORKSPACE COLLECTION
@@ -18,25 +20,11 @@ export const getServerSideProps = async() => {
   await client.connect();
   const db = client.db("blogDB");
   const collection = db.collection("bin");
+  const articleNoTransformed = await collection.find({}).toArray() as unknown as Article[];
+  const transformedData = await transformCardData(articleNoTransformed, db);
 
-  // FIND WORKSPACE ARTICLES AND CLOSE DB
-  const articleNoTransformed = await collection.find({}).toArray();
+  // CLOSE DB AND RETURN
   client.close();
-
-  // TRANSFORM DATA
-  const transformedData: ArticleCard[] = articleNoTransformed.map(x => {
-    return {
-      _id: x._id.toString(),
-      title: x.title,
-      desc: x.desc,
-      img: x.img,
-      alt: x.alt,
-      date: x.date,
-      category: x.category,
-      slug: x.slug
-    };
-  });
-
   return {
     props: {
       articles: transformedData

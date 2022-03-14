@@ -11,17 +11,13 @@ const Articles = (props: {articles: ArticleCard[]; heading?:string}) => {
         {!props.heading && <div style={{height: "30px"}}></div>}
         <div className={`${styles.articles} `}>
             {reversedArticles.map((x, index) => {
-                // AWS S3 Transfer Acceleration for first 2 imgs
-                const imgSrc = (x.img.includes("https://petchdotblog.s3.ap-southeast-1.amazonaws.com") && index <= 1) 
-                ? "https://petchdotblog.s3-accelerate.amazonaws.com" + x.img.slice(52)
-                : (x.img)
                 const articleCardData = {
                     index: index,
                     _id: x._id,
                     title: x.title,
                     desc: x.desc,
                     date: x.date,
-                    img: imgSrc,
+                    img: x.img,
                     alt: x.alt,
                     slug: x.slug,
                     category: x.category

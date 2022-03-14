@@ -16,6 +16,7 @@ export default Article;
 import { MongoClient } from "mongodb";
 import { GetStaticPaths, GetStaticProps } from "next";
 import { Lexer, Parser } from "marked";
+import { transformImgUrl } from "../../lib/transform-data";
 
 export const getStaticPaths: GetStaticPaths = async() => {
     const dbUrl = process.env.DB_URL as string;
@@ -43,7 +44,6 @@ export const getStaticProps: GetStaticProps = async(context) => {
     const db = client.db("blogDB");
     const collection = db.collection("main");
     const articleNoTransformed = await collection.findOne({slug:slug});
-    client.close();
     if (articleNoTransformed === null) return {props: {article : null }};
 
     // TRANSFORM DATA
@@ -51,12 +51,14 @@ export const getStaticProps: GetStaticProps = async(context) => {
     const markdownNoTransformed = articleNoTransformed.markdown;
     const lexed = Lexer.lex(markdownNoTransformed);
     const parsedMarkdown = Parser.parse(lexed);
+    const transformedImgUrl = await transformImgUrl(articleNoTransformed.img, db, true);
+
     const transformedData: Article = {
         _id: objectIdAsString,
         title: articleNoTransformed.title,
         desc: articleNoTransformed.desc,
         markdown: parsedMarkdown,
-        img: articleNoTransformed.img,
+        img: transformedImgUrl,
         alt: articleNoTransformed.alt,
         date: articleNoTransformed.date,
         category: articleNoTransformed.category,
@@ -64,6 +66,8 @@ export const getStaticProps: GetStaticProps = async(context) => {
         views: articleNoTransformed.views? articleNoTransformed.views: 1
     };
 
+    // CLOSE DB AND RETURN
+    client.close();
     return {
         props: {
             article: transformedData

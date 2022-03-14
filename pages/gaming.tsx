@@ -19,6 +19,8 @@ const Gaming: NextPage<{articles:ArticleCard[]}> = (props) => {
 export default Gaming;
 // --------------------------------------------------------//
 import { MongoClient } from "mongodb";
+import { transformCardData } from '../lib/transform-data';
+import { Article } from '../interfaces/article';
 
 export async function getStaticProps() {
   const dbUrl = process.env.DB_URL as string;
@@ -26,23 +28,11 @@ export async function getStaticProps() {
   await client.connect();
   const db = client.db("blogDB");
   const collection = db.collection("gaming");
-  const articles = await collection.find({}).toArray();
-  client.close();
+  const articles = await collection.find({}).toArray() as unknown as Article[];
+  const transformedData: ArticleCard[] = await transformCardData(articles, db);
 
-  // TRANSFORM DATA
-  const transformedData: ArticleCard[] = articles.map(x => {
-    return {
-      _id: x._id.toString(),
-      title: x.title,
-      desc: x.desc,
-      img: x.img,
-      alt: x.alt,
-      date: x.date,
-      category: x.category,
-      slug: x.slug
-    };
-  });
-  
+  // CLOSE DB AND RETURN
+  client.close();
   return {
     props: {
       articles: transformedData

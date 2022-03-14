@@ -15,6 +15,8 @@ import { GetServerSidePropsContext, NextApiResponse } from 'next';
 import { MongoClient } from 'mongodb';
 import { removeTokenCookie } from '../../lib/auth-cookie';
 import { tokenValidation } from '../../lib/jwt-token-validation';
+import { transformCardData } from '../../lib/transform-data';
+import { Article } from '../../interfaces/article';
 
 export const getServerSideProps = async(context: GetServerSidePropsContext) => {
   // CHECK TOKEN - IF INVALID, RETURN NULL AND REMOVE TOKEN IN COOKIE
@@ -32,29 +34,14 @@ export const getServerSideProps = async(context: GetServerSidePropsContext) => {
   await client.connect();
   const db = client.db("blogDB");
   const collection = db.collection("workspace");
+  const articleNoTransformed = await collection.find({}).toArray() as unknown as Article[];
+  const transformedData: ArticleCard[] = await transformCardData(articleNoTransformed, db);
 
-  // FIND WORKSPACE ARTICLES AND CLOSE DB
-  const articleNoTransformed = await collection.find({}).toArray();
+  // CLOSE DB AND RETURN
   client.close();
-
-  // TRANSFORM DATA
-  const transformedData: ArticleCard[] = articleNoTransformed.map(x => {
-    return {
-      _id: x._id.toString(),
-      title: x.title,
-      desc: x.desc,
-      img: x.img,
-      alt: x.alt,
-      date: x.date,
-      category: x.category,
-      slug: x.slug
-    };
-  });
-
   return {
     props: {
       articles: transformedData
     }
   }
-
 }

@@ -39,9 +39,6 @@ const DeletedArticlePage = (props: {article: Article}) => {
             body: JSON.stringify({slug: props.article.slug})
         })
         if (response.ok) {
-            const json = await response.json();
-            console.log(json);
-
             alert("ลบถาวรสำเร็จ !!!");
             setPermanentDeleteModal(false);
             router.replace("/workspace/bin");

@@ -9,7 +9,7 @@ import { ArticleCard } from "../../interfaces/article";
 
 export default function CardUI(props:{articleCard:ArticleCard, bin?: boolean}) {
     const href = (props.bin)? "/workspace/bin/" + props.articleCard.slug: (props.articleCard.category === "workspace") ? ("/workspace/" + props.articleCard.slug): ("/article/" + props.articleCard.slug);
-    const imgShouldBePrioritized = (props.articleCard.index === 0 || props.articleCard.index === 1);
+    const imgShouldBePrioritized = (props.articleCard.index !== undefined && props.articleCard.index <= 1);
 
     return (
     <article className={styles.card}>
