@@ -33,7 +33,7 @@ export const transformImgUrl = async(imgUrl: string, db: Db, accelerate: boolean
         const key: string = imgUrl.slice(60);
         const presignedUrlCollection = db.collection("presignedUrl");
         const result = await presignedUrlCollection.findOne({ key: key });
-        const deadline = (result)? result.age - (5 * 60 * 1000): null;
+        const deadline = (result)? result.age - (2 * 60 * 60 * 1000): null; // 2 hrs before expiration time
         const now = new Date().getTime();
 
         // 1.1 PRESIGNED URL EXISTS AND DOES NOT EXPIRE
@@ -53,12 +53,12 @@ export const transformImgUrl = async(imgUrl: string, db: Db, accelerate: boolean
             let newPresignedUrl = s3.getSignedUrl('getObject', {
                 Bucket: process.env.BUCKET_NAME,
                 Key: key,
-                Expires: 60 * 60
+                Expires: 7 * 24 * 60 * 60
             });
             const newPresignedUrlData = {
                 key: key,
                 url: newPresignedUrl,
-                age: new Date().getTime() + 3_600_000
+                age: new Date().getTime() + 7 * 24 * 60 * 60 * 1000
             }
 
             // 1.2.1 IF DOES NOT EXIST, INSERT
