@@ -33,7 +33,7 @@ export const transformImgUrl = async(imgUrl: string, db: Db, accelerate: boolean
         const key: string = imgUrl.slice(60);
         const presignedUrlCollection = db.collection("presignedUrl");
         const result = await presignedUrlCollection.findOne({ key: key });
-        const deadline = (result)? result.age - (2 * 60 * 60 * 1000): null; // 2 hrs before expiration time
+        const deadline = (result)? result.age - (24 * 60 * 60 * 1000): null; // 1 day before expiration time
         const now = new Date().getTime();
 
         // 1.1 PRESIGNED URL EXISTS AND DOES NOT EXPIRE
