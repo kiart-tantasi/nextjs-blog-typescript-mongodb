@@ -9,6 +9,10 @@
     list-style: none;
 }
 
+.container li:last-child {
+    margin: 72.5px 0 50px;
+}
+
 .container img {
     border-radius: 3px;
 }
