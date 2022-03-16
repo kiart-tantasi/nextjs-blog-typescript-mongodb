@@ -9,10 +9,6 @@
     list-style: none;
 }
 
-.container li:first-child, .container li:last-child {
-    margin: 70px 0 50px;
-}
-
 .container img {
     border-radius: 3px;
 }
@@ -81,20 +77,20 @@
 }
 
 .slugify, .cookie, .bcryptjs, .source-code h1 {
-    font-family: fantasy;
+    font-weight: bold;
     letter-spacing: 5px !important;
 }
 
 .source-code {
     display: flex;
-    flex: row;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
 }
 
 .source-code h1 {
     font-size: 3rem;
-    margin-right: 10px;
+    margin-bottom: 50px;
 }
 
 .github {
