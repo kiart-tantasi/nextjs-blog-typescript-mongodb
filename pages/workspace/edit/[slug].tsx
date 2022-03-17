@@ -1,11 +1,11 @@
 import { NextPage } from "next";
-import EditArticleForm from "../../../components/Form/EditArticleForm";
+import Form from "../../../components/Form/Form";
 import NotFoundPage from "../../../components/ฺBlog/NotFoundPage";
 import { Article } from "../../../interfaces/article";
 
 const Edit: NextPage<{article: Article}> = (props) => {
     const article = props.article;
-    if (article) return <EditArticleForm article={article} />
+    if (article) return <Form article={article} editMode={true} />
     return <NotFoundPage />
 }
 

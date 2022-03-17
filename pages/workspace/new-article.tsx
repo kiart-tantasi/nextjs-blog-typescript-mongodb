@@ -1,8 +1,8 @@
 import { NextPage } from "next";
 import React from "react";
-import NewArticleForm from "../../components/Form/NewArticleForm";
+import Form from "../../components/Form/Form";
 
 const NewArticle: NextPage = () => {
-    return  <NewArticleForm />
+    return  <Form editMode={false} />
 }
 export default NewArticle;

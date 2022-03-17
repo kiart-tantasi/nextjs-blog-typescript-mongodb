@@ -1,14 +1,16 @@
 import { useRouter } from "next/router";
 import React, { useEffect, useRef, useState } from "react";
 import { Lexer, Parser } from "marked";
+import slugify from "slugify";
 import CardPreview from "./CardPreview";
 import ArticlePreview from "./ArticlePreview";
 import Button from '@mui/material/Button';
 import styles from "./Form.module.css";
 import { Article, PreviewData } from "../../interfaces/article";
 
-const EditArticleForm = (props: {article: Article}) => {
+const ArticleForm = (props: {article?: Article; editMode:boolean}) => {
     const router = useRouter();
+    const { editMode } = props;
     // FORM
     const titleRef = useRef<HTMLInputElement>(null);
     const imgRef = useRef<HTMLInputElement>(null);
@@ -21,20 +23,28 @@ const EditArticleForm = (props: {article: Article}) => {
 
     useEffect(() => {
         if (!props.article) return;
+        if (!editMode) return;
         const article = props.article;
         titleRef.current!.value = article!.title;
         imgRef.current!.value = article!.img;
         altRef.current!.value = article!.alt;
         descRef.current!.value = article!.desc;
         textAreaRef.current!.value = article!.markdown;
-    }, [props.article]);
+    }, [props.article, editMode]);
 
-    const handlePreview = () => {
+    const handlePreview = async() => {
         const lexed = Lexer.lex(textAreaRef.current?.value || "ไม่มี markdown");
         const parsed = Parser.parse(lexed);
+        const response = await fetch("/api/presigned-url", {
+            method: "POST",
+            headers: {"Content-Type":"application/json"},
+            body: JSON.stringify({ imgUrl: imgRef.current?.value || null})
+        });
+        const data = await response.json();
+        const { imgUrl } = data;
         const dataToSet: PreviewData = {
             title: titleRef.current?.value || "ไม่มีหัวข้อ" ,
-            img: imgRef.current?.value || "ไม่มี url รูปภาพ",
+            img: imgUrl || "not found",
             alt: altRef.current?.value || "ไม่มี alt รูปภาพ",
             desc: descRef.current?.value || "ไม่มีคำอธิบายบทความ",
             markdown: parsed,
@@ -45,15 +55,15 @@ const EditArticleForm = (props: {article: Article}) => {
         if (preview === false) setPreview(true);
     }
 
-    const handleSubmitForm = async(e: React.FormEvent) => {
+    const handleSubmitEditArticle = async(e: React.FormEvent) => {
         e.preventDefault();
         const title = titleRef.current!.value;
         const img = imgRef.current!.value;
         const alt = altRef.current!.value;
         const desc = descRef.current!.value;
         const markdown = textAreaRef.current!.value;
-        const category = props.article.category;
-        const slug = props.article.slug;
+        const category = props.article!.category;
+        const slug = props.article!.slug;
         if (!title.length || !img.length || !alt.length || !desc.length || !markdown.length) return alert("ข้อมูลไม่ครบถ้วน");
         if (!category.length || !slug.length) return alert("ไม่พบ หมวดหมู่ หรือ slug");
 
@@ -75,9 +85,46 @@ const EditArticleForm = (props: {article: Article}) => {
         if (response.status === 401) return alert("session admin หมดอายุ"); 
         if (!response.ok) return alert("แก้ไขบทความล้มเหลว !");
 
-        alert((props.article.category === "workspace")? "แก้ไขบทความสำเร็จ (workspace)": "แก้ไขบทความสำเร็จ - แอปพลิเคชั่นจะใช้เวลาประมาณ 10 วินาทีเพื่อ render หน้าบทความใหม่");
+        alert((props.article!.category === "workspace")? "แก้ไขบทความสำเร็จ (workspace)": "แก้ไขบทความสำเร็จ - แอปพลิเคชั่นจะใช้เวลาประมาณ 10 วินาทีเพื่อ render หน้าบทความใหม่");
         const linkToPushTo = (props.article!.category === "workspace")? ("/workspace/" + props.article!.slug): ("/article/" + props.article!.slug);
         router.push(linkToPushTo);
+    }
+
+    const handleSubmitNewArticle = async(e: React.FormEvent) => {
+        e.preventDefault();
+        const title = titleRef.current!.value;
+        const img = imgRef.current!.value;
+        const alt = altRef.current!.value;
+        const desc = descRef.current!.value;
+        const markdown = textAreaRef.current!.value;
+        const slug = slugify("workspace" + new Date().toLocaleString() + "randomNum:" + Math.floor(Math.random() * 1000));
+        if (!title.length || !img.length || !alt.length || !desc.length || !markdown.length || !slug.length) {
+            return alert("ข้อมูลไม่ครบถ้วน");
+        }
+        const sendingData = {
+            title: title,
+            img: img,
+            alt: alt,
+            desc: desc,
+            markdown: markdown,
+            category: "workspace",
+            slug: slug
+        }
+        const response = await fetch("/api/new-article", {
+            method: "POST",
+            headers: {"Content-Type" : "application/json"},
+            body: JSON.stringify(sendingData)
+        });
+        if (response.status === 401) return alert("session แอดมินหมดอายุ");
+        else if (!response.ok) return alert("เพิ่มบทความล้มเหลว !");
+
+        alert("เพิ่มบทความสำเร็จ");
+        titleRef.current!.value = "";
+        imgRef.current!.value = "";
+        altRef.current!.value = "";
+        descRef.current!.value = "";
+        textAreaRef.current!.value = "";
+        router.push("/workspace");
     }
 
     return (
@@ -86,25 +133,34 @@ const EditArticleForm = (props: {article: Article}) => {
             <Button type="button" onClick={() => router.back()}>กลับ</Button>
         </div>
         <div className={`${styles["form-container"]} row`}>
-            <h1 className={styles.heading}>แก้ไขบทความ</h1>
-            <form className={styles.form} onSubmit={handleSubmitForm}>
+            <h1 className={styles.heading}>{editMode? "แก้ไขบทความ":"เพิ่มบทความใหม่"}</h1>
+            <form className={styles.form} onSubmit={editMode ? handleSubmitEditArticle: handleSubmitNewArticle}>
+
                 <div>
                     <label>หัวข้อ</label>
                     <input type="text" ref={titleRef} />
                 </div>
+
                 <div> 
                     <label>url รูปภาพ</label>
                     <input type="text" ref={imgRef} />
                     <label>คำอธิบายรูปภาพ (กรณีไฟล์รูปหาย)</label>
                     <input className={styles["secondary-input"]} type="text" ref={altRef} />
                 </div>
+
                 <div>
                     <label>คำอธิบายบทความ</label>
                     <input className={styles.desc} type="text" ref={descRef} />
                 </div>
 
-                {/* EDIT AND PREVIEW SECTION */}
-                <button type="button" className={styles["preview-button"]} onClick={handlePreview}>{preview? "รีเฟรช": "ดูตัวอย่าง"}</button>
+                <button 
+                    type="button" 
+                    className={styles["preview-button"]} 
+                    onClick={handlePreview}
+                >
+                    {preview? "รีเฟรช": "ดูตัวอย่าง"}
+                </button>
+
                 <div className={styles["edit-preview"]}>
                     <div className={styles.edit}>
                         <br/>
@@ -115,14 +171,25 @@ const EditArticleForm = (props: {article: Article}) => {
                         <ArticlePreview previewData={previewData} />
                     </div>}
                 </div>
-                {/* ----------------------- */}
 
-                <button type="submit" className={styles["submit-button"]}>แก้ไขบทความ</button>
+                <button type="submit" className={styles["submit-button"]}>{
+                editMode? "แก้ไขบทความ":"เพิ่มบทความใหม่ไปยัง WORKSPACE"
+                }</button>
+
             </form>
         </div>
-        {preview && <div className={styles["card-preview"]}><CardPreview previewData={previewData} category={props.article!.category} slug={props.article!.slug} /></div>}
+
+        {preview &&
+        <div className={styles["card-preview"]}>
+            <CardPreview
+            previewData={previewData}
+            category={editMode? props.article!.category: "workspace"}
+            slug={editMode? props.article!.slug: "no-sample-here"} />
+        </div>
+        }
+
         </>
     )
 }
 
-export default EditArticleForm;
+export default ArticleForm;
