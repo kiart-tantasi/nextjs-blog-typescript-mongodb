@@ -1,5 +1,5 @@
 import { NextPage } from "next";
-import NotFoundPage from "../components/ฺBlog/NotFoundPage";
+import NotFoundPage from "../components/blog/NotFoundPage";
 const NotFound: NextPage = () => {
     return <NotFoundPage />;
 }

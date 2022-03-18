@@ -1,6 +1,6 @@
 import type { NextPage } from 'next';
-import LoginPage from '../../components/Admin/LoginPage';
-import AdminPage from '../../components/Admin/AdminPage';
+import LoginPage from '../../components/admin/LoginPage';
+import AdminPage from '../../components/admin/AdminPage';
 import { ArticleCard } from '../../interfaces/article';
 
 const WorkSpace: NextPage<{articles: ArticleCard[]}> = (props) => {

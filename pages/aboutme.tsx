@@ -1,6 +1,6 @@
 import { NextPage } from "next";
 import { Lexer, Parser } from "marked";
-import AboutMePage from "../components/ฺBlog/AboutMePage";
+import AboutMePage from "../components/blog/AboutMePage";
 import { bioMarkdown } from "../utils/sharedData";
 
 const AboutMe:NextPage = () => {

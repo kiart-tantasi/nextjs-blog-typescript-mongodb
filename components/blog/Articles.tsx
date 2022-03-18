@@ -1,4 +1,4 @@
-import CardUI from "../UI/CardUI";
+import CardUI from "../ui/CardUI";
 import styles from "./Articles.module.css";
 import { ArticleCard } from "../../interfaces/article";
 

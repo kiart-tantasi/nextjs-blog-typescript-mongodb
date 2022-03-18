@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import Articles from "../components/ฺBlog/Articles";
+import Articles from "../components/blog/Articles";
 import { Article, ArticleCard } from "../interfaces/article";
 
 const Home: NextPage<{ articles: ArticleCard[] }> = (props) => {

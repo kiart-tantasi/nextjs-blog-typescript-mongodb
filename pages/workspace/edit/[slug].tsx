@@ -1,6 +1,6 @@
 import { NextPage } from "next";
-import Form from "../../../components/Form/Form";
-import NotFoundPage from "../../../components/ฺBlog/NotFoundPage";
+import Form from "../../../components/form/Form";
+import NotFoundPage from "../../../components/blog/NotFoundPage";
 import { Article } from "../../../interfaces/article";
 
 const Edit: NextPage<{article: Article}> = (props) => {

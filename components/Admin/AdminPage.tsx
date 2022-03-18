@@ -3,7 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useContext } from "react";
 import AuthContext from "../../context/auth-context";
-import Articles from "../ฺBlog/Articles";
+import Articles from "../blog/Articles";
 import { Button } from "@mui/material";
 import styles from "./AdminPage.module.css";
 import { ArticleCard } from "../../interfaces/article";

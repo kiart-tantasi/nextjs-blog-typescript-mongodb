@@ -1,6 +1,6 @@
 import { NextPage } from "next";
-import ArticlePage from "../../components/ฺBlog/ArticlePage";
-import NotFoundPage from "../../components/ฺBlog/NotFoundPage";
+import ArticlePage from "../../components/blog/ArticlePage";
+import NotFoundPage from "../../components/blog/NotFoundPage";
 import { Article } from "../../interfaces/article";
 
 const Article: NextPage<{article: Article}> = (props) => {

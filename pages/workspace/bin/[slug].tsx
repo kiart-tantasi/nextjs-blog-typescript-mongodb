@@ -1,5 +1,5 @@
 import { NextPage } from "next";
-import NotFoundPage from "../../../components/ฺBlog/NotFoundPage";
+import NotFoundPage from "../../../components/blog/NotFoundPage";
 import { Article } from "../../../interfaces/article";
 
 const DeletedArticle: NextPage<{article: Article}> = (props) => {
@@ -13,7 +13,7 @@ export default DeletedArticle;
 import { GetServerSidePropsContext } from "next";
 import { MongoClient } from "mongodb";
 import { Lexer, Parser } from "marked";
-import DeletedArticlePage from "../../../components/Admin/DeleteArticlePage";
+import DeletedArticlePage from "../../../components/admin/DeleteArticlePage";
 import { transformImgUrl } from "../../../lib/transform-data";
 
 export const getServerSideProps = async(context: GetServerSidePropsContext) => {

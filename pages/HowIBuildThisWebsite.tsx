@@ -1,6 +1,6 @@
 import { NextPage } from "next";
 import Head from "next/head";
-import HowIBuildThisWebsitePage from "../components/ฺBlog/HowIBuildThisWebsitePage";
+import HowIBuildThisWebsitePage from "../components/blog/HowIBuildThisWebsitePage";
 
 const HowIBuildThisWebsite: NextPage = () => {
     return (
