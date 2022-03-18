@@ -2,6 +2,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useContext, useEffect } from "react";
 import AuthContext from "../../context/auth-context";
+import Dropdown from "./Dropdown";
 import { AppBar } from '@mui/material';
 import styles from "./MainNav.module.css";
 
@@ -28,14 +29,13 @@ const MainNav = () => {
   return (
     <AppBar position="static" sx={{height: {xs: 45, sm:50} , backgroundColor: isAdmin? "rgb(18, 60, 124)": "rgb(47, 102, 184)"}}>
         <div className={`${styles.nav}`}>
-          <div className={styles["blog-brand"]}>
 
+          <div className={styles["blog-brand"]}>
             <Link href="/">
               <a>
-                <h1><span className={styles["hide-brand"]}>เ</span>พ<span className={styles["hide-brand"]}>ชรดอทบล็อก</span></h1>
+                <h1><span className={styles["hide-860"]}>เ</span>พ<span className={styles["hide-860"]}>ชรดอทบล็อก</span></h1>
               </a>
             </Link>
-
             {isAdmin === true && 
             <Link href="/workspace">
               <a className={styles["workspace-brand"]}>
@@ -43,16 +43,24 @@ const MainNav = () => {
               </a>
             </Link>
             }
-
           </div>
           
           <nav className={styles["main-nav"]}>
             <ul>
-              <li><Link href="/tech"><a className={router.pathname == "/tech" ? styles.active : ""}><p>เทค</p></a></Link></li>
-              <li><Link href="/HowIBuildThisWebsite"><a className={router.pathname == "/HowIBuildThisWebsite" ? styles.active : ""}><p>How I Build This Website</p></a></Link></li>
-              <span className={styles.others}><li><Link href="/others"><a className={router.pathname == "/others" ? styles.active : ""}><p>บทความอื่น ๆ </p></a></Link></li></span>
+              <span className={styles["hide-450"]}>
+                <li>
+                  <Link href="/tech"><a className={router.pathname == "/tech" ? styles.active : ""}><p>เทค</p></a></Link>
+                </li>
+              </span>
+              <span className={styles["hide-860"]}>
+                <li>
+                  <Link href="/HowIBuildThisWebsite"><a className={router.pathname == "/HowIBuildThisWebsite" ? styles.active : ""}><p>How I Build This Website</p></a></Link>
+                </li>
+              </span>
             </ul>
+            <Dropdown />
           </nav>
+
         </div>
     </AppBar>
   )
