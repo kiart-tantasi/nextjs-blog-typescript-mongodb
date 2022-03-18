@@ -87,10 +87,6 @@
         display: none;
     }
 
-    .blog-brand h1 {
-        font-size: 1.75rem;
-    }
-
     .workspace-brand {
         transform: translate(0px, 2px);
     }
