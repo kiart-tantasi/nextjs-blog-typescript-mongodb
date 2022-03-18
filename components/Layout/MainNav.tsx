@@ -32,23 +32,22 @@ const MainNav = () => {
 
           <div className={styles["blog-brand"]}>
 
-            <Link href="/">
-              <span className={styles["blog-brand-span"]}>
-                <a>
-                  <h1>เพชรดอทบล็อก</h1>
-                </a>
-              </span>
-            </Link>
+            <span className={styles.petchdotblog}>
+              <Link href="/">
+                  <a>
+                    <h1>เพชรดอทบล็อก</h1>
+                  </a>
+              </Link>
+            </span>
 
-            {isAdmin === true && 
-            <Link href="/workspace">
-              <span className={styles["workspace-span"]}>
-                <a className={styles["workspace-brand"]}>
-                  <h1>W<span className={styles["hide-workspace-brand"]}>ORKSPACE</span></h1>
+            {isAdmin === true &&
+            <span className={styles.workspace}>
+              <Link href="/workspace">
+                <a>
+                  <h1>W<span className={styles["hide-workspace"]}>ORKSPACE</span></h1>
                 </a>
-              </span>
-            </Link>
-            }
+              </Link>
+            </span>}
 
           </div>
           
