@@ -6,7 +6,7 @@
     position: relative;
     top: 3px;
     cursor: pointer;
-    margin-right: 10px;
+    padding: 20px 10px 5px 10px;
 }
 
 .dropdown-content {
@@ -58,10 +58,5 @@
     /* show */
     .show-450 {
         display: block;
-    }
-
-    /* delete dropdown button margin */
-    .dropdown-button {
-        margin-right: 0;
     }
 }

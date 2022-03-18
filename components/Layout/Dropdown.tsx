@@ -1,10 +1,21 @@
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import MenuIcon from '@mui/icons-material/Menu';
 import styles from "./Dropdown.module.css";
 
 const Dropdown = () => {
     const [openDropdown, setOpenDropdown] = useState(false);
+     
+    useEffect(() => {
+        if (openDropdown === false) return;
+
+        window.onclick = (e: MouseEvent) => {
+            if (openDropdown === true) {
+                setOpenDropdown(false);
+                window.onclick = null;
+            }
+        }
+    }, [openDropdown]);
 
     const handleToggleDropdown = () => {
         setOpenDropdown(prev => !prev);
@@ -17,7 +28,7 @@ const Dropdown = () => {
     return (
         <div className={styles.dropdown}>
             <span onClick={handleToggleDropdown} className={styles["dropdown-button"]}><MenuIcon /></span>
-            {openDropdown && 
+            {openDropdown &&
             <div className={styles["dropdown-content"]}>
                 <span onClick={handleCloseDropdown} className={styles["show-450"]}>
                     <Link href="/tech">โลกเทค</Link>
@@ -27,9 +38,6 @@ const Dropdown = () => {
                 </span>
                 <span onClick={handleCloseDropdown}>
                     <Link href="/aboutme">ประวัติผู้เขียน</Link>
-                </span>
-                <span onClick={handleCloseDropdown}>
-                    <Link href="/others">บทความอื่น ๆ</Link>
                 </span>
             </div>
             }
