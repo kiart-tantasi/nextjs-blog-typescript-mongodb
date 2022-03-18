@@ -1,40 +1,63 @@
+import Image from "next/image";
 import styles from "./HowIBuildThisWebsitePage.module.css";
+
 
 const HowIBuildThisWebsitePage = () => {
   return (
     <div className={styles.container}>
       <ul>
-        <li>
+        <li className={styles.nextjs}>
           <a
             href="https://nextjs.org/"
             target="_blank"
             rel="noopener noreferrer"
           >
-            <img className={styles.nextjs}
-              src="https://petchdotblog.s3.ap-southeast-1.amazonaws.com/HowIBuild/Nextjs.png"
-              alt="Nextjs" />
+            <Image
+              priority
+              unoptimized
+              height={364.5}
+              width={607.5}
+              src="https://petchdotblog.s3.ap-southeast-1.amazonaws.com/HowIBuild/Nextjs.png" 
+              alt="Nextjs"
+              placeholder="blur"
+              blurDataURL="/images/white-blur-image.png"
+            />
           </a>
         </li>
-        <li>
+        <li className={styles.typeScript}>
           <a
             href="https://www.typescriptlang.org/"
             target="_blank"
             rel="noopener noreferrer"
           >
-            <img
-            src="https://petchdotblog.s3.ap-southeast-1.amazonaws.com/HowIBuild/TypeScript.png"
-            alt="TypeScript" />
+            <Image
+              priority
+              unoptimized
+              height={220}
+              width={220}
+              src="https://petchdotblog.s3.ap-southeast-1.amazonaws.com/HowIBuild/TypeScript.png" 
+              alt="TypeScript"
+              placeholder="blur"
+              blurDataURL="/images/white-blur-image.png"
+            />
           </a>
         </li>
-        <li className={styles["nodejs-li"]}>
+        <li className={styles.nodejs}>
           <a
             href="https://nodejs.org/"
             target="_blank"
             rel="noopener noreferrer"
           >
-            <img className={styles.nodejs}
-            src="https://petchdotblog.s3.ap-southeast-1.amazonaws.com/HowIBuild/Nodejs.png"
-            alt="Nodejs" />
+            <Image
+              priority
+              unoptimized
+              height={270}
+              width={550}
+              src="https://petchdotblog.s3.ap-southeast-1.amazonaws.com/HowIBuild/Nodejs.png" 
+              alt="Nodejs"
+              placeholder="blur"
+              blurDataURL="/images/white-blur-image.png"
+            />
           </a>
         </li>
         <li>

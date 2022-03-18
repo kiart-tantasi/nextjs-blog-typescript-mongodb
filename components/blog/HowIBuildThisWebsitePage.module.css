@@ -9,7 +9,7 @@
     list-style: none;
 }
 
-.container li:first-child, .container li:last-child {
+.container li:last-child {
     margin: 72.5px 0 50px;
 }
 
@@ -40,16 +40,18 @@
     max-height: 150px;
 }
 
-.nextjs {
-    max-height: 300px !important;
+/* Nextjs TypeScript and Nodejs (prioritized) */
+.nextjs img, .typeScript img, .nodejs img {
+    max-height: 500px !important;
+    transform: scale(0.7);
 }
 
-.nodejs {
-    max-height: 200px !important;
+.nextjs, .nodejs {
+    margin: 0 !important;
 }
 
-.nodejs-li {
-    margin-top: 80px !important;
+.typeScript {
+    margin: 0 0 20px !important;
 }
 
 .react {
@@ -114,7 +116,11 @@
     .container li img:hover  {
         transform: scale(1.45);
         transition: transform 0.5s;
-    } 
+    }
+
+    .nextjs img:hover, .typeScript img:hover, .nodejs img:hover {
+        transform: scale(1) !important;
+    }
 
     .container .normal-text-li a:hover {
         font-size: 6rem;
