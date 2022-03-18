@@ -1,9 +1,9 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import ModalUI from "../ui/ModalUI";
+import ModalUI from "../UI/ModalUI";
 import Button from "@mui/material/Button";
-import PostToPublicModalUI from "../ui/PostToPublicModalUI";
+import PostToPublicModalUI from "../UI/PostToPublicModalUI";
 import styles from "./AdminNav.module.css";
 import { Article } from "../../interfaces/article";
 

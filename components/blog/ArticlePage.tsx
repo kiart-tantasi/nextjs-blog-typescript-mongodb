@@ -2,7 +2,7 @@ import Head from 'next/head';
 import { useContext, useEffect } from 'react';
 import AuthContext from '../../context/auth-context';
 import AdminNav from './AdminNav';
-import ArticleCardUI from '../ui/ArticleCardUI';
+import ArticleCardUI from '../UI/ArticleCardUI';
 import { websiteName } from '../../utils/sharedData';
 import { Article } from '../../interfaces/article';
 

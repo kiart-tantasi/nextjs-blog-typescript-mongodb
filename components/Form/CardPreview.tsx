@@ -1,5 +1,5 @@
 import { ArticleTypes, PreviewData } from "../../interfaces/article";
-import CardUI from "../ui/CardUI";
+import CardUI from "../UI/CardUI";
 
 const CardPreview = (props:{previewData: PreviewData; category: ArticleTypes; slug: string}) => {
     const articleCardData = {
