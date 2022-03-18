@@ -1,5 +1,5 @@
 import { PreviewData } from "../../interfaces/article";
-import ArticleUI from "../ui/ArticleUI";
+import ArticleUI from "../UI/ArticleUI";
 
 const ArticlePreview = (props:{previewData: PreviewData;}) => {
     return (
