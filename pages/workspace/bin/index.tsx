@@ -1,5 +1,5 @@
 import type { NextPage } from 'next';
-import BinPage from '../../../components/admin/BinPage';
+import BinPage from '../../../components/Admin/BinPage';
 import { ArticleCard } from '../../../interfaces/article';
 
 const ArticleBin: NextPage<{articles: ArticleCard[]}> = (props) => {

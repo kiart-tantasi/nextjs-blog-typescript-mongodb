@@ -1,4 +1,5 @@
 import { NextPage } from "next";
+import DeletedArticlePage from "../../../components/Admin/DeleteArticlePage";
 import NotFoundPage from "../../../components/blog/NotFoundPage";
 import { Article } from "../../../interfaces/article";
 
@@ -13,7 +14,6 @@ export default DeletedArticle;
 import { GetServerSidePropsContext } from "next";
 import { MongoClient } from "mongodb";
 import { Lexer, Parser } from "marked";
-import DeletedArticlePage from "../../../components/admin/DeleteArticlePage";
 import { transformImgUrl } from "../../../lib/transform-data";
 
 export const getServerSideProps = async(context: GetServerSidePropsContext) => {
