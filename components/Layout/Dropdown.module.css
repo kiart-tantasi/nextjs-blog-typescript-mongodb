@@ -1,12 +1,13 @@
 .dropdown {
     margin-left: 40px;
+    height: 100%;
 }
 
 .dropdown-button {
     position: relative;
-    top: 3px;
+    top: 14px;
     cursor: pointer;
-    padding: 20px 10px 5px 10px;
+    padding: 22px 15px 8px;
 }
 
 .dropdown-content {
@@ -15,22 +16,21 @@
     min-width: 120px;
     background-color: #fff;
     box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.2);
-    transform: translate(-60px, 5px);
+    transform: translate(-65px, 15px);
     z-index: 999;
 }
 
 .dropdown-content a {
     display: block;
     text-align: right;
-    color: #000 !important;
+    color: #000;
     padding: 16px 16px 16px 10px;
 }
 
 .dropdown-content a:hover {
     background-color: rgb(47, 102, 184);
-    color: #fff !important;
+    color: #fff;
 }
-
 
 /* HIDDEN AND SHOW */
 .show-860, .show-450 {
@@ -44,7 +44,7 @@
     }
 
     .dropdown-content {
-        transform: translate(-170px, 2px);
+        transform: translate(-170px, 15px);
         min-width: 220px;
     }
     
@@ -58,5 +58,10 @@
     /* show */
     .show-450 {
         display: block;
+    }
+
+    /* clear margin-left of dropdown */
+    .dropdown {
+        margin-left: 0;
     }
 }

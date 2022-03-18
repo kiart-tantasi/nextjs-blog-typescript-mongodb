@@ -27,22 +27,29 @@ const MainNav = () => {
   }, [logIn, fetched]);
 
   return (
-    <AppBar position="static" sx={{height: {xs: 45, sm:50} , backgroundColor: isAdmin? "rgb(18, 60, 124)": "rgb(47, 102, 184)"}}>
-        <div className={`${styles.nav}`}>
+    <AppBar position="static" sx={{height: {xs: 50} , backgroundColor: isAdmin? "rgb(18, 60, 124)": "rgb(47, 102, 184)"}}>
+        <div className={styles.nav}>
 
           <div className={styles["blog-brand"]}>
+
             <Link href="/">
-              <a>
-                <h1>เพชรดอทบล็อก</h1>
-              </a>
+              <span className={styles["blog-brand-span"]}>
+                <a>
+                  <h1>เพชรดอทบล็อก</h1>
+                </a>
+              </span>
             </Link>
+
             {isAdmin === true && 
             <Link href="/workspace">
-              <a className={styles["workspace-brand"]}>
-                <h1>W<span className={styles["hide-workspace-brand"]}>ORKSPACE</span></h1>
-              </a>
+              <span className={styles["workspace-span"]}>
+                <a className={styles["workspace-brand"]}>
+                  <h1>W<span className={styles["hide-workspace-brand"]}>ORKSPACE</span></h1>
+                </a>
+              </span>
             </Link>
             }
+
           </div>
           
           <nav className={styles["main-nav"]}>
