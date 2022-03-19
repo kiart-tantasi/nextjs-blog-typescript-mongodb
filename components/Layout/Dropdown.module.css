@@ -7,7 +7,7 @@
     position: relative;
     top: 14px;
     cursor: pointer;
-    padding: 22px 15px 8px;
+    padding: 22px 15px 9px;
 }
 
 .dropdown-content {
@@ -44,7 +44,7 @@
     }
 
     .dropdown-content {
-        transform: translate(-170px, 15px);
+        transform: translate(-166px, 22px);
         min-width: 220px;
     }
     

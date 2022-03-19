@@ -21,7 +21,7 @@
 
 .petchdotblog a, .workspace a {
     display: inline-block;
-    line-height: 300%;
+    line-height: 310%;
 }
 
 .petchdotblog {
@@ -72,20 +72,10 @@
 }
 
 /* MEDIA QUERY */
-/* nav */
+/* AT 1200PX */
 @media (max-width: 1250px) {
     .nav {
         width: 80%;
-    }
-}
-
-@media (max-width: 450px) {
-    .nav {
-        margin: 0;
-        width: 100%;
-    }
-    .petchdotblog h1 {
-        padding-left: 20px;
     }
 }
 
@@ -112,8 +102,19 @@
     }
 }
 
-/* hide tech at 450px */
+/* AT 450PX */
 @media (max-width: 450px) {
+    .nav {
+        margin: 0;
+        width: 100%;
+    }
+    .petchdotblog h1 {
+        padding: 0 20px;
+    }
+    .petchdotblog {
+        margin-right: 0;
+    }
+    /* hide tech */
     .hide-450 {
         display: none;
     }
