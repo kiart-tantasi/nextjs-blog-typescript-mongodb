@@ -60,10 +60,12 @@ KIART TANTASI
 &nbsp; &nbsp; &nbsp; &nbsp; ผมใช้เวลาไปกับการเขียนสคริปต์เกม GTA ประมาณ 3 - 4 เดือน ซึ่งตอนนั้นเป็นช่วงปิดเทอม ผมเขียนโค้ดไปประมาณสามถึงสี่หมื่นบรรทัดได้ แน่นอนว่าตอนนั้นยังไม่รู้จักหลักการ Clean Code หรือ Less Code เขียนมั่ว ๆ ตามภาษาเด็กอย่างเดียวเลยครับ ฮ่า ๆ
 <br>
 <br>
-ฝาก GitHub ด้วยครับ: <a href="https://github.com/kiart-tantasi" target="_blank" rel="noopener noreferrer">kiart-tantasi</a>
+
+GitHub: <a href="https://github.com/kiart-tantasi" target="_blank" rel="noopener noreferrer">kiart-tantasi</a>
+-----
+
 <br>
-<br>
-เว็บไซต์นี้สร้างขึ้นบนเฟรมเวิร์ก <a href="https://nextjs.org/" target="_blank" rel="noopener noreferrer">Nextjs</a> (<a href="https://www.typescriptlang.org/" target="_blank" rel="noopener noreferrer">TypeScript</a>)
-<br>
-*Source Code*: <a href="https://github.com/kiart-tantasi/Nextjs-Blog-with-TypeScript-Marked-JWT-MongoDB" target="_blank" rel="noopener noreferrer">Nextjs-Blog-with-TypeScript-Marked-JWT-MongoDB</a>
+
+Source Code: <a href="https://github.com/kiart-tantasi/Nextjs-Blog-with-TypeScript-Marked-JWT-MongoDB" target="_blank" rel="noopener noreferrer">Nextjs-Blog-with-TypeScript-Marked-JWT-MongoDB</a>
+-------
 `
