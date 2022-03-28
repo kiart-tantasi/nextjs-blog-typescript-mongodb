@@ -1,7 +1,7 @@
 import Head from "next/head";
 import styles from "./BinPage.module.css";
 import { ArticleCard } from "../../interfaces/article";
-import CardUI from "../UI/CardUI";
+import CardUI from "../ui/CardUI";
 
 const BinPage = (props:{articles: ArticleCard[]}) => {
     const reversedArticles = [...props.articles].reverse();

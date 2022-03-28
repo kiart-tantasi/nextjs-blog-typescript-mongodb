@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import { useState } from "react"
-import ArticleCardUI from "../UI/ArticleCardUI"
-import ModalUI from "../UI/ModalUI";
+import ArticleCardUI from "../ui/ArticleCardUI"
+import ModalUI from "../ui/ModalUI";
 import Button from "@mui/material/Button";
 import { Article } from "../../interfaces/article"
 
