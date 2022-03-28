@@ -1,5 +1,5 @@
 import { NextPage } from "next";
-import Form from "../../../components/Form/Form";
+import Form from "../../../components/form/Form";
 import NotFoundPage from "../../../components/blog/NotFoundPage";
 import { Article } from "../../../interfaces/article";
 

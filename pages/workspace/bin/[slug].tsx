@@ -1,5 +1,5 @@
 import { NextPage } from "next";
-import DeletedArticlePage from "../../../components/Admin/DeleteArticlePage";
+import DeletedArticlePage from "../../../components/admin/DeleteArticlePage";
 import NotFoundPage from "../../../components/blog/NotFoundPage";
 import { Article } from "../../../interfaces/article";
 
