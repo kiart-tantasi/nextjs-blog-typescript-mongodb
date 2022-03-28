@@ -1,0 +1,45 @@
+.author {
+    flex-grow: 1;
+    padding: 20px 20px 20px 60px;
+    text-align: left;
+    border-right: 1px solid rgba(0,0,0,0.1);
+}
+
+.author h3, .author p, .author a {
+    display: inline-block;
+} 
+
+.author p {
+    font-size: 0.85rem;
+    font-style: italic;
+    margin-right: 5px;
+}
+
+.author a {
+    font-size: 0.85rem;
+    text-decoration: none;
+    font-style: italic;
+    color: rgb(55, 85, 182);
+}
+
+/* a tag / link */
+.author a {
+    text-decoration: none;
+    font-style: italic;
+    color: rgb(55, 85, 182);
+}
+
+/* MEDIA QUERY */
+@media (max-width: 1300px) {
+    .author {
+        width: 800px;
+        margin: 0 auto;
+        padding: 30px;
+    }
+}
+
+@media (max-width: 800px) {
+    .author {
+        width: 100%;
+    }
+}

@@ -1,0 +1,87 @@
+/* title and desc */
+.title-a-tag {
+    display: inline-block;
+    margin: 10px 15px 5px;
+}
+
+.title-h1-tag {
+    font-size: 1.3rem;
+    line-height: 150%;
+}
+
+.desc {
+    color:rgba(0, 0, 0, 0.5);
+    font-size: 0.8rem;
+    margin: 0 15px 15px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+/*  readmore & date */
+.date-readmore {
+    display: flex;
+    justify-content: space-between;
+}
+.date-div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-left: 10px;
+}
+.read-more-a-tag {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* card */
+.card {
+    width: 550px;
+    margin: 0 auto 30px;
+}
+
+.card a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* media query */
+@media (max-width: 700px) {
+    .card {
+        width: 450px;
+    }
+
+    .title-h1-tag {
+        font-size: 1.2rem;
+    }
+
+    .desc {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 450px) {
+    .card {
+        width: 100%;
+        min-width: 300px;
+    }
+
+    .title-a-tag {
+        margin: 10px 15px 5px;
+    }
+
+    .title-h1-tag {
+        font-size: 1rem;
+    }
+
+    .desc {
+        margin: 0 15px 15px;
+    }
+}
+
+/* hover effect if not mobile phone */
+@media (min-width: 426px) {
+    .title-h1-tag:hover {
+        color: rgb(47, 102, 184);
+    }
+}

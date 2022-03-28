@@ -1,0 +1,171 @@
+.article {
+    width: 800px;
+    min-height: 650px;
+    padding: 0 30px;
+    word-wrap: break-word;
+    text-align: left !important;
+}
+
+/* ----- ARTICLE SETTINGS ----- */
+
+/* title and hide desc */
+.title {
+    font-size: 1.8rem!important;
+}
+
+/* --- h1 h2 h3 p --- */
+
+/* font sizes */
+.article h1 {
+    font-size: 1.6rem;
+}
+
+.article h2 {
+    font-size: 1.3rem;
+}
+
+.article h3 {
+    font-size: 1.2rem;
+}
+
+.article p {
+    font-size: 1.1rem;
+}
+
+/* margin and line height */
+.article h1, .article h2 {
+    margin: 15px 0;
+    line-height: 145%;
+}
+
+.article h3, .article p {
+    margin: 10px 0;
+    line-height: 230%;
+}
+
+/* img */
+.article img {
+    border-radius: 3px;
+    margin: 20px auto;
+    max-height: 400px;
+    max-width: 90%;
+}
+
+/* date - views */
+.date-views {
+    text-align: right !important;
+    color: rgb(122, 122, 122);
+    font-size: 0.75rem!important;
+    line-height: 130%!important;
+}
+
+/* a tag / link */
+.article a {
+    text-decoration: none;
+    font-style: italic;
+    color: rgb(55, 85, 182);
+}
+
+/* ordered list */
+.article ol, .article ul {
+    padding-inline-start: 40px;
+    margin: 25px 0;
+}
+
+.article li {
+    margin: 15px 0;
+    line-height: 180%;
+}
+
+/* blockquote */
+.article blockquote {
+    margin-block-start: 1rem;
+    margin-block-end: 1rem;
+    margin-inline-start: 40px;
+    margin-inline-end: 40px;
+}
+
+/* pre and code */
+.article pre {
+    background-color: rgb(24, 66, 129);
+    padding: 20px 10px;
+    border-radius: 5px;
+    overflow-x: auto;
+}
+
+.article code {
+    color:rgb(255, 255, 255);
+    font-size: 1rem;
+    line-height: 180%;
+}
+
+/* hr */
+.article hr {
+    margin-bottom: 15px;
+}
+
+/* div */
+.padding-bottom {
+    padding-bottom: 15px;
+}
+
+/* MEDIA QUERY */
+@media (max-width: 1300px) {
+    .article {
+        margin: 0 auto;
+    }
+}
+
+@media (max-width: 800px) {
+    .article {
+        width: 100%;
+        min-width: 300px;
+        padding: 0 30px;
+    }
+}
+
+@media (max-width: 450px) {
+    .article {
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+
+    .title {
+        font-size: 1.5rem!important;
+    }
+
+    .article h1 {
+        font-size: 1.35rem;
+    }
+
+    .article h2 {
+        font-size: 1.15rem;
+    }
+
+    .article p {
+        font-size: 1rem;
+        line-height: 250%;
+    }
+}
+
+/* media query for pre and code tag */
+@media (max-width: 800px) {
+    .article code {
+        font-size: 0.85rem;
+    }
+}
+
+@media (max-width: 650px) {
+    .article code {
+        font-size: 0.75rem;
+    }
+}
+
+@media (max-width: 450px) {
+    .article pre {
+        padding: 10px 5px;
+    }
+    .article code {
+        font-size: 0.7rem;
+    }
+}

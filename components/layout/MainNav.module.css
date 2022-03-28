@@ -1,0 +1,121 @@
+.nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: inherit;
+    width: 1200px;
+    margin: 0 auto;
+}
+
+/* BRAND */
+.blog-brand {
+    display: flex;
+    height: 100%;
+    align-items: center;
+}
+
+/* petchdotblog and workspace brand */
+.petchdotblog, .workspace {
+    height: 100%;
+}
+
+.petchdotblog a, .workspace a {
+    display: inline-block;
+    line-height: 310%;
+}
+
+.petchdotblog {
+    margin-right: 40px;
+}
+
+.petchdotblog h1, .workspace h1 {
+    color: #fff;
+    font-size: 1.1rem;
+    letter-spacing: 1px;
+}
+
+.petchdotblog a, .workspace a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* RIGHT NAV */
+.main-nav {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 100%;
+}
+
+.main-nav li {
+    display: inline-block;
+    margin-left: 20px;
+}
+
+.main-nav a {
+    text-decoration: none;
+}
+
+.main-nav p {
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+    color: rgb(96, 163, 250);
+}
+
+.main-nav p:hover {
+    color:rgba(255, 255, 255, 0.733);
+}
+
+/* activeClassName */
+.active p {
+    color: #fff;
+}
+
+/* MEDIA QUERY */
+/* AT 1200PX */
+@media (max-width: 1250px) {
+    .nav {
+        width: 80%;
+    }
+}
+
+/* AT 860PX */
+@media (max-width: 860px) {
+    .hide-860 {
+        display: none;
+    }
+    .workspace a {
+        transform: translate(0px, 2px);
+    }
+    .workspace h1 {
+        font-size: 1.3rem;
+        
+    }
+    .hide-workspace {
+        display: none;
+    }
+    .workspace a {
+        padding: 0 10px;
+    }
+    .petchdotblog {
+        margin-right: 25px;
+    }
+}
+
+/* AT 450PX */
+@media (max-width: 450px) {
+    .nav {
+        margin: 0;
+        width: 100%;
+    }
+    .petchdotblog h1 {
+        padding: 0 20px;
+    }
+    .petchdotblog {
+        margin-right: 0;
+    }
+    /* hide tech */
+    .hide-450 {
+        display: none;
+    }
+}

@@ -1,0 +1,11 @@
+.container {
+    text-align: center;
+    padding-top: 150px;
+}
+
+.form input {
+    height: 30px;
+    width: 200px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
