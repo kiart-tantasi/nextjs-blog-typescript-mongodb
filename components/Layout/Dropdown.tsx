@@ -15,6 +15,13 @@ const Dropdown = () => {
                 window.onclick = null;
             }
         }
+
+        window.onpopstate = (e: PopStateEvent) => {
+            if (openDropdown === true) {
+                setOpenDropdown(false);
+                window.onpopstate = null;
+            }
+        }
     }, [openDropdown]);
 
     const handleToggleDropdown = () => {
