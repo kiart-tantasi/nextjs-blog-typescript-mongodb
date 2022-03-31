@@ -13,6 +13,7 @@ const Dropdown = () => {
             if (openDropdown === true) {
                 setOpenDropdown(false);
                 window.onclick = null;
+                window.onpopstate = null;
             }
         }
 
@@ -20,6 +21,7 @@ const Dropdown = () => {
             if (openDropdown === true) {
                 setOpenDropdown(false);
                 window.onpopstate = null;
+                window.onclick = null;
             }
         }
     }, [openDropdown]);
