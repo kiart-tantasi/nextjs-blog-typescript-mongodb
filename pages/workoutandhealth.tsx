@@ -7,7 +7,7 @@ const WorkoutAndHealth:NextPage<{articles:ArticleCard[]}> = (props) => {
     const { articles } = props;
     return (
         <>
-        <Head><title>ออกกำลังกายและสุขภาพ | เพชรดอทบล็อก</title></Head>
+        <Head><title>ออกกำลังกายและสุขภาพ | PETCH.BLOG</title></Head>
         <Articles articles={articles} heading="ออกกำลังกายกัน!" />
         </>
     )

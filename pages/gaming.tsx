@@ -8,7 +8,7 @@ const Gaming: NextPage<{articles:ArticleCard[]}> = (props) => {
     return (
         <>
         <Head>
-            <title>เกมมิ่ง | เพชรดอทบล็อก</title>
+            <title>เกมมิ่ง | PETCH.BLOG</title>
             <meta name="description" content="บทความเกม แชร์เทคนิคการเล่นที่ทั้งกากและทั้ง(อาจจะ)เก่ง" />
         </Head>
         <Articles articles={articles} heading="ยินดีต้อนรับสู่โลกคนติดเกมส์!" />
