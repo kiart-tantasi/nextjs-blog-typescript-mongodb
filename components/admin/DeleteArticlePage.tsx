@@ -33,7 +33,7 @@ const DeletedArticlePage = (props: {article: Article}) => {
     }
 
     const handlePermanentDelete = async() => {
-        const response = await fetch("/api/article", {
+        const response = await fetch("/api/articles", {
             method: "DELETE",
             headers: {"Content-Type":"application/json"},
             body: JSON.stringify({slug: props.article.slug, permanentDelete: true})

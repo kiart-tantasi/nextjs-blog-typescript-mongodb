@@ -75,7 +75,7 @@ const ArticleForm = (props: {article?: Article; editMode:boolean}) => {
             category: category,
             slug: slug
         }
-        const response = await fetch("/api/article", {
+        const response = await fetch("/api/articles", {
             method: "PUT",
             headers: {"Content-Type" : "application/json"},
             body: JSON.stringify(sendingData)
@@ -106,7 +106,7 @@ const ArticleForm = (props: {article?: Article; editMode:boolean}) => {
             desc: desc,
             markdown: markdown
         }
-        const response = await fetch("/api/article", {
+        const response = await fetch("/api/articles", {
             method: "POST",
             headers: {"Content-Type" : "application/json"},
             body: JSON.stringify(sendingData)

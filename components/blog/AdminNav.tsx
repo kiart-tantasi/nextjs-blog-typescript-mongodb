@@ -13,7 +13,7 @@ const AdminNav = (props:Article) => {
     const [ postPublicModal, setPostPublicModal ] = useState(false);
 
     const handleDelete = async() => {
-        const response = await fetch("/api/article", {
+        const response = await fetch("/api/articles", {
             method: "DELETE",
             headers: {"Content-Type":"application/json"},
             body: JSON.stringify({slug: props.slug, category: props.category, permanentDelete: false})
