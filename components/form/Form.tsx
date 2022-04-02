@@ -1,7 +1,6 @@
 import { useRouter } from "next/router";
 import React, { useEffect, useRef, useState } from "react";
 import { Lexer, Parser } from "marked";
-import slugify from "slugify";
 import CardPreview from "./CardPreview";
 import ArticlePreview from "./ArticlePreview";
 import Button from '@mui/material/Button';
@@ -76,7 +75,7 @@ const ArticleForm = (props: {article?: Article; editMode:boolean}) => {
             category: category,
             slug: slug
         }
-        const response = await fetch("/api/edit-article", {
+        const response = await fetch("/api/article", {
             method: "PUT",
             headers: {"Content-Type" : "application/json"},
             body: JSON.stringify(sendingData)
@@ -97,8 +96,7 @@ const ArticleForm = (props: {article?: Article; editMode:boolean}) => {
         const alt = altRef.current!.value;
         const desc = descRef.current!.value;
         const markdown = textAreaRef.current!.value;
-        const slug = slugify("workspace" + new Date().toLocaleString() + "randomNum:" + Math.floor(Math.random() * 1000));
-        if (!title.length || !img.length || !alt.length || !desc.length || !markdown.length || !slug.length) {
+        if (!title.length || !img.length || !alt.length || !desc.length || !markdown.length) {
             return alert("ข้อมูลไม่ครบถ้วน");
         }
         const sendingData = {
@@ -106,11 +104,9 @@ const ArticleForm = (props: {article?: Article; editMode:boolean}) => {
             img: img,
             alt: alt,
             desc: desc,
-            markdown: markdown,
-            category: "workspace",
-            slug: slug
+            markdown: markdown
         }
-        const response = await fetch("/api/new-article", {
+        const response = await fetch("/api/article", {
             method: "POST",
             headers: {"Content-Type" : "application/json"},
             body: JSON.stringify(sendingData)

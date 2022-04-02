@@ -32,11 +32,11 @@ const DeletedArticlePage = (props: {article: Article}) => {
         }
     }
 
-    const handePermanentDelete = async() => {
-        const response = await fetch("/api/delete-article-permanently", {
-            method: "POST",
+    const handlePermanentDelete = async() => {
+        const response = await fetch("/api/article", {
+            method: "DELETE",
             headers: {"Content-Type":"application/json"},
-            body: JSON.stringify({slug: props.article.slug})
+            body: JSON.stringify({slug: props.article.slug, permanentDelete: true})
         })
         if (response.ok) {
             alert("ลบถาวรสำเร็จ !!!");
@@ -63,7 +63,7 @@ const DeletedArticlePage = (props: {article: Article}) => {
         <ModalUI text="!!! โปรดพิมพ์ slug เพื่อลบถาวร !!!" 
             important
             delete={{delete:true, slug: props.article.slug}}
-            onConfirm={handePermanentDelete}
+            onConfirm={handlePermanentDelete}
             onClose={() => setPermanentDeleteModal(false)}
         />}
 

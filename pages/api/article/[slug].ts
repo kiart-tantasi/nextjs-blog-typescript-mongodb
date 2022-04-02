@@ -1,0 +1,47 @@
+import { MongoClient } from "mongodb";
+import {  NextApiRequest, NextApiResponse } from "next";
+
+export default async function handler(req:NextApiRequest,res:NextApiResponse) {
+    if (req.method === "GET") {
+
+        const client = new MongoClient(process.env.DB_URL as string);
+        let connectClient = false;
+
+        try {
+            // CHECK QUERY
+            const { slug } = req.query;
+            if (!slug) throw new Error("Not found");
+
+            // CONNECT DB
+            await client.connect();
+            connectClient = true;
+
+            // FIND ARTICLE IN MAIN CATEGORY
+            const db = client.db("blogDB");
+            const main = db.collection("main");
+            const article = await main.findOne({slug:slug});
+            if (article === null) throw new Error("Not found");
+
+            // TRANSFORM DATA BEFORE SENDING
+            const transformedArticle = {
+                title: article.title,
+                desc: article.desc,
+                markdown: article.markdown,
+                img: article.img,
+                alt: article.alt,
+                date: article.date,
+                category: article.category,
+                slug: article.slug
+            }
+
+            // CLOSE DB AND RESPONSE
+            client.close();
+            res.status(200).json(transformedArticle);
+        } catch (error) {
+            // CLOSE DB AND RESPONSE ERROR
+            if (connectClient) client.close();
+            const err = error as Error;
+            res.status(500).json({message: err.message});
+        }
+    }
+}

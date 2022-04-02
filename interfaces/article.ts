@@ -27,32 +27,6 @@ export type ArticleCard = {
 
 export type ArticleTypes = "" | "tech" | "gaming" | "workoutandhealth"| "others" | "workspace";
 
-export type FormData = {
-    id?: string;
-    title: string;
-    desc: string;
-    markdown: string;
-    img: string;
-    alt: string;
-    date : number;
-    author?: string;
-    category: ArticleTypes;
-    slug: string;
-}
-
-export type FindOneAndUpdateForm = {
-    title: string;
-    img: string;
-    alt: string;
-    desc: string;
-    markdown: string;
-}
-
-export type ArticleForm = {
-    handleRequest: (article: FormData) => Promise<boolean>;
-    article?: Article;
-}
-
 export type PreviewData = {
     title:string; 
     desc:string; 
@@ -62,3 +36,26 @@ export type PreviewData = {
     views:number | undefined; 
     markdown:string
 };
+
+export type FindOldVersionForm = {
+    id: string;
+    title: string;
+    desc: string;
+    markdown: string;
+    img: string;
+    alt: string;
+    date : number;
+    category: ArticleTypes;
+    slug: string;
+    views: number;
+    editDate: number;
+}
+
+export type setDataForm = {
+    title: string;
+    img: string;
+    alt: string;
+    desc: string;
+    markdown: string;
+    record?: any[];
+}
