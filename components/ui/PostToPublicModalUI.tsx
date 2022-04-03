@@ -22,9 +22,10 @@ const PostToPublicModalUI = (props:{article: Article; onClose: () => void; repla
         const sendingData = {
             category: category,
             slug: slug,
-            workspaceSlug: props.article.slug
+            workspaceSlug: props.article.slug,
+            postToPublic: true
         }
-        const response = await fetch("/api/workspace-to-public", {
+        const response = await fetch("/api/articles", {
             method: "POST",
             headers: {"Content-Type":"application/json"},
             body: JSON.stringify(sendingData)

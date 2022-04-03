@@ -2,6 +2,7 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import { MongoClient } from 'mongodb';
 import slugify from 'slugify';
 import isAuthenticated from '../../../lib/jwt-token-validation';
+import { allowedCategories } from '../../../utils/sharedData';
 import { setDataForm, FindOldVersionForm } from '../../../interfaces/article';
 
 export default isAuthenticated(async function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -9,9 +10,16 @@ export default isAuthenticated(async function handler(req: NextApiRequest, res: 
     const dbUrl = process.env.DB_URL as string;
     const client = new MongoClient(dbUrl);
     let connectClient = false;
+
+    // ---- POST METHODS ---- //
+
+    // ERROR POST METHOD
+    if (req.method === "POST" && req.body.postToPublic === undefined) {
+        return res.status(500).json({message:"please decribe posting type (postToPublic: true/false)"});
+    }
     
     // POST A NEW ARTICLE
-    if (req.method === "POST") {
+    else if (req.method === "POST" && req.body.postToPublic === false) {
 
         try {
             // CHECK REQUEST DATA
@@ -47,6 +55,67 @@ export default isAuthenticated(async function handler(req: NextApiRequest, res: 
             res.status(200).json({message:insertResult});
         } catch (error) {            
             // CLOSE DB BEFORE RESPONSE 400 IN SOME CASES
+            if (connectClient) client.close();
+            const err = error as Error;
+            res.status(400).json({message: err.message});
+        }
+    }
+
+    // POST A WORKSPACE ARTICLE TO PUBLIC
+    else if (req.method === "POST" && req.body.postToPublic === true) {
+
+        try {
+            // DATA PREPARATION
+            const { category, slug, workspaceSlug } = req.body;
+            if (!category || !slug || !workspaceSlug) throw new Error("some information is missing.");
+            if (!allowedCategories.includes(category) || category === "workspace") throw new Error("category not allowed");
+
+            // CONNECT DB
+            await client.connect();
+            connectClient = true;
+            const db = client.db("blogDB");
+
+            // CHECKIF SLUG IS ALREADY USED OR NOT IN CHOSEN CATEGORY AND MAIN CATEGORY
+            const collection = db.collection(category);
+            const main = db.collection("main");
+            const findDuplicateFromCategory = await collection.findOne({slug:slug});
+            const findDuplicateFromMainCategory = await main.findOne({slug:slug});
+            if (findDuplicateFromCategory !== null|| findDuplicateFromMainCategory !== null) throw new Error("slug is already used.");
+
+            // FIND AND GET ARTICLE FROM WORKSPACE
+            const workspace = db.collection("workspace");
+            const articleFromWorkspace = await workspace.findOne({slug: workspaceSlug});
+
+            // PREPARE DATA
+            const articleToPostToPublic = {
+                title: articleFromWorkspace!.title,
+                desc: articleFromWorkspace!.desc,
+                markdown: articleFromWorkspace!.markdown,
+                img: articleFromWorkspace!.img,
+                alt: articleFromWorkspace!.alt,
+                date: Date.now(),
+                category: category,
+                slug: slug,
+                views: 1,
+                record: articleFromWorkspace?.record || []
+            }
+
+            // INSERT TO CHOSEN CATEGORY AND MAIN CATEGORY
+            const categoryInsertResult = await collection.insertOne(articleToPostToPublic);
+            const mainCategoryInsertResult = await main.insertOne(articleToPostToPublic);
+
+            // DELETE IN WORKSPACE
+            const workspaceDeleteResult = await workspace.deleteOne({slug: workspaceSlug});
+
+            // CLOSE DB AND RESPONSE
+            client.close();
+            res.status(200).json({
+                message: categoryInsertResult,
+                message2: mainCategoryInsertResult,
+                message3: workspaceDeleteResult
+            });
+        } catch (error) {
+            // CLOSE DB BEFORE RESPONSE ERROR
             if (connectClient) client.close();
             const err = error as Error;
             res.status(400).json({message: err.message});
@@ -119,8 +188,10 @@ export default isAuthenticated(async function handler(req: NextApiRequest, res: 
         }
     }
 
-    // DELETE METHODS
-    else if (req.method === "DELETE" && req.body.permanentDelete === null) {
+    // ---- DELETE METHODS ---- //
+
+    // ERROR DELETE METHOD
+    else if (req.method === "DELETE" && req.body.permanentDelete === undefined) {
         return res.status(500).json({message:"please decribe deleting type (permanent: true/false)"});
     }
 

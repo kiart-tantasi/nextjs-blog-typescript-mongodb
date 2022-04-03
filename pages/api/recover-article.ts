@@ -26,23 +26,42 @@ export default isAuthenticated(async function handler (req: NextApiRequest, res:
             // 1. IF NOT WORKSPACE
             if (category !== "workspace") {
 
+                // INSERT
                 const main = db.collection("main");
                 const specificCategory = db.collection(category);
+                const mainCategoryInsertResult = await main.insertOne(deletedArticle);
+                const specificCategoryInsertResult = await specificCategory.insertOne(deletedArticle);
 
-                const mainResult = await main.insertOne(deletedArticle);
-                const specificCategoryResult = await specificCategory.insertOne(deletedArticle);
+                // DELETE FROM BIN
+                const deleteResult = await binCollection.deleteOne({slug: slug});
 
+                // CLOSE DB AND RESPONSE
                 client.close();
-                res.status(200).json({message:"recovered to main and specific category successfully.", mainResult, specificCategoryResult});
+                res.status(200).json({
+                    message:"recovered to main and specific category successfully.",
+                    message2: mainCategoryInsertResult,
+                    message3: specificCategoryInsertResult,
+                    message4: deleteResult
+                });
             }
 
             // 2. WORKSPACE CATEGORY
             else {
+
+                // INSERT
                 const workspace = db.collection("workspace");
-                const workspaceResult = await workspace.insertOne(deletedArticle);
+                const workspaceCategoryInsertResult = await workspace.insertOne(deletedArticle);
+
+                // DELETE FROM BIN
+                const deleteResult = await binCollection.deleteOne({slug: slug});
                 
+                // CLOSE DB AND RESPONSE
                 client.close();
-                res.status(200).json({message: "recovered to workspace successfully", workspaceResult});
+                res.status(200).json({
+                    message: "recovered to workspace successfully",
+                    message2: workspaceCategoryInsertResult,
+                    message3: deleteResult
+                });
             }
 
         } catch (error) {

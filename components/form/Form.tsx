@@ -104,13 +104,15 @@ const ArticleForm = (props: {article?: Article; editMode:boolean}) => {
             img: img,
             alt: alt,
             desc: desc,
-            markdown: markdown
+            markdown: markdown,
+            postToPublic: false
         }
         const response = await fetch("/api/articles", {
             method: "POST",
             headers: {"Content-Type" : "application/json"},
             body: JSON.stringify(sendingData)
         });
+
         if (response.status === 401) return alert("session แอดมินหมดอายุ");
         else if (!response.ok) return alert("เพิ่มบทความล้มเหลว !");
 
