@@ -12,10 +12,11 @@ export default ArticleBin;
 import { MongoClient } from 'mongodb';
 import { transformCardData } from '../../../lib/transform-data';
 import { Article } from '../../../interfaces/article';
+import { EnvGetter } from '../../../lib/env-getter';
 
 export const getServerSideProps = async() => {
   // CONNECT DB AND WORKSPACE COLLECTION
-  const dbUrl = process.env.DB_URL as string;
+  const dbUrl = EnvGetter.getDbUrl();
   const client = new MongoClient(dbUrl);
   await client.connect();
   const db = client.db("blogDB");

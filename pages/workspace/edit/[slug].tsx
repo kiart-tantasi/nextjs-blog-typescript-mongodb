@@ -13,10 +13,11 @@ export default Edit;
 // -------------------------------------------------------------------------------------------------------- //
 import { GetServerSidePropsContext } from "next";
 import { MongoClient } from "mongodb";
+import { EnvGetter } from "../../../lib/env-getter";
 
 export const getServerSideProps = async(context: GetServerSidePropsContext) => {
     // CONNECT DB
-    const dbUrl = process.env.DB_URL as string;
+    const dbUrl = EnvGetter.getDbUrl();
     const client = new MongoClient(dbUrl);
     await client.connect();
     const db = client.db("blogDB");

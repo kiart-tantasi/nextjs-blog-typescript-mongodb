@@ -18,9 +18,10 @@ export default Others;
 import { MongoClient } from "mongodb";
 import { transformCardData } from '../lib/transform-data';
 import { Article } from '../interfaces/article';
+import { EnvGetter } from '../lib/env-getter';
 
 export async function getStaticProps() {
-  const dbUrl = process.env.DB_URL as string;
+  const dbUrl = EnvGetter.getDbUrl();
   const client = new MongoClient(dbUrl);
   await client.connect();
   const db = client.db("blogDB");

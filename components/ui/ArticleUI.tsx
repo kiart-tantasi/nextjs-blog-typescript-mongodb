@@ -12,7 +12,7 @@ const ArticleUI = (props:{title:string; desc:string; img:string; alt: string; da
         const DomPurify = domPurify(window);
         const sanitizedHtml = DomPurify.sanitize(props.markdown);
         setSanitizedMarkdown(sanitizedHtml);
-    }, []);
+    }, [props.markdown]);
 
     return (
         <Card className={styles.article}>

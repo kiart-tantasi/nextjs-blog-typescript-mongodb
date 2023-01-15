@@ -1,21 +1,38 @@
+# Project's README
 
-2 things to config in your .env.local file at root directory (for dev) or Environment Variables on your hosting website (for production)
+## Environment Variables
 
-*if you don't have .env.local file, create one at root directory. ("/my-project/.env.local")
+**There are 2 required environment variables.**
 
-
-1. DB_URL= your mongodb url
-
-2. PRIVATE_KEY= your private key for jwt's signing and verifying
+**`DB_URL` (MongoDB URL including Access Key)**
+**`PRIVATE_KEY` (JWT's Private Key)**
 
 
-For example (for dev) in .env.local file
+**For example**
+```
+DB_URL=mongodb+abc://app:key@cluster0.ab1c2.mongodb.net
+PRIVATE_KEY=THIS_IS_MY_PRIVATE_KEY
+```
 
-DB_URL=mongodb://localhost:27017
+<br>
 
-PRIVATE_KEY=THIS_IS_MY_PRIVATE_KEY_DONT_TELL_ANYBODY_123456#$%^&
+## How to Build and Deploy
 
-==========================================================================
+```
+yarn next build
+```
+
+and
+
+```
+yarn next start
+```
+
+<br>
+<br>
+<br>
+
+# NEXTjs's README
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 

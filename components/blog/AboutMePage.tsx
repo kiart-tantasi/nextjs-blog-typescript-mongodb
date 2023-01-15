@@ -10,7 +10,7 @@ const AboutMePage = (props: {markdown:string;} ) => {
         const DomPurify = domPurify(window);
         const sanitizedHtml = DomPurify.sanitize(props.markdown);
         setSanitizedMarkdown(sanitizedHtml);
-    }, []);
+    }, [props.markdown]);
 
     return <div className={`${styles.bio}`} dangerouslySetInnerHTML={{__html: sanitizedMarkdown}} />;
 }

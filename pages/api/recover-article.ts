@@ -1,5 +1,6 @@
 import { MongoClient } from "mongodb";
 import { NextApiRequest, NextApiResponse } from "next";
+import { EnvGetter } from "../../lib/env-getter";
 import isAuthenticated from "../../lib/jwt-token-validation";
 
 export default isAuthenticated(async function handler (req: NextApiRequest, res: NextApiResponse) {
@@ -11,7 +12,7 @@ export default isAuthenticated(async function handler (req: NextApiRequest, res:
             return res.status(400).json({message:"some information is missing."});
         }
 
-        const dbUrl = process.env.DB_URL as string;
+        const dbUrl = EnvGetter.getDbUrl();
         const client= new MongoClient(dbUrl);
         try {
             // CONNECT DB

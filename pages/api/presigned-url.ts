@@ -1,5 +1,6 @@
 import { MongoClient } from "mongodb";
 import { NextApiRequest, NextApiResponse } from "next";
+import { EnvGetter } from "../../lib/env-getter";
 import isAuthenticated from "../../lib/jwt-token-validation";
 import { transformImgUrl } from "../../lib/transform-data";
 
@@ -7,7 +8,10 @@ export default isAuthenticated(async function handler(req: NextApiRequest, res: 
     if (req.method !== "POST") {
         return res.status(200).json({message:"only accepts POST method.", imgUrl: "only accepts POST method."});
     }
-    const client = new MongoClient(process.env.DB_URL as string);
+
+    const dbUrl = EnvGetter.getDbUrl();
+    const client = new MongoClient(dbUrl);
+
     const { imgUrl } = req.body;
     if (!imgUrl) return res.status(200).json({imgUrl:"not found"});
 

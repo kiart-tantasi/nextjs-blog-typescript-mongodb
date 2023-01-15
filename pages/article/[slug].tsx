@@ -17,9 +17,10 @@ import { MongoClient } from "mongodb";
 import { GetStaticPaths, GetStaticProps } from "next";
 import { Lexer, Parser } from "marked";
 import { transformImgUrl } from "../../lib/transform-data";
+import { EnvGetter } from "../../lib/env-getter";
 
 export const getStaticPaths: GetStaticPaths = async() => {
-    const dbUrl = process.env.DB_URL as string;
+    const dbUrl = EnvGetter.getDbUrl();
     const client = new MongoClient(dbUrl);
     await client.connect();
     const db = client.db("blogDB");
@@ -38,7 +39,7 @@ export const getStaticPaths: GetStaticPaths = async() => {
 
 export const getStaticProps: GetStaticProps = async(context) => {
     const slug = context.params!.slug;
-    const dbUrl = process.env.DB_URL as string;
+    const dbUrl = EnvGetter.getDbUrl();
     const client = new MongoClient(dbUrl);
     await client.connect();
     const db = client.db("blogDB");
