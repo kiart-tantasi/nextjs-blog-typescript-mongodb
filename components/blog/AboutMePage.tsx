@@ -1,18 +1,13 @@
-import { useEffect, useState } from "react";
 import styles from "./AboutMePage.module.css";
+import DOMPurify from "isomorphic-dompurify";
 
-import domPurify from "dompurify";
-
-const AboutMePage = (props: {markdown:string;} ) => {
-    const [sanitizedMarkdown, setSanitizedMarkdown] = useState<string>("");
-
-    useEffect(() => {
-        const DomPurify = domPurify(window);
-        const sanitizedHtml = DomPurify.sanitize(props.markdown);
-        setSanitizedMarkdown(sanitizedHtml);
-    }, [props.markdown]);
-
-    return <div className={`${styles.bio}`} dangerouslySetInnerHTML={{__html: sanitizedMarkdown}} />;
-}
+const AboutMePage = (props: { markdown: string }) => {
+  return (
+    <div
+      className={`${styles.bio}`}
+      dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(props.markdown) }}
+    />
+  );
+};
 
 export default AboutMePage;
