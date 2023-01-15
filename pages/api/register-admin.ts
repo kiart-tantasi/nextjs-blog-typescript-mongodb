@@ -1,12 +1,14 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
+import type { NextApiRequest, NextApiResponse } from 'next'
+
 // import { MongoClient } from 'mongodb';
 // import bcryptjs from "bcryptjs";
-import isAuthenticated from '../../lib/jwt-token-validation';
+import isAuthenticated from '../../lib/jwt-token-validation'
+
 // import { EnvGetter } from '../../lib/get-env';
 
 export default isAuthenticated(async function handler(req: NextApiRequest, res: NextApiResponse) {
-    if (req.method === "POST") {
-        return res.status(500).json({message:"admin registration is not available now."});
+    if (req.method === 'POST') {
+        return res.status(500).json({ message: 'admin registration is not available now.' })
 
         // const dbUrl = EnvGetter.getDbUrl();
         // const client = new MongoClient(dbUrl);
@@ -41,4 +43,4 @@ export default isAuthenticated(async function handler(req: NextApiRequest, res: 
         //     res.status(400).json({message: err.message});
         // }
     }
-});
+})

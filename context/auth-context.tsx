@@ -1,34 +1,32 @@
-import React, { createContext, useCallback, useState } from "react";
+import React, { createContext, useCallback, useState } from 'react'
 
 const AuthContext = createContext({
     isFetched: false,
     fetched: () => {},
     isAdmin: false,
     logIn: () => {},
-    logOut: () => {}
+    logOut: () => {},
 })
 
-const AuthContextProvider:React.FC = (props) => {
-    const [ isFetched, setIsFetched ] = useState(false);
-    const [ isAdmin, setIsLoggedIn ] = useState(false);
+const AuthContextProvider: React.FC = props => {
+    const [isFetched, setIsFetched] = useState(false)
+    const [isAdmin, setIsLoggedIn] = useState(false)
 
     const fetched = useCallback(() => {
-        setIsFetched(true);
+        setIsFetched(true)
     }, [])
 
     const logIn = useCallback(() => {
-        setIsLoggedIn(true);
-    }, []);
+        setIsLoggedIn(true)
+    }, [])
 
     const logOut = useCallback(() => {
-        setIsLoggedIn(false);
-    }, []);
+        setIsLoggedIn(false)
+    }, [])
 
-    const context = {isFetched, fetched, isAdmin, logIn, logOut};
-    return (
-        <AuthContext.Provider value={context}>{props.children}</AuthContext.Provider>
-    )
+    const context = { isFetched, fetched, isAdmin, logIn, logOut }
+    return <AuthContext.Provider value={context}>{props.children}</AuthContext.Provider>
 }
 
-export { AuthContextProvider };
-export default AuthContext;
+export { AuthContextProvider }
+export default AuthContext

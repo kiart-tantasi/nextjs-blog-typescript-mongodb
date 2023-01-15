@@ -1,43 +1,43 @@
-import { NextPage } from "next";
-import Form from "../../../components/form/Form";
-import NotFoundPage from "../../../components/blog/NotFoundPage";
-import { Article } from "../../../interfaces/article";
+import { MongoClient } from 'mongodb'
+import { NextPage } from 'next'
+import { GetServerSidePropsContext } from 'next'
 
-const Edit: NextPage<{article: Article}> = (props) => {
-    const article = props.article;
+import NotFoundPage from '../../../components/blog/NotFoundPage'
+import Form from '../../../components/form/Form'
+import { Article } from '../../../interfaces/article'
+import { EnvGetter } from '../../../lib/env-getter'
+
+const Edit: NextPage<{ article: Article }> = props => {
+    const article = props.article
     if (article) return <Form article={article} editMode={true} />
     return <NotFoundPage />
 }
 
-export default Edit;
-// -------------------------------------------------------------------------------------------------------- //
-import { GetServerSidePropsContext } from "next";
-import { MongoClient } from "mongodb";
-import { EnvGetter } from "../../../lib/env-getter";
+export default Edit
 
-export const getServerSideProps = async(context: GetServerSidePropsContext) => {
+export const getServerSideProps = async (context: GetServerSidePropsContext) => {
     // CONNECT DB
-    const dbUrl = EnvGetter.getDbUrl();
-    const client = new MongoClient(dbUrl);
-    await client.connect();
-    const db = client.db("blogDB");
+    const dbUrl = EnvGetter.getDbUrl()
+    const client = new MongoClient(dbUrl)
+    await client.connect()
+    const db = client.db('blogDB')
 
     // 1. CHECK IF THE ARTICLE IS IN MAIN OR NOT 2. IF NOT, CHECK AGAIN IF IT IS IN WORKSPACE 3. IF IT IS NOT IN MAIN OR WORKSPACE, RETURN NULL PROPS
     // I DO THIS THIS BECAUSE THIS HERE CANNOT GET CATEGORY DATA BUT CAN ONLY GET SLUG THAT IS TYPED IN URL example: 'edit/noCateryDefinedHere'.
-    const collection = db.collection("main");
-    const slug = context.params!.slug;
+    const collection = db.collection('main')
+    const slug = context.params!.slug
 
-    let articleNoTransformed = await collection.findOne({slug: slug});
+    let articleNoTransformed = await collection.findOne({ slug: slug })
     if (articleNoTransformed === null) {
-        const workspace = db.collection("workspace");
-        articleNoTransformed = await workspace.findOne({slug: slug});
+        const workspace = db.collection('workspace')
+        articleNoTransformed = await workspace.findOne({ slug: slug })
         if (articleNoTransformed === null) {
-            return {props:{}}
+            return { props: {} }
         }
     }
 
     //TRANSFORM DATA (IF FOUND)
-    const objectIdAsString = articleNoTransformed!._id.toString();
+    const objectIdAsString = articleNoTransformed!._id.toString()
     const transformedData: Article = {
         _id: objectIdAsString,
         title: articleNoTransformed.title,
@@ -48,14 +48,14 @@ export const getServerSideProps = async(context: GetServerSidePropsContext) => {
         date: articleNoTransformed.date,
         category: articleNoTransformed.category,
         slug: articleNoTransformed.slug,
-        views: articleNoTransformed.views? articleNoTransformed.views: 1
-    };
+        views: articleNoTransformed.views ? articleNoTransformed.views : 1,
+    }
 
     // CLOSE DB AND RETURN PROPS
-    client.close();
+    client.close()
     return {
         props: {
-            article: transformedData
-        }
+            article: transformedData,
+        },
     }
 }
