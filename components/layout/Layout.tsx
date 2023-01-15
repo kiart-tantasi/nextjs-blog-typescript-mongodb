@@ -1,15 +1,15 @@
-import MainNav from "./MainNav";
-import Footer from "./Footer";
-import styles from "./Layout.module.css";
+import Footer from './Footer'
+import styles from './Layout.module.css'
+import MainNav from './MainNav'
 
-const Layout:React.FC = (props) => {
+const Layout: React.FC = props => {
     return (
         <>
-        <MainNav />
-        <div className={styles.body}>{props.children}</div>
-        <Footer />
-        </>        
+            <MainNav />
+            <div className={styles.body}>{props.children}</div>
+            <Footer />
+        </>
     )
 }
 
-export default Layout;
+export default Layout

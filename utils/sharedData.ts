@@ -1,13 +1,12 @@
-export const allowedCategories = ["tech", "gaming", "workoutandhealth", "others", "workspace"];
+export const allowedCategories = ['tech', 'gaming', 'workoutandhealth', 'others', 'workspace']
 
-export const websiteName = "PETCH.BLOG";
+export const websiteName = 'PETCH.BLOG'
 
-export const redirectingPathnames: {[key:string] : string} = {
-    "/article/mern-stack-easy-full-stack":"/article/mern-stack"
+export const redirectingPathnames: { [key: string]: string } = {
+    '/article/mern-stack-easy-full-stack': '/article/mern-stack',
 }
 
-export const bioMarkdown =
-`
+export const bioMarkdown = `
 KIART TANTASI
 ==========
 

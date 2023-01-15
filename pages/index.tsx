@@ -1,45 +1,43 @@
-import type { NextPage } from "next";
-import Articles from "../components/blog/Articles";
-import { Article, ArticleCard } from "../interfaces/article";
+import { MongoClient } from 'mongodb'
+import type { NextPage } from 'next'
 
-const Home: NextPage<{ articles: ArticleCard[] }> = (props) => {
-  const articles = props.articles;
-  return <Articles articles={articles} />;
-};
+import Articles from '../components/blog/Articles'
+import { Article, ArticleCard } from '../interfaces/article'
+import { EnvGetter } from '../lib/env-getter'
+import { transformCardData } from '../lib/transform-data'
 
-export default Home;
-// ---------------------------------------------------------------- //
-import { MongoClient } from "mongodb";
-import { transformCardData } from "../lib/transform-data";
-import { EnvGetter } from "../lib/env-getter";
+const Home: NextPage<{ articles: ArticleCard[] }> = props => {
+    const articles = props.articles
+    return <Articles articles={articles} />
+}
+
+export default Home
 
 export async function getStaticProps() {
-  const dbUrl = EnvGetter.getDbUrl();
-  const client = new MongoClient(dbUrl);
+    const dbUrl = EnvGetter.getDbUrl()
+    const client = new MongoClient(dbUrl)
 
-  try {
-    await client.connect();
-    const db = client.db("blogDB");
-    const collection = db.collection("main");
-    const articles = await collection.find({}).toArray() as unknown as Article[];
-    const transformedData: ArticleCard[] = await transformCardData(articles, db);
+    try {
+        await client.connect()
+        const db = client.db('blogDB')
+        const collection = db.collection('main')
+        const articles = (await collection.find({}).toArray()) as unknown as Article[]
+        const transformedData: ArticleCard[] = await transformCardData(articles, db)
 
-    client.close();
-    return {
-      props: {
-        articles: transformedData
-      },
-      revalidate: 10
-    };
-  } 
-  
-  catch (error) {
-    client.close();
-    return {
-      props: {
-        articles: []
-      },
-      revalidate: 10
-    };
-  }
+        client.close()
+        return {
+            props: {
+                articles: transformedData,
+            },
+            revalidate: 10,
+        }
+    } catch (error) {
+        client.close()
+        return {
+            props: {
+                articles: [],
+            },
+            revalidate: 10,
+        }
+    }
 }
