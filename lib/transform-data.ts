@@ -2,6 +2,7 @@ import { Db } from "mongodb";
 import AWS from "aws-sdk";
 
 import { Article, ArticleCard } from "../interfaces/article";
+import { EnvGetter } from "./env-getter";
 
 export const transformCardData = async (array: Article[], db: Db): Promise<ArticleCard[]> => {
     const result = [];
@@ -28,7 +29,7 @@ export const transformCardData = async (array: Article[], db: Db): Promise<Artic
 export const transformImgUrl = async(imgUrl: string, db: Db, accelerate: boolean) => {
 
     // IF NOT PRIVATE BUCKET, RETURN OLD URL
-    if (!imgUrl.includes("https://privatepetchdotblog.s3.ap-southeast-1.amazonaws.com")) return imgUrl;
+    if (!imgUrl.includes(EnvGetter.getPrivateBucketUrl())) return imgUrl;
 
     const originalImgUrl = imgUrl;
     const key: string = imgUrl.slice(60);
@@ -46,13 +47,13 @@ export const transformImgUrl = async(imgUrl: string, db: Db, accelerate: boolean
     else {
         // CREATE NEW PRESIGNED URL (AWS SDK)
         AWS.config.update({
-            accessKeyId: process.env.ACCESS_KEY_ID,
-            secretAccessKey: process.env.SECRET_ACCESS_KEY,
+            accessKeyId: EnvGetter.getAccessKeyId(),
+            secretAccessKey: EnvGetter.getSecretAccessKey(),
             region: "ap-southeast-1"
         });
         const s3 = new AWS.S3();
         let newPresignedUrl = s3.getSignedUrl('getObject', {
-            Bucket: process.env.BUCKET_NAME,
+            Bucket: EnvGetter.getBucketName(),
             Key: key,
             Expires: 7 * 24 * 60 * 60
         });

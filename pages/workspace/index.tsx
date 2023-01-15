@@ -17,6 +17,7 @@ import { removeTokenCookie } from '../../lib/auth-cookie';
 import { tokenValidation } from '../../lib/jwt-token-validation';
 import { transformCardData } from '../../lib/transform-data';
 import { Article } from '../../interfaces/article';
+import { EnvGetter } from '../../lib/env-getter';
 
 export const getServerSideProps = async(context: GetServerSidePropsContext) => {
   // CHECK TOKEN - IF INVALID, RETURN NULL AND REMOVE TOKEN IN COOKIE
@@ -29,7 +30,7 @@ export const getServerSideProps = async(context: GetServerSidePropsContext) => {
   }
 
   // CONNECT DB AND WORKSPACE COLLECTION
-  const dbUrl = process.env.DB_URL as string;
+  const dbUrl = EnvGetter.getDbUrl();
   const client = new MongoClient(dbUrl);
   await client.connect();
   const db = client.db("blogDB");

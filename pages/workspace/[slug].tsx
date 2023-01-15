@@ -17,10 +17,11 @@ import { GetServerSidePropsContext } from "next";
 import { MongoClient } from "mongodb";
 import { Lexer, Parser } from "marked";
 import { transformImgUrl } from "../../lib/transform-data";
+import { EnvGetter } from "../../lib/env-getter";
 
 export const getServerSideProps = async(context: GetServerSidePropsContext) => {
     // CONNECT DB AND COLLECTION
-    const dbUrl = process.env.DB_URL as string;
+    const dbUrl = EnvGetter.getDbUrl();
     const client = new MongoClient(dbUrl);
     await client.connect();
     const db = client.db("blogDB");

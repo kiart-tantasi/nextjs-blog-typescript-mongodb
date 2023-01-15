@@ -11,9 +11,10 @@ export default Home;
 // ---------------------------------------------------------------- //
 import { MongoClient } from "mongodb";
 import { transformCardData } from "../lib/transform-data";
+import { EnvGetter } from "../lib/env-getter";
 
 export async function getStaticProps() {
-  const dbUrl = process.env.DB_URL as string;
+  const dbUrl = EnvGetter.getDbUrl();
   const client = new MongoClient(dbUrl);
 
   try {

@@ -4,10 +4,11 @@ import slugify from 'slugify';
 import isAuthenticated from '../../../lib/jwt-token-validation';
 import { allowedCategories } from '../../../utils/sharedData';
 import { setDataForm, FindOldVersionForm } from '../../../interfaces/article';
+import { EnvGetter } from '../../../lib/env-getter';
 
 export default isAuthenticated(async function handler(req: NextApiRequest, res: NextApiResponse) {
     // DB CONFIG
-    const dbUrl = process.env.DB_URL as string;
+    const dbUrl = EnvGetter.getDbUrl();
     const client = new MongoClient(dbUrl);
     let connectClient = false;
 

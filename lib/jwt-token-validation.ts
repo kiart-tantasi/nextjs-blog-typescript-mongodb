@@ -1,9 +1,10 @@
 import jwt from "jsonwebtoken";
 import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
 import { getTokenCookie } from "./auth-cookie";
+import { EnvGetter } from "./env-getter";
 
 export const tokenValidation = (token: string) => {
-    const privateKey = process.env.PRIVATE_KEY as string;
+    const privateKey = EnvGetter.getPrivateKey();
     let valid;
     jwt.verify(token, privateKey, function(err) {
         if (err) {

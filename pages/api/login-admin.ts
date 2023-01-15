@@ -3,10 +3,11 @@ import { MongoClient } from 'mongodb';
 import bcryptjs from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { setTokenCookie } from '../../lib/auth-cookie';
+import { EnvGetter } from '../../lib/env-getter';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     // DECLARE IT HERE BECAUSE IT NEEDS TO BE CLOSED IN CATCH(ERROR) IF AN ERROR IS THROWN
-    const dbUrl = process.env.DB_URL as string;
+    const dbUrl = EnvGetter.getDbUrl();
     const client = new MongoClient(dbUrl);
     let connectClient = false;
 
@@ -46,7 +47,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         await collection.updateOne({username:username}, {$set:{incorrectPasswordTimes: 0}});
 
         // SIGN JWT
-        const privateKey = process.env.PRIVATE_KEY as string;
+        const privateKey = EnvGetter.getPrivateKey();
         const token = jwt.sign({
             data: {adminUsername, adminFirstName, adminLastName},
             exp: Math.floor(Date.now() / 1000) + 7200
