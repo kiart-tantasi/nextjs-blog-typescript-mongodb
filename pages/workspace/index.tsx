@@ -8,25 +8,33 @@ import { ArticleCard } from '../../interfaces/article'
 import { Article } from '../../interfaces/article'
 import { removeTokenCookie } from '../../lib/auth-cookie'
 import { EnvGetter } from '../../lib/env-getter'
-import { tokenValidation } from '../../lib/jwt-token-validation'
+import { isTokenValid } from '../../lib/jwt-token-validation'
 import { transformCardData } from '../../lib/transform-data'
 
-const WorkSpace: NextPage<{ articles: ArticleCard[] }> = props => {
+interface PageProps {
+    articles: ArticleCard[] | null
+}
+
+const WorkSpace: NextPage<{ articles: ArticleCard[] }> = (props: PageProps) => {
     const articles = props.articles
-    if (!articles) return <LoginPage />
+    if (articles === null) return <LoginPage />
     return <AdminPage articles={articles} />
 }
 
 export default WorkSpace
 
-export const getServerSideProps = async (context: GetServerSidePropsContext) => {
+export const getServerSideProps = async (context: GetServerSidePropsContext): Promise<{ props: PageProps }> => {
     // CHECK TOKEN - IF INVALID, RETURN NULL AND REMOVE TOKEN IN COOKIE
-    const token = context.req.cookies.token
-    let result = tokenValidation(token)
-    if (result === false) {
+    const cookies = context.req.cookies
+    const token = cookies['token']
+    if (!token || !isTokenValid(token)) {
         const response = context.res as NextApiResponse
         removeTokenCookie(response)
-        return { props: {} }
+        return {
+            props: {
+                articles: null
+            }
+        }
     }
 
     // CONNECT DB AND WORKSPACE COLLECTION
