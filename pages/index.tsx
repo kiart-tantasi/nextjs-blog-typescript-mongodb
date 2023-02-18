@@ -6,38 +6,35 @@ import { Article, ArticleCard } from '../interfaces/article'
 import { EnvGetter } from '../lib/env-getter'
 import { transformCardData } from '../lib/transform-data'
 
-const Home: NextPage<{ articles: ArticleCard[] }> = props => {
+interface PageProps {
+    articles: ArticleCard[]
+}
+
+const Home: NextPage<{ articles: ArticleCard[] }> = (props: PageProps) => {
     const articles = props.articles
     return <Articles articles={articles} />
 }
 
 export default Home
 
-export async function getStaticProps() {
+export async function getStaticProps(): Promise<{ props: { articles: ArticleCard[] } }> {
     const dbUrl = EnvGetter.getDbUrl()
     const client = new MongoClient(dbUrl)
 
+    let articles: ArticleCard[] = []
     try {
         await client.connect()
         const db = client.db('blogDB')
         const collection = db.collection('main')
-        const articles = (await collection.find({}).toArray()) as unknown as Article[]
-        const transformedData: ArticleCard[] = await transformCardData(articles, db)
-
+        const articlesFromDB = await collection.find({}).toArray()
+        articles = await transformCardData(articlesFromDB as unknown as Article[], db)
         client.close()
-        return {
-            props: {
-                articles: transformedData,
-            },
-            revalidate: 10,
-        }
     } catch (error) {
         client.close()
-        return {
-            props: {
-                articles: [],
-            },
-            revalidate: 10,
-        }
+    }
+    return {
+        props: {
+            articles,
+        },
     }
 }
