@@ -10,7 +10,7 @@ import { transformImgUrl } from '../../lib/transform-data'
 
 interface PageProps { article: Article | null }
 
-const PublicArticle: NextPage<PageProps> = ({ article }) => {
+const PublicArticle: NextPage<PageProps> = ({ article }: PageProps) => {
     if (article === null) {
         return <div>
             <h2>THe page exists but content is not available</h2>

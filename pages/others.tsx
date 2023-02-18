@@ -8,7 +8,7 @@ import { Article } from '../interfaces/article'
 import { EnvGetter } from '../lib/env-getter'
 import { transformCardData } from '../lib/transform-data'
 
-const Others: NextPage<{ articles: ArticleCard[] }> = props => {
+const Others: NextPage<{ articles: ArticleCard[] }> = (props: { articles: ArticleCard[] }) => {
     const { articles } = props
     return (
         <>

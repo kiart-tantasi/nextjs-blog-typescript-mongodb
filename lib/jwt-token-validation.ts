@@ -4,24 +4,22 @@ import { NextApiHandler, NextApiRequest, NextApiResponse } from 'next'
 import { getTokenCookie } from './auth-cookie'
 import { EnvGetter } from './env-getter'
 
-export const tokenValidation = (token: string) => {
+export const isTokenValid = (token: string): boolean => {
     const privateKey = EnvGetter.getPrivateKey()
-    let valid
+    let isValid = false
     jwt.verify(token, privateKey, function (err) {
-        if (err) {
-            valid = false
-        } else {
-            valid = true
+        if (!err) {
+            isValid = true
         }
     })
-    return valid
+    return isValid
 }
 
 const isAuthenticated = (fn: NextApiHandler) => async (req: NextApiRequest, res: NextApiResponse) => {
     const token = getTokenCookie(req)
 
     if (!token) return res.status(400).json({ message: 'no token found' })
-    const valid = tokenValidation(token)
+    const valid = isTokenValid(token)
     if (!valid) {
         res.status(401).json({ message: 'invalid token' })
     } else {

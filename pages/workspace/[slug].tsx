@@ -1,15 +1,17 @@
 import { Lexer, Parser } from 'marked'
 import { MongoClient } from 'mongodb'
-import { NextPage } from 'next'
+import { NextApiResponse, NextPage } from 'next'
 import { GetServerSidePropsContext } from 'next'
 
 import ArticlePage from '../../components/blog/ArticlePage'
 import NotFoundPage from '../../components/blog/NotFoundPage'
 import { Article } from '../../interfaces/article'
+import { removeTokenCookie } from '../../lib/auth-cookie'
 import { EnvGetter } from '../../lib/env-getter'
+import { isTokenValid } from '../../lib/jwt-token-validation'
 import { transformImgUrl } from '../../lib/transform-data'
 
-const WorkspaceArticle: NextPage<{ article: Article }> = props => {
+const WorkspaceArticle: NextPage<{ article: Article }> = (props: { article: Article }) => {
     const article = props.article
     if (article) {
         return (
@@ -32,6 +34,22 @@ const WorkspaceArticle: NextPage<{ article: Article }> = props => {
 export default WorkspaceArticle
 
 export const getServerSideProps = async (context: GetServerSidePropsContext) => {
+    // ------------------------------------- //
+    // THIS IS TEMP MIDDLEWARE
+    // TODO: use /middleware.ts instead
+    const cookies = context.req.cookies
+    const token = cookies['token']
+    if (!token || !isTokenValid(token)) {
+        removeTokenCookie(context.res as NextApiResponse)
+        return {
+            redirect: {
+                destination: '/workspace'
+            },
+            props: {}
+        }
+    }
+    // ------------------------------------- //
+
     // CONNECT DB AND COLLECTION
     const dbUrl = EnvGetter.getDbUrl()
     const client = new MongoClient(dbUrl)
