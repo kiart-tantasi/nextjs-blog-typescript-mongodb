@@ -6,7 +6,7 @@ export async function verifyToken(token: string | undefined): Promise<boolean> {
         if (!token) {
             throw new Error('token not found')
         }
-        const verified = await jwtVerify(token, new TextEncoder().encode(getJwtSecretKey()))
+        const verified = await jwtVerify(token, new TextEncoder().encode(getJwtKey()))
         return !!verified.payload
     } catch (err) {
         return false
@@ -17,9 +17,6 @@ export async function verifyToken(token: string | undefined): Promise<boolean> {
 
 const PRIVATE_KEY: string | undefined = process.env.PRIVATE_KEY
 
-function getJwtSecretKey(): string {
-    if (!PRIVATE_KEY || PRIVATE_KEY.length === 0) {
-        throw new Error('The environment variable JWT_SECRET_KEY is not set.')
-    }
-    return PRIVATE_KEY
+function getJwtKey(): string {
+    return PRIVATE_KEY ?? ''
 }
