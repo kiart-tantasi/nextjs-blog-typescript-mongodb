@@ -4,29 +4,32 @@ import { NextPage } from 'next'
 import { GetStaticPaths, GetStaticProps } from 'next'
 
 import ArticlePage from '../../components/blog/ArticlePage'
-import NotFoundPage from '../../components/blog/NotFoundPage'
 import { Article } from '../../interfaces/article'
 import { EnvGetter } from '../../lib/env-getter'
 import { transformImgUrl } from '../../lib/transform-data'
 
-const PublicArticle: NextPage<{ article: Article }> = props => {
-    const { article } = props
-    if (article !== null) {
-        return (
-            <ArticlePage
-                title={article.title}
-                desc={article.desc}
-                img={article.img}
-                alt={article.alt}
-                date={article.date}
-                markdown={article.markdown}
-                category={article.category}
-                slug={article.slug}
-                views={article.views}
-            />
-        )
+interface PageProps { article: Article | null }
+
+const PublicArticle: NextPage<PageProps> = ({ article }) => {
+    if (article === null) {
+        return <div>
+            <h2>THe page exists but content is not available</h2>
+            <h3>Sorry for Inconvenience</h3>
+        </div>
     }
-    return <NotFoundPage />
+    return (
+        <ArticlePage
+            title={article.title}
+            desc={article.desc}
+            img={article.img}
+            alt={article.alt}
+            date={article.date}
+            markdown={article.markdown}
+            category={article.category}
+            slug={article.slug}
+            views={article.views}
+        />
+    )
 }
 
 export default PublicArticle
@@ -39,17 +42,19 @@ export const getStaticPaths: GetStaticPaths = async () => {
     const collection = db.collection('main')
     const articles = await collection.find({}).toArray()
     const paths = articles.map(x => {
+        // to see all slugs we have at build time
+        console.log('slug:', x.slug);
         return { params: { slug: x.slug } }
     })
     client.close()
 
     return {
         paths: paths,
-        fallback: 'blocking',
+        fallback: false,
     }
 }
 
-export const getStaticProps: GetStaticProps = async context => {
+export const getStaticProps: GetStaticProps = async (context): Promise<{ props: PageProps }> => {
     const slug = context.params!.slug
     const dbUrl = EnvGetter.getDbUrl()
     const client = new MongoClient(dbUrl)
@@ -85,6 +90,5 @@ export const getStaticProps: GetStaticProps = async context => {
         props: {
             article: transformedData,
         },
-        revalidate: 10,
     }
 }
