@@ -8,7 +8,7 @@ import { ArticleCard } from '../../interfaces/article'
 import { Article } from '../../interfaces/article'
 import { removeTokenCookie } from '../../lib/auth-cookie'
 import { EnvGetter } from '../../lib/env-getter'
-import { isTokenValid } from '../../lib/jwt-token-validation'
+import { isTokenValid } from '../../lib/auth-node'
 import { transformCardData } from '../../lib/transform-data'
 
 interface PageProps {
@@ -25,8 +25,7 @@ export default WorkSpace
 
 export const getServerSideProps = async (context: GetServerSidePropsContext): Promise<{ props: PageProps }> => {
     // CHECK TOKEN - IF INVALID, RETURN NULL AND REMOVE TOKEN IN COOKIE
-    const cookies = context.req.cookies
-    const token = cookies['token']
+    const token = context.req.cookies.token
     if (!token || !isTokenValid(token)) {
         const response = context.res as NextApiResponse
         removeTokenCookie(response)

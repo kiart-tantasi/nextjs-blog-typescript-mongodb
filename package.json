@@ -16,6 +16,7 @@
         "bcryptjs": "^2.4.3",
         "cookie": "^0.4.2",
         "isomorphic-dompurify": "^0.26.0",
+        "jose": "^4.4.0",
         "jsonwebtoken": "^8.5.1",
         "marked": "^4.0.12",
         "mongodb": "^4.3.1",

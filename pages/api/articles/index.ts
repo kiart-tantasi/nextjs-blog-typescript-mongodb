@@ -4,7 +4,7 @@ import slugify from 'slugify'
 
 import { FindOldVersionForm, setDataForm } from '../../../interfaces/article'
 import { EnvGetter } from '../../../lib/env-getter'
-import isAuthenticated from '../../../lib/jwt-token-validation'
+import isAuthenticated from '../../../lib/auth-node'
 import { allowedCategories } from '../../../utils/sharedData'
 
 export default isAuthenticated(async function handler(req: NextApiRequest, res: NextApiResponse) {

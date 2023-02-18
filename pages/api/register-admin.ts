@@ -2,7 +2,7 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 
 // import { MongoClient } from 'mongodb';
 // import bcryptjs from "bcryptjs";
-import isAuthenticated from '../../lib/jwt-token-validation'
+import isAuthenticated from '../../lib/auth-node'
 
 // import { EnvGetter } from '../../lib/get-env';
 

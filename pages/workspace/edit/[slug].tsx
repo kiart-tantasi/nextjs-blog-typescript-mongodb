@@ -1,13 +1,11 @@
 import { MongoClient } from 'mongodb'
-import { NextApiResponse, NextPage } from 'next'
+import { NextPage } from 'next'
 import { GetServerSidePropsContext } from 'next'
 
 import NotFoundPage from '../../../components/blog/NotFoundPage'
 import Form from '../../../components/form/Form'
 import { Article } from '../../../interfaces/article'
-import { removeTokenCookie } from '../../../lib/auth-cookie'
 import { EnvGetter } from '../../../lib/env-getter'
-import { isTokenValid } from '../../../lib/jwt-token-validation'
 
 const Edit: NextPage<{ article: Article }> = (props: { article: Article }) => {
     const article = props.article
@@ -18,22 +16,6 @@ const Edit: NextPage<{ article: Article }> = (props: { article: Article }) => {
 export default Edit
 
 export const getServerSideProps = async (context: GetServerSidePropsContext) => {
-    // ------------------------------------- //
-    // THIS IS TEMP MIDDLEWARE
-    // TODO: use /middleware.ts instead
-    const cookies = context.req.cookies
-    const token = cookies['token']
-    if (!token || !isTokenValid(token)) {
-        removeTokenCookie(context.res as NextApiResponse)
-        return {
-            redirect: {
-                destination: '/workspace'
-            },
-            props: {}
-        }
-    }
-    // ------------------------------------- //
-
     // CONNECT DB
     const dbUrl = EnvGetter.getDbUrl()
     const client = new MongoClient(dbUrl)
