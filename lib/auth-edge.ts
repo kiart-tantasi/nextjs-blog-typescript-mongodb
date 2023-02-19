@@ -9,16 +9,8 @@ export async function verifyToken(token: string | undefined): Promise<boolean> {
     // if env PRIVATE_KEY is not set, error will be thrown
     const jwtKey = getJwtKey()
 
-    try {
-        const verified = await jwtVerify(token, new TextEncoder().encode(jwtKey))
-        const iat = verified.payload.iat
-        if (!!iat && (Date.now() > (iat * 1000))) {
-            return true
-        }
-    } catch {
-        // verifying failed
-    }
-    return false
+    // if error happens, it means that token expires or token is invalid
+    return jwtVerify(token, new TextEncoder().encode(jwtKey)).then(() => true).catch(() => false)
 }
 
 // non-exported
