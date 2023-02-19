@@ -27,18 +27,24 @@ export class EnvGetter {
 // non-export
 
 function getEnv(envName: string): string {
-    const value = envs[envName]
-    if (!value || !value.length) {
+    if (typeof window !== 'undefined') {
+        throw new Error('ENVS CANNOT BE FOUND IN CLIENT')
+    }
+
+    // calling this env map on client side will get undefined
+    // because client cannot access process.env
+    const envMap: { [key: string]: string | undefined } = {
+        'DB_URL': process.env.DB_URL,
+        'PRIVATE_KEY': process.env.PRIVATE_KEY,
+        'ACCESS_KEY_ID': process.env.ACCESS_KEY_ID,
+        'SECRET_ACCESS_KEY': process.env.SECRET_ACCESS_KEY,
+        'BUCKET_NAME': process.env.BUCKET_NAME,
+        'PRIVATE_BUCKET_URL': process.env.PRIVATE_BUCKET_URL,
+    }
+
+    const envValue = envMap[envName]
+    if (!envValue || !envValue.length) {
         return `ENVIRONMENT VARIABLE "${envName}" IS NOT FOUND.`
     }
-    return value
-}
-
-const envs: { [key: string]: string | undefined } = {
-    'DB_URL': process.env.DB_URL,
-    'PRIVATE_KEY': process.env.PRIVATE_KEY,
-    'ACCESS_KEY_ID': process.env.ACCESS_KEY_ID,
-    'SECRET_ACCESS_KEY': process.env.SECRET_ACCESS_KEY,
-    'BUCKET_NAME': process.env.BUCKET_NAME,
-    'PRIVATE_BUCKET_URL': process.env.PRIVATE_BUCKET_URL,
+    return envValue
 }
