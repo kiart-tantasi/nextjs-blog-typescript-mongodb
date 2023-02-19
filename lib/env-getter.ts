@@ -27,6 +27,7 @@ export class EnvGetter {
 // non-export
 
 function getEnv(envName: string): string {
+    // this is not to protect but to warn dev that this function cannot be used on client side
     if (typeof window !== 'undefined') {
         throw new Error('ENVS CANNOT BE FOUND IN CLIENT')
     }
@@ -44,7 +45,7 @@ function getEnv(envName: string): string {
 
     const envValue = envMap[envName]
     if (!envValue || !envValue.length) {
-        return `ENVIRONMENT VARIABLE "${envName}" IS NOT FOUND.`
+        return `ENVIRONMENT VARIABLE "${envName}" IS NOT SET.`
     }
     return envValue
 }
