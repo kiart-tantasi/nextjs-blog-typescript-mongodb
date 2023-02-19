@@ -2,7 +2,7 @@ import { type NextRequest, NextResponse } from 'next/server'
 import { verifyToken } from './lib/auth-edge'
 
 export const config = {
-    runtime: 'edge',
+    // runtime: 'nodejs', // <-- does not work, will still run on edge runtime
     matcher: ['/workspace/:path*']
 }
 

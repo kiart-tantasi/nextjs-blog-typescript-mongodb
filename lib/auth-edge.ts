@@ -2,15 +2,15 @@ import { jwtVerify } from 'jose'
 
 // ref: https://github.com/vercel/examples/blob/main/edge-middleware/jwt-authentication/lib/auth.ts
 export async function verifyToken(token: string | undefined): Promise<boolean> {
-    try {
-        if (!token) {
-            throw new Error('token not found')
-        }
-        const verified = await jwtVerify(token, new TextEncoder().encode(getJwtKey()))
-        return !!verified.payload
-    } catch (err) {
+    if (!token) {
         return false
     }
+
+    // if env PRIVATE_KEY is not set, error will be thrown
+    const jwtKey = getJwtKey()
+
+    // if error happens, it means that token expires or token is invalid
+    return jwtVerify(token, new TextEncoder().encode(jwtKey)).then(() => true).catch(() => false)
 }
 
 // non-exported
@@ -18,5 +18,8 @@ export async function verifyToken(token: string | undefined): Promise<boolean> {
 const PRIVATE_KEY: string | undefined = process.env.PRIVATE_KEY
 
 function getJwtKey(): string {
-    return PRIVATE_KEY ?? ''
+    if (!PRIVATE_KEY || !PRIVATE_KEY.length) {
+        throw new Error('env PRIVATE_KEY is not set !')
+    }
+    return PRIVATE_KEY
 }

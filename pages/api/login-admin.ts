@@ -58,10 +58,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
         // SIGN JWT
         const privateKey = EnvGetter.getPrivateKey()
+        const expInMilliSeconds = Date.now() + 7_200_000
+        const expInSeconds = Math.floor((expInMilliSeconds / 1000)) // need to convert from millisecond to seconds for jwt standard
         const token = jwt.sign(
             {
                 data: { adminUsername, adminFirstName, adminLastName },
-                exp: Math.floor(Date.now() / 1000) + 7200,
+                exp: expInSeconds,
+                // iat will be automatically set
             },
             privateKey,
         )
