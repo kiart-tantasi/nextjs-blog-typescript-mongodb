@@ -70,10 +70,11 @@ export const transformImgUrl = async (imgUrl: string, db: Db, accelerate: boolea
         imgUrl = newPresignedUrl
     }
 
-    // If Transfer Acceleration
-    if (accelerate === true && imgUrl !== originalImgUrl) {
-        let tempParams = imgUrl.slice(60)
-        imgUrl = 'https://privatepetchdotblog.s3-accelerate.amazonaws.com/' + tempParams
-    }
+    // Stop using Transfer Acceleration for now (3-6-2023)
+    // // If Transfer Acceleration
+    // if (accelerate === true && imgUrl !== originalImgUrl) {
+    //     let tempParams = imgUrl.slice(60)
+    //     imgUrl = 'https://privatepetchdotblog.s3-accelerate.amazonaws.com/' + tempParams
+    // }
     return imgUrl
 }

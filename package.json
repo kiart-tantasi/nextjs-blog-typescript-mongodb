@@ -1,5 +1,5 @@
 {
-    "name": "petch-blog",
+    "name": "petchblog",
     "private": true,
     "scripts": {
         "dev": "next dev",

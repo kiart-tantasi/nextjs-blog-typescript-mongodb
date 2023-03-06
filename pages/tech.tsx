@@ -7,13 +7,14 @@ import { ArticleCard } from '../interfaces/article'
 import { Article } from '../interfaces/article'
 import { EnvGetter } from '../lib/env-getter'
 import { transformCardData } from '../lib/transform-data'
+import { websiteNameEnglish } from '../utils/sharedData'
 
 const Tech: NextPage<{ articles: ArticleCard[] }> = (props: { articles: ArticleCard[] }) => {
     const articles = props.articles
     return (
         <>
             <Head>
-                <title>โลกเทค | PETCH.BLOG</title>
+                <title>โลกเทค | {websiteNameEnglish}</title>
                 <meta
                     name='description'
                     content='บทความเทคโนโลยี สอนโค้ด สอนเขียนโปรแกรม ด้วยภาษา javascript react nodejs การใช้ database mysql mongodb รวมถึงการ สร้าง api สร้าง backend server ขึ้นเอง'

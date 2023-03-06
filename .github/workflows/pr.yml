@@ -1,0 +1,23 @@
+name: PR
+on:
+  pull_request
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Git Checkout
+        uses: actions/checkout@v3
+      - name: Setup Node.js v16
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - name: Install Dependencies
+        run: npm install --prefer-offline
+      - name: Lint
+        run: npm run lint
+      - name: Build
+        run: npm run build
+        env:
+          DB_URL: ${{ secrets.DB_URL }}
+          PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
