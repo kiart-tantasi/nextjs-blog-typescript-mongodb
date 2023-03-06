@@ -7,13 +7,14 @@ import { ArticleCard } from '../interfaces/article'
 import { Article } from '../interfaces/article'
 import { EnvGetter } from '../lib/env-getter'
 import { transformCardData } from '../lib/transform-data'
+import { websiteNameEnglish } from '../utils/sharedData'
 
 const Others: NextPage<{ articles: ArticleCard[] }> = (props: { articles: ArticleCard[] }) => {
     const { articles } = props
     return (
         <>
             <Head>
-                <title>บทความนายเพชร | PETCH.BLOG</title>
+                <title>บทความนายเพชร | {websiteNameEnglish}</title>
             </Head>
             <Articles articles={articles} />
         </>

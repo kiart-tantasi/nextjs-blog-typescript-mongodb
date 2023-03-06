@@ -4,6 +4,7 @@ import { useRouter } from 'next/router'
 import { useContext, useEffect } from 'react'
 
 import AuthContext from '../../context/auth-context'
+import { websiteNameLocal } from '../../utils/sharedData'
 import Dropdown from './Dropdown'
 import styles from './MainNav.module.css'
 
@@ -34,10 +35,10 @@ const MainNav = () => {
         >
             <div className={styles.nav}>
                 <div className={styles['blog-brand']}>
-                    <span className={styles.petchdotblog}>
+                    <span className={styles.websiteName}>
                         <Link href='/'>
                             <a>
-                                <h1>เพชรดอทบล็อก</h1>
+                                <h1>{websiteNameLocal}</h1>
                             </a>
                         </Link>
                     </span>

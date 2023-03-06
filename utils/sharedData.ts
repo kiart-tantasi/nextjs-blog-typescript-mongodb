@@ -1,6 +1,8 @@
 export const allowedCategories = ['tech', 'gaming', 'workoutandhealth', 'others', 'workspace']
 
-export const websiteName = 'PETCH.BLOG'
+
+export const websiteNameLocal = 'เพชรบล็อก'
+export const websiteNameEnglish = 'petchblog'
 
 export const bioMarkdown = `
 KIART TANTASI

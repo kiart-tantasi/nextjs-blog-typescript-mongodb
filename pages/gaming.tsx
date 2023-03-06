@@ -7,13 +7,14 @@ import { ArticleCard } from '../interfaces/article'
 import { Article } from '../interfaces/article'
 import { EnvGetter } from '../lib/env-getter'
 import { transformCardData } from '../lib/transform-data'
+import { websiteNameEnglish } from '../utils/sharedData'
 
 const Gaming: NextPage<{ articles: ArticleCard[] }> = (props: { articles: ArticleCard[] }) => {
     const { articles } = props
     return (
         <>
             <Head>
-                <title>เกมมิ่ง | PETCH.BLOG</title>
+                <title>เกมมิ่ง | {websiteNameEnglish}</title>
                 <meta name='description' content='บทความเกม แชร์เทคนิคการเล่นที่ทั้งกากและทั้ง(อาจจะ)เก่ง' />
             </Head>
             <Articles articles={articles} heading='ยินดีต้อนรับสู่โลกคนติดเกมส์!' />

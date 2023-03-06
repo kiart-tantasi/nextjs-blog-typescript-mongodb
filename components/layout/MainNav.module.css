@@ -14,27 +14,27 @@
     align-items: center;
 }
 
-/* petchdotblog and workspace brand */
-.petchdotblog, .workspace {
+/* brand */
+.websiteName, .workspace {
     height: 100%;
 }
 
-.petchdotblog a, .workspace a {
+.websiteName a, .workspace a {
     display: inline-block;
     line-height: 310%;
 }
 
-.petchdotblog {
+.websiteName {
     margin-right: 40px;
 }
 
-.petchdotblog h1, .workspace h1 {
+.websiteName h1, .workspace h1 {
     color: #fff;
     font-size: 1.1rem;
     letter-spacing: 1px;
 }
 
-.petchdotblog a, .workspace a {
+.websiteName a, .workspace a {
     text-decoration: none;
     color: inherit;
 }
@@ -97,7 +97,7 @@
     .workspace a {
         padding: 0 10px;
     }
-    .petchdotblog {
+    .websiteName {
         margin-right: 25px;
     }
 }
@@ -108,10 +108,10 @@
         margin: 0;
         width: 100%;
     }
-    .petchdotblog h1 {
+    .websiteName h1 {
         padding: 0 20px;
     }
-    .petchdotblog {
+    .websiteName {
         margin-right: 0;
     }
     /* hide tech */

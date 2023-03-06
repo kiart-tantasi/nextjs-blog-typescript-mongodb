@@ -3,7 +3,7 @@ import { useContext, useEffect } from 'react'
 
 import AuthContext from '../../context/auth-context'
 import { Article } from '../../interfaces/article'
-import { websiteName } from '../../utils/sharedData'
+import { websiteNameEnglish } from '../../utils/sharedData'
 import ArticleCardUI from '../ui/ArticleCardUI'
 import AdminNav from './AdminNav'
 
@@ -29,7 +29,7 @@ export default function ArticlePage(props: Article) {
     return (
         <>
             <Head>
-                <title>{props.title.trim() + ' | ' + websiteName}</title>
+                <title>{props.title.trim() + ' | ' + websiteNameEnglish}</title>
                 <meta name='description' content={props.desc} />
             </Head>
             {isAdmin && <AdminNav {...props} />}
