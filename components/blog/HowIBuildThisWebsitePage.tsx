@@ -113,7 +113,7 @@ const HowIBuildThisWebsitePage = () => {
 
                 <li>
                     <a
-                        href='https://github.com/kiart-tantasi/Nextjs-Blog-with-TypeScript-Marked-JWT-MongoDB'
+                        href='https://github.com/kiart-tantasi/nextjs-blog-typescript-mongodb'
                         target='_blank'
                         rel='noopener noreferrer'
                     >
