@@ -63,6 +63,6 @@ GitHub: <a href="https://github.com/kiart-tantasi" target="_blank" rel="noopener
 
 <br>
 
-Source Code: <a href="https://github.com/kiart-tantasi/Nextjs-Blog-with-TypeScript-Marked-JWT-MongoDB" target="_blank" rel="noopener noreferrer">Nextjs-Blog-with-TypeScript-Marked-JWT-MongoDB</a>
+Source Code: <a href="https://github.com/kiart-tantasi/nextjs-blog-typescript-mongodb" target="_blank" rel="noopener noreferrer">nextjs-blog-typescript-mongodb</a>
 -------
 `
