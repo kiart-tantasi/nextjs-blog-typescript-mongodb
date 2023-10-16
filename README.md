@@ -16,16 +16,16 @@ PRIVATE_KEY=THIS_IS_MY_PRIVATE_KEY
 
 <br>
 
-## How to Build and Deploy
+## Development
 
+Installing packages
 ```
-yarn next build
+npm install
 ```
 
-and
-
+Start app
 ```
-yarn next start
+npm run dev
 ```
 
 <br>
