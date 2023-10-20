@@ -7,6 +7,8 @@ import ArticlePage from '../../components/blog/ArticlePage'
 import { Article } from '../../interfaces/article'
 import { EnvGetter } from '../../lib/env-getter'
 import { transformImgUrl } from '../../lib/transform-data'
+import { Head } from 'next/document'
+import Script from 'next/script'
 
 interface PageProps { article: Article | null }
 
@@ -18,17 +20,37 @@ const PublicArticle: NextPage<PageProps> = ({ article }: PageProps) => {
         </div>
     }
     return (
-        <ArticlePage
-            title={article.title}
-            desc={article.desc}
-            img={article.img}
-            alt={article.alt}
-            date={article.date}
-            markdown={article.markdown}
-            category={article.category}
-            slug={article.slug}
-            views={article.views}
-        />
+        <>
+            <Head>
+                <Script type='application/ld+json' dangerouslySetInnerHTML={{
+                    __html: `{
+                        "@context": "https://schema.org",
+                        "@type": "NewsArticle",
+                        "headline": "${article.title}",
+                        "image": [
+                            "${article.img}"
+                        ],
+                        "datePublished": "${article.date}",
+                        "author": [{
+                            "@type": "Person",
+                            "name": "${article.author}",
+                            "url": "${process.env.NEXT_PUBLIC_DOMAIN}/aboutme'"
+                        }]
+                    }`
+                }} />
+            </Head>
+            <ArticlePage
+                title={article.title}
+                desc={article.desc}
+                img={article.img}
+                alt={article.alt}
+                date={article.date}
+                markdown={article.markdown}
+                category={article.category}
+                slug={article.slug}
+                views={article.views}
+            />
+        </>
     )
 }
 
