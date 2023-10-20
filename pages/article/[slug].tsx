@@ -7,8 +7,8 @@ import ArticlePage from '../../components/blog/ArticlePage'
 import { Article } from '../../interfaces/article'
 import { EnvGetter } from '../../lib/env-getter'
 import { transformImgUrl } from '../../lib/transform-data'
-import { Head } from 'next/document'
 import Script from 'next/script'
+import Head from 'next/head'
 
 interface PageProps { article: Article | null }
 
@@ -22,7 +22,7 @@ const PublicArticle: NextPage<PageProps> = ({ article }: PageProps) => {
     return (
         <>
             <Head>
-                <Script type='application/ld+json' dangerouslySetInnerHTML={{
+                <Script id="article-schema-markup" type='application/ld+json' dangerouslySetInnerHTML={{
                     __html: `{
                         "@context": "https://schema.org",
                         "@type": "NewsArticle",
