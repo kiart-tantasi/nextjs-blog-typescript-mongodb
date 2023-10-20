@@ -1,22 +1,38 @@
 # Project's README
 
-## Environment Variables
-
-**There are 2 required environment variables.**
-
-**`DB_URL` (MongoDB URL including Access Key)**
-**`PRIVATE_KEY` (JWT's Private Key)**
-
-**For example**
-
-```
-DB_URL=mongodb+abc://app:key@cluster0.ab1c2.mongodb.net
-PRIVATE_KEY=THIS_IS_MY_PRIVATE_KEY
-```
-
-<br>
-
 ## Development
+
+### Environment Variables
+
+Create `.env.local` file with these environment variables
+```
+DB_URL=<MONGODB-URL>
+PRIVATE_KEY=<YOUR-RANDOM-STRING>
+
+# OPTIONALS
+NEXT_PUBLIC_DOMAIN=<DOMAIN>
+NEXT_PUBLIC_AUTHOR=<AUTHOR-NAME>
+```
+
+### MongoDB
+
+If you do not have MongoDB, please use this docker-compose.yaml
+```
+version: "3"
+services:
+  mongo:
+    image: "mongo:latest"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=password
+    volumes:
+      - mongodata:/data/db
+volumes:
+  mongodata:
+```
+
+
+### Running app
 
 Installing packages
 ```
@@ -29,10 +45,8 @@ npm run dev
 ```
 
 <br>
-<br>
-<br>
 
-# NEXTjs's README
+# Nextjs's README
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 

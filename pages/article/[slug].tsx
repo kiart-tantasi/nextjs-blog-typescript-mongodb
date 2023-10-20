@@ -7,6 +7,8 @@ import ArticlePage from '../../components/blog/ArticlePage'
 import { Article } from '../../interfaces/article'
 import { EnvGetter } from '../../lib/env-getter'
 import { transformImgUrl } from '../../lib/transform-data'
+import Script from 'next/script'
+import Head from 'next/head'
 
 interface PageProps { article: Article | null }
 
@@ -18,17 +20,35 @@ const PublicArticle: NextPage<PageProps> = ({ article }: PageProps) => {
         </div>
     }
     return (
-        <ArticlePage
-            title={article.title}
-            desc={article.desc}
-            img={article.img}
-            alt={article.alt}
-            date={article.date}
-            markdown={article.markdown}
-            category={article.category}
-            slug={article.slug}
-            views={article.views}
-        />
+        <>
+            <Script id="article-schema-markup" type='application/ld+json' dangerouslySetInnerHTML={{
+                __html: `{
+                        "@context": "https://schema.org",
+                        "@type": "NewsArticle",
+                        "headline": "${article.title}",
+                        "image": [
+                            "${article.img}"
+                        ],
+                        "datePublished": "${new Date(article.date).toISOString()}",
+                        "author": [{
+                            "@type": "Person",
+                            "name": "${process.env.NEXT_PUBLIC_AUTHOR}",
+                            "url": "${process.env.NEXT_PUBLIC_DOMAIN}/aboutme"
+                        }]
+                    }`
+            }} />
+            <ArticlePage
+                title={article.title}
+                desc={article.desc}
+                img={article.img}
+                alt={article.alt}
+                date={article.date}
+                markdown={article.markdown}
+                category={article.category}
+                slug={article.slug}
+                views={article.views}
+            />
+        </>
     )
 }
 
@@ -42,8 +62,6 @@ export const getStaticPaths: GetStaticPaths = async () => {
     const collection = db.collection('main')
     const articles = await collection.find({}).toArray()
     const paths = articles.map(x => {
-        // to see all slugs we have at build time
-        console.log('slug:', x.slug);
         return { params: { slug: x.slug } }
     })
     client.close()
