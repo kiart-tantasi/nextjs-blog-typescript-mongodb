@@ -21,24 +21,22 @@ const PublicArticle: NextPage<PageProps> = ({ article }: PageProps) => {
     }
     return (
         <>
-            <Head>
-                <Script id="article-schema-markup" type='application/ld+json' dangerouslySetInnerHTML={{
-                    __html: `{
+            <Script id="article-schema-markup" type='application/ld+json' dangerouslySetInnerHTML={{
+                __html: `{
                         "@context": "https://schema.org",
                         "@type": "NewsArticle",
                         "headline": "${article.title}",
                         "image": [
                             "${article.img}"
                         ],
-                        "datePublished": "${article.date}",
+                        "datePublished": "${new Date(article.date).toISOString()}",
                         "author": [{
                             "@type": "Person",
-                            "name": "${article.author}",
-                            "url": "${process.env.NEXT_PUBLIC_DOMAIN}/aboutme'"
+                            "name": "${process.env.NEXT_PUBLIC_AUTHOR}",
+                            "url": "${process.env.NEXT_PUBLIC_DOMAIN}/aboutme"
                         }]
                     }`
-                }} />
-            </Head>
+            }} />
             <ArticlePage
                 title={article.title}
                 desc={article.desc}
@@ -64,8 +62,6 @@ export const getStaticPaths: GetStaticPaths = async () => {
     const collection = db.collection('main')
     const articles = await collection.find({}).toArray()
     const paths = articles.map(x => {
-        // to see all slugs we have at build time
-        console.log('slug:', x.slug);
         return { params: { slug: x.slug } }
     })
     client.close()

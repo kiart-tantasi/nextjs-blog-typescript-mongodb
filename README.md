@@ -6,8 +6,12 @@
 
 Create `.env.local` file with these environment variables
 ```
-DB_URL=<MONGO-DB-URL>
+DB_URL=<MONGODB-URL>
 PRIVATE_KEY=<YOUR-RANDOM-STRING>
+
+# OPTIONALS
+NEXT_PUBLIC_DOMAIN=<DOMAIN>
+NEXT_PUBLIC_AUTHOR=<AUTHOR-NAME>
 ```
 
 ### MongoDB
