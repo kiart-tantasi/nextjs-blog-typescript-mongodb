@@ -6,31 +6,26 @@
 
 Create `.env.local` file with these environment variables
 ```
-DB_URL=<MONGODB-URL>
+# SECRET
+DB_URL=<MONGODB-URL> example: mongodb://root:password@localhost:27017
 PRIVATE_KEY=<YOUR-RANDOM-STRING>
 
-# OPTIONALS
+# OPTIONAL
 NEXT_PUBLIC_DOMAIN=<DOMAIN>
 NEXT_PUBLIC_AUTHOR=<AUTHOR-NAME>
+
+# ROOT USER
+ROOT_ENABLE=<true/false>
+ROOT_USERNAME=<ROOT_USERNMAME>
+ROOT_PASSWORD=<ROOT_PASSWORD>
 ```
 
 ### MongoDB
 
-If you do not have MongoDB, please use this docker-compose.yaml
+Run MongoDB in docker-compose
 ```
-version: "3"
-services:
-  mongo:
-    image: "mongo:latest"
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME=root
-      - MONGO_INITDB_ROOT_PASSWORD=password
-    volumes:
-      - mongodata:/data/db
-volumes:
-  mongodata:
+docker-compose up
 ```
-
 
 ### Running app
 
