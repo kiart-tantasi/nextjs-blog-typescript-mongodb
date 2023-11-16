@@ -25,9 +25,7 @@ const Home: NextPage<{ articles: ArticleCard[] }> = (props: PageProps) => {
 
 export default Home;
 
-export async function getStaticProps(): Promise<{
-  props: { articles: ArticleCard[] };
-}> {
+export async function getStaticProps() {
   const dbUrl = EnvGetter.getDbUrl();
   const client = new MongoClient(dbUrl);
 
@@ -49,5 +47,6 @@ export async function getStaticProps(): Promise<{
     props: {
       articles,
     },
+    revalidate: 10,
   };
 }
