@@ -68,7 +68,8 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
     return {
         paths: paths,
-        fallback: false,
+        // need fallback for case when adding new article. otherwise, website returns 404 on newly-added pages
+        fallback: 'blocking',
     }
 }
 
