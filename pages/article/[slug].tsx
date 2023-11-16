@@ -72,7 +72,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
     }
 }
 
-export const getStaticProps: GetStaticProps = async (context): Promise<{ props: PageProps }> => {
+export const getStaticProps: GetStaticProps<PageProps> = async (context) => {
     const slug = context.params!.slug
     const dbUrl = EnvGetter.getDbUrl()
     const client = new MongoClient(dbUrl)
@@ -108,5 +108,6 @@ export const getStaticProps: GetStaticProps = async (context): Promise<{ props: 
         props: {
             article: transformedData,
         },
+        revalidate: 10,
     }
 }
