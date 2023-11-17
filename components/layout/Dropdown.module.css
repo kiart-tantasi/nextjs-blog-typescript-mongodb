@@ -55,11 +55,6 @@
 
 /*AT 450PX */
 @media (max-width: 450px) {
-    /* show */
-    .show-450 {
-        display: block;
-    }
-
     /* clear margin-left of dropdown */
     .dropdown {
         margin-left: 0;
