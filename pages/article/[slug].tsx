@@ -24,7 +24,7 @@ const PublicArticle: NextPage<PageProps> = ({ article }: PageProps) => {
             <Script id="article-schema-markup" type='application/ld+json' dangerouslySetInnerHTML={{
                 __html: `{
                         "@context": "https://schema.org",
-                        "@type": "NewsArticle",
+                        "@type": "Article",
                         "headline": "${article.title}",
                         "image": [
                             "${article.img}"
@@ -68,11 +68,12 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
     return {
         paths: paths,
-        fallback: false,
+        // need fallback for case when adding new article. otherwise, website returns 404 on newly-added pages
+        fallback: 'blocking',
     }
 }
 
-export const getStaticProps: GetStaticProps = async (context): Promise<{ props: PageProps }> => {
+export const getStaticProps: GetStaticProps<PageProps> = async (context) => {
     const slug = context.params!.slug
     const dbUrl = EnvGetter.getDbUrl()
     const client = new MongoClient(dbUrl)
@@ -108,5 +109,6 @@ export const getStaticProps: GetStaticProps = async (context): Promise<{ props: 
         props: {
             article: transformedData,
         },
+        revalidate: 10,
     }
 }

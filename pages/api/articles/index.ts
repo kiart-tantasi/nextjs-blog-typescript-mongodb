@@ -34,7 +34,7 @@ export default isAuthenticated(async function handler(req: NextApiRequest, res: 
 
             // PREPARE DATA
             const temporarySlug = slugify(
-                'workspace' + new Date().getTime().toString() + 'randomNum:' + Math.floor(Math.random() * 1000),
+                'workspace' + new Date().getTime().toString() + 'randomNum' + Math.floor(Math.random() * 1000),
             )
             const dataToInsert = {
                 title,
