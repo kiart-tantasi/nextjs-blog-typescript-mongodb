@@ -13,11 +13,6 @@
   <priority>1.00</priority>
 </url>
 <url>
-  <loc>https://www.petchblog.net/tech</loc>
-  <lastmod>2023-10-22T12:34:50+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
   <loc>https://www.petchblog.net/HowIBuildThisWebsite</loc>
   <lastmod>2023-10-22T12:34:50+00:00</lastmod>
   <priority>0.80</priority>

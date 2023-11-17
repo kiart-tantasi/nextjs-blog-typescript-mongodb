@@ -22,9 +22,6 @@ const Dropdown = () => {
             </span>
             {openDropdown && (
                 <div className={styles['dropdown-content']}>
-                    <span onClick={closeDropdown} className={styles['show-450']}>
-                        <Link href='/tech'>โลกเทค</Link>
-                    </span>
                     <span onClick={closeDropdown} className={styles['show-860']}>
                         <Link href='/HowIBuildThisWebsite'>How I Build This Website</Link>
                     </span>
