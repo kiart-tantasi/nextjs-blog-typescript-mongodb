@@ -32,16 +32,11 @@ const ArticleForm = (props: { article?: Article; editMode: boolean }) => {
         textAreaRef.current!.value = article!.markdown
     }, [props.article, editMode])
 
-    const handlePreview = async () => {
+    const handlePreview = () => {
         const lexed = Lexer.lex(textAreaRef.current?.value || 'ไม่มี markdown')
         const parsed = Parser.parse(lexed)
-        const response = await fetch('/api/presigned-url', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ imgUrl: imgRef.current?.value || null }),
-        })
-        const data = await response.json()
-        const { imgUrl } = data
+        // endpoint /api/presigned-url is not working now so we just use imgRef.current.value for now
+        const imgUrl = imgRef.current?.value
         const dataToSet: PreviewData = {
             title: titleRef.current?.value || 'ไม่มีหัวข้อ',
             img: imgUrl || 'not found',

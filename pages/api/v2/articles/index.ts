@@ -171,19 +171,13 @@ async function handlePut(req: NextApiRequest, res: NextApiResponse) {
       throw new Error("some information is missing.");
     }
 
-    // CHOOSE COLLECTION BETWEEN "workspace" AND "articles"
-    const collectionName =
-      category === "workspace"
-        ? COLLECTION.WORKSPACE_ARTICLES
-        : COLLECTION.ARTICLES;
-
     // CONNECT DB
     await client.connect();
     connectClient = true;
     const db = client.db(getDbName());
 
     // FIND EXISTING ARTICLE
-    const collection = db.collection(collectionName);
+    const collection = db.collection(chooseCollectionName(category));
     const old = await collection.findOne({ slug });
     if (old === null) {
       throw new Error("article is not found.");
@@ -249,12 +243,7 @@ async function handleDelete(req: NextApiRequest, res: NextApiResponse) {
       await client.connect();
       connectClient = true;
       const db = client.db(getDbName());
-      const collectionName =
-        category === "workspace"
-          ? COLLECTION.WORKSPACE_ARTICLES
-          : COLLECTION.ARTICLES;
-
-      const collection = db.collection(collectionName);
+      const collection = db.collection(chooseCollectionName(category));
       const toDelete = await collection.findOne({ slug });
 
       // PREPARE DATA TO INSERT INTO BIN
@@ -333,6 +322,21 @@ function handleInvalidMethod(res: NextApiResponse) {
 
 // ================= [UTILITIES] ================= //
 
+export function getDbName(): string {
+  return process.env.OVERRIDING_DB ?? "blog";
+}
+
+export function getMongoClient() {
+  return new MongoClient(EnvGetter.getDbUrl());
+}
+
+export function chooseCollectionName(category: string) {
+  if (category === "workspace") {
+    return COLLECTION.WORKSPACE_ARTICLES;
+  }
+  return COLLECTION.ARTICLES;
+}
+
 function getWorkspaceSlug(): string {
   return (
     "createdAt" +
@@ -340,12 +344,4 @@ function getWorkspaceSlug(): string {
     "randomNum" +
     Math.floor(Math.random() * 1000)
   );
-}
-
-function getDbName(): string {
-  return process.env.OVERRIDING_DB ?? "blog";
-}
-
-function getMongoClient() {
-  return new MongoClient(EnvGetter.getDbUrl());
 }

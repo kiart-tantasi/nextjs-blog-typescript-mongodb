@@ -26,7 +26,8 @@ export const transformCardData = async (array: Article[], db: Db): Promise<Artic
     return result
 }
 
-export const transformImgUrl = async (imgUrl: string, db: Db, accelerate: boolean) => {
+// NOTE: this function is not yet finished
+export const transformImgUrl = async (imgUrl: string, db: Db, accelerate: boolean): Promise<string> => {
     // IF NOT PRIVATE BUCKET, RETURN OLD URL
     if (!imgUrl.includes(EnvGetter.getPrivateBucketUrl())) return imgUrl
 
