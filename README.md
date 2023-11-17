@@ -42,3 +42,11 @@ Start app
 ```
 npm run dev
 ```
+
+### API V2
+
+- /api/articles
+- /api/articles/[slug]
+- /api/inc-view
+- /api/presigned-url (not sure)
+- /api/recover-article
