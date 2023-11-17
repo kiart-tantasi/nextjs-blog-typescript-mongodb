@@ -34,9 +34,7 @@ export default isAuthenticated(async function handler(
 // ================= [HANDLE REQUEST BASED ON METHOD] ================= //
 
 async function handlePost(req: NextApiRequest, res: NextApiResponse) {
-  // DB CONFIG
-  const dbUrl = EnvGetter.getDbUrl();
-  const client = new MongoClient(dbUrl);
+  const client = getMongoClient();
   let connectClient = false;
 
   // POST A NEW ARTICLE TO WORKSPACE
@@ -115,6 +113,10 @@ async function handlePost(req: NextApiRequest, res: NextApiResponse) {
         slug: workspaceSlug,
       });
 
+      if (articleFromWorkspace === null) {
+        throw new Error("article is not found.");
+      }
+
       // PREPARE DATA
       const articleToPostToPublic = {
         title: articleFromWorkspace!.title,
@@ -159,9 +161,7 @@ async function handlePost(req: NextApiRequest, res: NextApiResponse) {
 }
 
 async function handlePut(req: NextApiRequest, res: NextApiResponse) {
-  // DB CONFIG
-  const dbUrl = EnvGetter.getDbUrl();
-  const client = new MongoClient(dbUrl);
+  const client = getMongoClient();
   let connectClient = false;
 
   try {
@@ -233,17 +233,8 @@ async function handlePut(req: NextApiRequest, res: NextApiResponse) {
 }
 
 async function handleDelete(req: NextApiRequest, res: NextApiResponse) {
-  // DB CONFIG
-  const dbUrl = EnvGetter.getDbUrl();
-  const client = new MongoClient(dbUrl);
+  const client = getMongoClient();
   let connectClient = false;
-
-  // VALIDATING "permanentDelete"
-  if (req.body.permanentDelete === undefined) {
-    return res.status(500).json({
-      message: "please decribe deleting type (permanentDelet: true/false)",
-    });
-  }
 
   // DELETE AN ARTICLE (MOVE TO BIN)
   if (req.body.permanentDelete === false) {
@@ -329,6 +320,11 @@ async function handleDelete(req: NextApiRequest, res: NextApiResponse) {
       return res.status(400).json({ message: (error as Error).message });
     }
   }
+
+  // RETURN 400 IF "permanentDelete" IS NOT FOUND
+  return res.status(400).json({
+    message: "please decribe deleting type (permanentDelet: true/false)",
+  });
 }
 
 function handleInvalidMethod(res: NextApiResponse) {
@@ -347,5 +343,9 @@ function getWorkspaceSlug(): string {
 }
 
 function getDbName(): string {
-  return process.env.OVERRIDING_DB ?? "blogDB";
+  return process.env.OVERRIDING_DB ?? "blog";
+}
+
+function getMongoClient() {
+  return new MongoClient(EnvGetter.getDbUrl());
 }
