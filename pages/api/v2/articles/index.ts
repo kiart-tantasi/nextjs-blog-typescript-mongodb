@@ -56,7 +56,7 @@ export default isAuthenticated(async function handler(
         records: [],
       };
 
-      // INSERT INTO WORKSPACE CATEGORY
+      // INSERT INTO COLLECTION "workspaceArticles"
       const workspace = db.collection(COLLECTION.WORKSPACE_ARTICLES);
       const result = await workspace.insertOne(toInsert);
 
@@ -92,7 +92,7 @@ export default isAuthenticated(async function handler(
 
       // CHECK IF SLUG IS ALREADY USED
       const collection = db.collection(COLLECTION.ARTICLES);
-      const isDuplicate = await collection.findOne({ slug: slug });
+      const isDuplicate = await collection.findOne({ slug });
       if (isDuplicate) {
         throw new Error("slug is already used.");
       }
@@ -111,8 +111,8 @@ export default isAuthenticated(async function handler(
         img: articleFromWorkspace!.img,
         alt: articleFromWorkspace!.alt,
         date: Date.now(),
-        category: category,
-        slug: slug,
+        category,
+        slug,
         views: 1,
         records: articleFromWorkspace?.records || [],
       };
@@ -162,7 +162,7 @@ export default isAuthenticated(async function handler(
 
       // FIND EXISTING ARTICLE
       const collection = db.collection(collectionName);
-      const old = await collection.findOne({ slug: slug });
+      const old = await collection.findOne({ slug });
       if (old === null) {
         throw new Error("article is not found.");
       }
@@ -186,19 +186,16 @@ export default isAuthenticated(async function handler(
 
       // PREPARE DATA TO UPDATE
       const newData: SetDataFormV2 = {
-        title: title,
-        img: img,
-        alt: alt,
-        desc: desc,
-        markdown: markdown,
+        title,
+        img,
+        alt,
+        desc,
+        markdown,
         records: newRecords,
       };
 
       // UPDATE
-      const result = await collection.updateOne(
-        { slug: slug },
-        { $set: newData }
-      );
+      const result = await collection.updateOne({ slug }, { $set: newData });
 
       // CLOSE DB AND SEND RESPONSE
       client.close();
