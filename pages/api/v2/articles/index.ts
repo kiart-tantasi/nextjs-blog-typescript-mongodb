@@ -9,26 +9,38 @@ import {
   SetDataFormV2,
 } from "../../../../interfaces/article";
 
+export enum COLLECTION {
+  ARTICLES = "articles",
+  WORKSPACE_ARTICLES = "workspaceArticles",
+  BIN_ARTICLES = "binArticles",
+}
+
 export default isAuthenticated(async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+  switch (req.method) {
+    case "POST":
+      return await handlePost(req, res);
+    case "PUT":
+      return await handlePut(req, res);
+    case "DELETE":
+      return await handleDelete(req, res);
+    default:
+      return handleInvalidMethod(res);
+  }
+});
+
+// ================= [HANDLE REQUEST BASED ON METHOD] ================= //
+
+async function handlePost(req: NextApiRequest, res: NextApiResponse) {
   // DB CONFIG
   const dbUrl = EnvGetter.getDbUrl();
   const client = new MongoClient(dbUrl);
   let connectClient = false;
 
-  // --------------------------------------------- POST METHODS --------------------------------------------- //
-
-  // VALIDATING "postToPublic"
-  if (req.method === "POST" && req.body.postToPublic === undefined) {
-    return res.status(500).json({
-      message: "please decribe posting type (postToPublic: true/false)",
-    });
-  }
-
   // POST A NEW ARTICLE TO WORKSPACE
-  else if (req.method === "POST" && req.body.postToPublic === false) {
+  if (req.body.postToPublic === false) {
     try {
       // VALIDATING BODY
       const { title, desc, markdown, img, alt } = req.body;
@@ -62,17 +74,17 @@ export default isAuthenticated(async function handler(
 
       // CLOSE DB AND RESPONSE
       client.close();
-      res.status(200).json({ message: result });
+      return res.status(200).json({ message: result });
     } catch (error) {
       if (connectClient) {
         client.close();
       }
-      res.status(400).json({ message: (error as Error).message });
+      return res.status(400).json({ message: (error as Error).message });
     }
   }
 
   // POST A WORKSPACE ARTICLE TO PUBLIC
-  else if (req.method === "POST" && req.body.postToPublic === true) {
+  if (req.body.postToPublic === true) {
     try {
       // VALIDATING BODY
       const { category, slug, workspaceSlug } = req.body;
@@ -127,7 +139,7 @@ export default isAuthenticated(async function handler(
 
       // CLOSE DB AND RESPONSE
       client.close();
-      res.status(200).json({
+      return res.status(200).json({
         insertResult,
         workspaceDeleteResult,
       });
@@ -136,90 +148,105 @@ export default isAuthenticated(async function handler(
         client.close();
       }
       const err = error as Error;
-      res.status(400).json({ message: err.message });
+      return res.status(400).json({ message: err.message });
     }
   }
 
-  // --------------------------------------------- PUT METHODS --------------------------------------------- //
-  else if (req.method === "PUT") {
-    try {
-      // VALIDATING BODY
-      const { category, slug, title, img, alt, desc, markdown } = req.body;
-      if (!category || !slug || !title || !img || !alt || !desc || !markdown) {
-        throw new Error("some information is missing.");
-      }
+  // RETURN 400 IF "postToPublic" IS NOT FOUND
+  return res.status(400).json({
+    message: "please decribe posting type (postToPublic: true/false)",
+  });
+}
 
-      // CHOOSE COLLECTION BETWEEN "workspace" AND "articles"
-      const collectionName =
-        category === "workspace"
-          ? COLLECTION.WORKSPACE_ARTICLES
-          : COLLECTION.ARTICLES;
+async function handlePut(req: NextApiRequest, res: NextApiResponse) {
+  // DB CONFIG
+  const dbUrl = EnvGetter.getDbUrl();
+  const client = new MongoClient(dbUrl);
+  let connectClient = false;
 
-      // CONNECT DB
-      await client.connect();
-      connectClient = true;
-      const db = client.db(getDbName());
+  try {
+    // VALIDATING BODY
+    const { category, slug, title, img, alt, desc, markdown } = req.body;
+    if (!category || !slug || !title || !img || !alt || !desc || !markdown) {
+      throw new Error("some information is missing.");
+    }
 
-      // FIND EXISTING ARTICLE
-      const collection = db.collection(collectionName);
-      const old = await collection.findOne({ slug });
-      if (old === null) {
-        throw new Error("article is not found.");
-      }
+    // CHOOSE COLLECTION BETWEEN "workspace" AND "articles"
+    const collectionName =
+      category === "workspace"
+        ? COLLECTION.WORKSPACE_ARTICLES
+        : COLLECTION.ARTICLES;
 
-      // TRANSFORM OLD VERSION AND PUSH TO RECORDS
-      const recordToPush: FindOldVersionForm = {
-        id: old._id.toString(),
-        title: old.title,
-        desc: old.desc,
-        markdown: old.markdown,
-        img: old.img,
-        alt: old.alt,
-        date: old.date,
-        category: old.category,
-        slug: old.slug,
-        views: old?.views || 1,
-        editDate: Date.now(),
-      };
-      const newRecords = old.records || [];
-      newRecords.push(recordToPush);
+    // CONNECT DB
+    await client.connect();
+    connectClient = true;
+    const db = client.db(getDbName());
 
-      // PREPARE DATA TO UPDATE
-      const newData: SetDataFormV2 = {
-        title,
-        img,
-        alt,
-        desc,
-        markdown,
-        records: newRecords,
-      };
+    // FIND EXISTING ARTICLE
+    const collection = db.collection(collectionName);
+    const old = await collection.findOne({ slug });
+    if (old === null) {
+      throw new Error("article is not found.");
+    }
 
-      // UPDATE
-      const result = await collection.updateOne({ slug }, { $set: newData });
+    // TRANSFORM OLD VERSION AND PUSH INTO RECORDS
+    const recordToPush: FindOldVersionForm = {
+      id: old._id.toString(),
+      title: old.title,
+      desc: old.desc,
+      markdown: old.markdown,
+      img: old.img,
+      alt: old.alt,
+      date: old.date,
+      category: old.category,
+      slug: old.slug,
+      views: old?.views || 1,
+      editDate: Date.now(),
+    };
+    const newRecords = old.records || [];
+    newRecords.push(recordToPush);
 
-      // CLOSE DB AND SEND RESPONSE
+    // PREPARE DATA TO UPDATE
+    const newData: SetDataFormV2 = {
+      title,
+      img,
+      alt,
+      desc,
+      markdown,
+      records: newRecords,
+    };
+
+    // UPDATE
+    const result = await collection.updateOne({ slug }, { $set: newData });
+
+    // CLOSE DB AND SEND RESPONSE
+    client.close();
+    return res.status(200).json({
+      message: result,
+    });
+  } catch (error) {
+    if (connectClient) {
       client.close();
-      res.status(200).json({
-        message: result,
-      });
-    } catch (error) {
-      if (connectClient) {
-        client.close();
-      }
-      res.status(400).json({ message: (error as Error).message });
     }
+    return res.status(400).json({ message: (error as Error).message });
   }
-  // --------------------------------------------- DELETE METHODS --------------------------------------------- //
+}
+
+async function handleDelete(req: NextApiRequest, res: NextApiResponse) {
+  // DB CONFIG
+  const dbUrl = EnvGetter.getDbUrl();
+  const client = new MongoClient(dbUrl);
+  let connectClient = false;
 
   // VALIDATING "permanentDelete"
-  else if (req.method === "DELETE" && req.body.permanentDelete === undefined) {
+  if (req.body.permanentDelete === undefined) {
     return res.status(500).json({
       message: "please decribe deleting type (permanentDelet: true/false)",
     });
   }
 
   // DELETE AN ARTICLE (MOVE TO BIN)
-  else if (req.method === "DELETE" && req.body.permanentDelete === false) {
+  if (req.body.permanentDelete === false) {
     try {
       // VALIDATING BODY
       const { slug, category } = req.body;
@@ -262,7 +289,7 @@ export default isAuthenticated(async function handler(
 
       // CLOSE DB AND SEND RESPONSE
       client.close();
-      res.status(200).json({
+      return res.status(200).json({
         binInsertResult,
         deleteResult,
       });
@@ -270,12 +297,12 @@ export default isAuthenticated(async function handler(
       if (connectClient) {
         client.close();
       }
-      res.status(400).json({ message: (error as Error).message });
+      return res.status(400).json({ message: (error as Error).message });
     }
   }
 
   // DELETE ARTICLE (PERMANENTLY)
-  else if (req.method === "DELETE" && req.body.permanentDelete === true) {
+  if (req.body.permanentDelete === true) {
     try {
       // VALIDATING BODY
       const { slug } = req.body;
@@ -294,20 +321,21 @@ export default isAuthenticated(async function handler(
 
       // CLOSE DB AND RESPONSE
       client.close();
-      res.status(200).json({ message: permanentDeleteResult });
+      return res.status(200).json({ message: permanentDeleteResult });
     } catch (error) {
       if (connectClient) {
         client.close();
       }
-      res.status(400).json({ message: (error as Error).message });
+      return res.status(400).json({ message: (error as Error).message });
     }
   }
+}
 
-  // NO MATCHING METHOD
-  else {
-    res.status(404).json({ message: "no matching method." });
-  }
-});
+function handleInvalidMethod(res: NextApiResponse) {
+  return res.status(404).json({ message: "no matching method." });
+}
+
+// ================= [UTILITIES] ================= //
 
 function getWorkspaceSlug(): string {
   return (
@@ -320,10 +348,4 @@ function getWorkspaceSlug(): string {
 
 function getDbName(): string {
   return process.env.OVERRIDING_DB ?? "blogDB";
-}
-
-enum COLLECTION {
-  ARTICLES = "articles",
-  WORKSPACE_ARTICLES = "workspaceArticles",
-  BIN_ARTICLES = "binArticles",
 }
