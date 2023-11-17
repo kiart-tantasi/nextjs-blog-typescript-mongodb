@@ -59,3 +59,12 @@ export type setDataForm = {
     markdown: string
     record?: any[]
 }
+
+export type SetDataFormV2 = {
+    title: string
+    img: string
+    alt: string
+    desc: string
+    markdown: string
+    records: any[] // TODO: stop using any
+}

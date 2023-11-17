@@ -16,6 +16,10 @@ export const isTokenValid = (token: string): boolean => {
 }
 
 const isAuthenticated = (fn: NextApiHandler) => async (req: NextApiRequest, res: NextApiResponse) => {
+    if (process.env.BYPASS_AUTHEN === "true" && process.env.NODE_ENV === "development") {
+        return await fn(req, res)
+    }
+
     const token = getTokenCookie(req)
 
     if (!token) return res.status(400).json({ message: 'no token found' })
