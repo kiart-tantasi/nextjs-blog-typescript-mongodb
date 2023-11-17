@@ -33,7 +33,7 @@ function generateSiteMap(articles: Article[]) {
  `;
 }
 
-function SiteMap() {
+export default function SiteMap() {
   // getServerSideProps will do the heavy lifting
 }
 
@@ -49,17 +49,11 @@ export async function getServerSideProps({ res }: GetServerSidePropsContext) {
       articlesFromDB as unknown as Article[] // TODO: stop using unknown
     );
     res.setHeader("Content-Type", "text/xml");
-    // we send the XML to the browser
     res.write(sitemap);
   } catch (error) {
+    res.statusCode = 500;
     console.log("error:", error);
-  } finally {
-    res.end();
   }
-
-  return {
-    props: {},
-  };
+  res.end();
+  return { props: {} };
 }
-
-export default SiteMap;
