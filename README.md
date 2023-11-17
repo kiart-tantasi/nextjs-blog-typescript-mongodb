@@ -6,20 +6,20 @@
 
 Create `.env.local` file with these environment variables
 ```
-# SECRET
+# REQUIRED (PUBLIC)
+NEXT_PUBLIC_DOMAIN=<DOMAIN>
+
+# REQUIRED (SECRET)
 DB_URL=<MONGODB-URL> example: mongodb://root:password@localhost:27017
 PRIVATE_KEY=<YOUR-RANDOM-STRING>
 
-# REQUIRED
-NEXT_PUBLIC_DOMAIN=<DOMAIN>
-
-# OPTIONAL
+# OPTIONAL (PUBLIC)
 NEXT_PUBLIC_AUTHOR=<AUTHOR-NAME>
-OVERRIDING_DB=<YOUR-CUSTOM-DATABASE-NAME> # only works with v2 APIs
-BYPASS_AUTHEN # only for development
 
-# ROOT USER
-ROOT_ENABLE=<true/false>
+# OPTIONAL (SECRET)
+OVERRIDING_DB=<YOUR-CUSTOM-DATABASE-NAME> # only works with v2 APIs
+BYPASS_AUTHEN=<true/false> # only works in development environment
+ROOT_ENABLE=<true/false> # enable root account for path /workspace
 ROOT_USERNAME=<ROOT_USERNMAME>
 ROOT_PASSWORD=<ROOT_PASSWORD>
 ```
@@ -48,3 +48,4 @@ npm run dev
 - /api/articles
 - /api/inc-view
 - /api/recover-article
+- page-rendering
