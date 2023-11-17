@@ -24,7 +24,7 @@ const PublicArticle: NextPage<PageProps> = ({ article }: PageProps) => {
             <Script id="article-schema-markup" type='application/ld+json' dangerouslySetInnerHTML={{
                 __html: `{
                         "@context": "https://schema.org",
-                        "@type": "NewsArticle",
+                        "@type": "Article",
                         "headline": "${article.title}",
                         "image": [
                             "${article.img}"
