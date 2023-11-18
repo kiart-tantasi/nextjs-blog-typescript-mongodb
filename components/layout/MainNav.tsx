@@ -15,7 +15,7 @@ const MainNav = () => {
 
     useEffect(() => {
         const checkIfAdmin = async () => {
-            const response = await fetch('/api/validate-token')
+            const response = await fetch('/api/v1/validate-token')
             if (response.ok) {
                 const data = await response.json()
                 const isLoggedIn = data.isLoggedIn

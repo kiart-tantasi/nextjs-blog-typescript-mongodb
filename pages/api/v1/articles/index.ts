@@ -2,10 +2,10 @@ import { MongoClient } from 'mongodb'
 import type { NextApiRequest, NextApiResponse } from 'next'
 import slugify from 'slugify'
 
-import { FindOldVersionForm, setDataForm } from '../../../interfaces/article'
-import { EnvGetter } from '../../../lib/env-getter'
-import isAuthenticated from '../../../lib/auth-node'
-import { allowedCategories } from '../../../utils/sharedData'
+import { FindOldVersionForm, setDataForm } from '../../../../interfaces/article'
+import { EnvGetter } from '../../../../lib/env-getter'
+import isAuthenticated from '../../../../lib/auth-node'
+import { allowedCategories } from '../../../../utils/sharedData'
 
 export default isAuthenticated(async function handler(req: NextApiRequest, res: NextApiResponse) {
     // DB CONFIG

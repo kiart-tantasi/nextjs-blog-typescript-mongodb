@@ -1,8 +1,8 @@
 import jwt from 'jsonwebtoken'
 import { NextApiRequest, NextApiResponse } from 'next'
 
-import { getTokenCookie, removeTokenCookie } from '../../lib/auth-cookie'
-import { EnvGetter } from '../../lib/env-getter'
+import { getTokenCookie, removeTokenCookie } from '../../../lib/auth-cookie'
+import { EnvGetter } from '../../../lib/env-getter'
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
     // ALWAYS RETURN STATUS 200 TO NOT AFFECT USER EXPERIENCE

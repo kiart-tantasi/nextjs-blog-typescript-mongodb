@@ -3,8 +3,8 @@ import jwt from "jsonwebtoken";
 import { MongoClient } from "mongodb";
 import type { NextApiRequest, NextApiResponse } from "next";
 
-import { setTokenCookie } from "../../lib/auth-cookie";
-import { EnvGetter } from "../../lib/env-getter";
+import { setTokenCookie } from "../../../lib/auth-cookie";
+import { EnvGetter } from "../../../lib/env-getter";
 
 export default async function handler(
   req: NextApiRequest,

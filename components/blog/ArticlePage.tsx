@@ -17,7 +17,7 @@ export default function ArticlePage(props: Article) {
         const increaseView = async () => {
             if (!props.slug || !props.category) return
             const { slug, category } = props
-            await fetch('/api/inc-view', {
+            await fetch('/api/v1/inc-view', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ slug, category }),

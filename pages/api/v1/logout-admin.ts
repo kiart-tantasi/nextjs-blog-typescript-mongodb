@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 
-import { removeTokenCookie } from '../../lib/auth-cookie'
-import isAuthenticated from '../../lib/auth-node'
+import { removeTokenCookie } from '../../../lib/auth-cookie'
+import isAuthenticated from '../../../lib/auth-node'
 
 export default isAuthenticated(async function handler(req: NextApiRequest, res: NextApiResponse) {
     if (req.method !== 'POST') {
