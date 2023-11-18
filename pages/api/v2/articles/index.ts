@@ -1,6 +1,5 @@
 import { MongoClient } from "mongodb";
 import type { NextApiRequest, NextApiResponse } from "next";
-import slugify from "slugify";
 import { EnvGetter } from "../../../../lib/env-getter";
 import isAuthenticated from "../../../../lib/auth-node";
 import {
@@ -48,7 +47,7 @@ async function handlePost(req: NextApiRequest, res: NextApiResponse) {
       // VALIDATING BODY
       const { title, desc, markdown, img, alt } = req.body;
       if (!title || !desc || !markdown || !img || !alt) {
-        throw new Error("some data is missing.");
+        return res.status(400).json({ message: "some data is missing." });
       }
 
       // CONNECT DB
@@ -57,7 +56,6 @@ async function handlePost(req: NextApiRequest, res: NextApiResponse) {
       const db = client.db(getDbName());
 
       // PREPARE DATA AND INSERT
-      const workspaceSlug = slugify(getWorkspaceSlug());
       const toInsert: V2Insert = {
         title,
         desc,
@@ -65,7 +63,7 @@ async function handlePost(req: NextApiRequest, res: NextApiResponse) {
         img,
         alt,
         date: Date.now(),
-        slug: workspaceSlug,
+        slug: getWorkspaceSlug(),
         views: 1,
         status: Status.WORKSPACE,
         records: [],
@@ -80,7 +78,7 @@ async function handlePost(req: NextApiRequest, res: NextApiResponse) {
       if (connectClient) {
         client.close();
       }
-      return res.status(400).json({ message: (error as Error).message });
+      return res.status(500).json({ message: (error as Error).message });
     }
   }
 
@@ -90,12 +88,12 @@ async function handlePost(req: NextApiRequest, res: NextApiResponse) {
       // VALIDATING BODY
       const { category, slug, workspaceSlug } = req.body;
       if (!category || !slug || !workspaceSlug) {
-        throw new Error("some information is missing.");
+        return res.status(400).json({ message: "some data is missing." });
       }
 
       // VALIDATING CATEGORY
       if (!getAllowedCategoriesV2().includes(category)) {
-        throw new Error("category is not allowed");
+        return res.status(400).json({ message: "category is not allowed." });
       }
 
       // CONNECT DB
@@ -107,13 +105,13 @@ async function handlePost(req: NextApiRequest, res: NextApiResponse) {
       // CHECK IF ARTICLE EXISTS
       const article = await collection.findOne({ slug: workspaceSlug });
       if (article === null) {
-        throw new Error("article is not found.");
+        return res.status(400).json({ message: "article is not found." });
       }
 
       // CHECK IF SLUG IS ALREADY USED
       const isDuplicate = await collection.findOne({ slug });
       if (isDuplicate) {
-        throw new Error("slug is already used.");
+        return res.status(400).json({ message: "slug is already used." });
       }
 
       // UPDATE
@@ -135,7 +133,7 @@ async function handlePost(req: NextApiRequest, res: NextApiResponse) {
       if (connectClient) {
         client.close();
       }
-      return res.status(400).json({ message: (error as Error).message });
+      return res.status(500).json({ message: (error as Error).message });
     }
   }
 
@@ -153,7 +151,7 @@ async function handlePut(req: NextApiRequest, res: NextApiResponse) {
     // VALIDATING BODY
     const { category, slug, title, img, alt, desc, markdown } = req.body;
     if (!category || !slug || !title || !img || !alt || !desc || !markdown) {
-      throw new Error("some information is missing.");
+      return res.status(400).json({ message: "some data is missing." });
     }
 
     // CONNECT DB
@@ -165,7 +163,7 @@ async function handlePut(req: NextApiRequest, res: NextApiResponse) {
     const collection = db.collection(COLLECTION.ARTICLES);
     const old = await collection.findOne({ slug });
     if (old === null) {
-      throw new Error("article is not found.");
+      return res.status(400).json({ message: "article is not found." });
     }
 
     // SAVE HISTORY RECORDS
@@ -205,7 +203,7 @@ async function handlePut(req: NextApiRequest, res: NextApiResponse) {
     if (connectClient) {
       client.close();
     }
-    return res.status(400).json({ message: (error as Error).message });
+    return res.status(500).json({ message: (error as Error).message });
   }
 }
 
@@ -219,7 +217,7 @@ async function handleDelete(req: NextApiRequest, res: NextApiResponse) {
       // VALIDATING BODY
       const { slug } = req.body;
       if (!slug) {
-        throw "slug is missing.";
+        return res.status(400).json({ message: "slug is missing." });
       }
 
       // CONNECT DB
@@ -244,7 +242,7 @@ async function handleDelete(req: NextApiRequest, res: NextApiResponse) {
       if (connectClient) {
         client.close();
       }
-      return res.status(400).json({ message: (error as Error).message });
+      return res.status(500).json({ message: (error as Error).message });
     }
   }
 
@@ -254,7 +252,7 @@ async function handleDelete(req: NextApiRequest, res: NextApiResponse) {
       // VALIDATING BODY
       const { slug } = req.body;
       if (!slug) {
-        throw new Error("slug is missing.");
+        return res.status(400).json({ message: "slug is missing." });
       }
 
       // CONNECT DB
@@ -266,10 +264,10 @@ async function handleDelete(req: NextApiRequest, res: NextApiResponse) {
       // CHECK EXISTING DATA AND DELETE
       const article = await collection.findOne({ slug });
       if (article === null) {
-        throw new Error("article is not found.");
+        return res.status(400).json({ message: "article is not found." });
       }
       if (article.status !== Status.BIN) {
-        throw new Error("article is not in bin.");
+        return res.status(400).json({ message: "article is not in bin." });
       }
       const deleteResult = await collection.findOneAndDelete({ slug });
 
@@ -280,7 +278,7 @@ async function handleDelete(req: NextApiRequest, res: NextApiResponse) {
       if (connectClient) {
         client.close();
       }
-      return res.status(400).json({ message: (error as Error).message });
+      return res.status(500).json({ message: (error as Error).message });
     }
   }
 
