@@ -1,10 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
-import {
-  COLLECTION,
-  getDbName,
-  getMongoClient,
-} from "./articles";
+import { COLLECTION, getDbName, getMongoClient } from "./articles";
 import { Status } from "../../../interfaces/article";
 
 export default async function handler(
