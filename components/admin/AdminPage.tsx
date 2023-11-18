@@ -15,7 +15,7 @@ const AdminPage = (props: { articles: ArticleCard[] }) => {
     const { logOut } = AuthCtx
 
     const handleLogOut = async () => {
-        const response = await fetch('/api/logout-admin', { method: 'POST' })
+        const response = await fetch('/api/v1/logout-admin', { method: 'POST' })
         if (!response.ok) {
             alert('session แอดมินหมดอายุก่อนออกจากระบบ')
         } else {

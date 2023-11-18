@@ -2,7 +2,7 @@ import { Lexer, Parser } from 'marked'
 import { MongoClient } from 'mongodb'
 import { NextApiRequest, NextApiResponse } from 'next'
 
-import { EnvGetter } from '../../../lib/env-getter'
+import { EnvGetter } from '../../../../lib/env-getter'
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     if (req.method === 'GET') {

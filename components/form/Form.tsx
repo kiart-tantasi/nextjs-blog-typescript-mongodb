@@ -35,7 +35,7 @@ const ArticleForm = (props: { article?: Article; editMode: boolean }) => {
     const handlePreview = async () => {
         const lexed = Lexer.lex(textAreaRef.current?.value || 'ไม่มี markdown')
         const parsed = Parser.parse(lexed)
-        const response = await fetch('/api/presigned-url', {
+        const response = await fetch('/api/v1/presigned-url', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ imgUrl: imgRef.current?.value || null }),
@@ -77,7 +77,7 @@ const ArticleForm = (props: { article?: Article; editMode: boolean }) => {
             category: category,
             slug: slug,
         }
-        const response = await fetch('/api/articles', {
+        const response = await fetch('/api/v1/articles', {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(sendingData),
@@ -116,7 +116,7 @@ const ArticleForm = (props: { article?: Article; editMode: boolean }) => {
             markdown: markdown,
             postToPublic: false,
         }
-        const response = await fetch('/api/articles', {
+        const response = await fetch('/api/v1/articles', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(sendingData),
