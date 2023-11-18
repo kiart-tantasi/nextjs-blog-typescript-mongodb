@@ -35,11 +35,9 @@ const ArticleForm = (props: { article?: Article; editMode: boolean }) => {
     const handlePreview = () => {
         const lexed = Lexer.lex(textAreaRef.current?.value || 'ไม่มี markdown')
         const parsed = Parser.parse(lexed)
-        // endpoint /api/presigned-url is not working now so we just use imgRef.current.value for now
-        const imgUrl = imgRef.current?.value
         const dataToSet: PreviewData = {
             title: titleRef.current?.value || 'ไม่มีหัวข้อ',
-            img: imgUrl || 'not found',
+            img: imgRef.current?.value || 'not found',
             alt: altRef.current?.value || 'ไม่มี alt รูปภาพ',
             desc: descRef.current?.value || 'ไม่มีคำอธิบายบทความ',
             markdown: parsed,
