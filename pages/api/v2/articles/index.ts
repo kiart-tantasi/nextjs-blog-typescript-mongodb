@@ -6,13 +6,14 @@ import isAuthenticated from "../../../../lib/auth-node";
 import { allowedCategories } from "../../../../utils/sharedData";
 import {
   FindOldVersionForm,
-  SetDataFormV2,
+  V2Insert,
+  V2Update,
+  V2PostToPublic,
+  V2MoveToBin,
 } from "../../../../interfaces/article";
 
 export enum COLLECTION {
   ARTICLES = "articles",
-  WORKSPACE_ARTICLES = "workspaceArticles",
-  BIN_ARTICLES = "binArticles",
 }
 
 export default isAuthenticated(async function handler(
@@ -43,7 +44,7 @@ async function handlePost(req: NextApiRequest, res: NextApiResponse) {
       // VALIDATING BODY
       const { title, desc, markdown, img, alt } = req.body;
       if (!title || !desc || !markdown || !img || !alt) {
-        throw new Error("some information is missing.");
+        throw new Error("some data is missing.");
       }
 
       // CONNECT DB
@@ -51,24 +52,23 @@ async function handlePost(req: NextApiRequest, res: NextApiResponse) {
       connectClient = true;
       const db = client.db(getDbName());
 
-      // PREPARE DATA
+      // PREPARE DATA AND INSERT
       const workspaceSlug = slugify(getWorkspaceSlug());
-      const toInsert = {
+      const toInsert: V2Insert = {
         title,
         desc,
         markdown,
         img,
         alt,
         date: Date.now(),
-        category: "workspace",
         slug: workspaceSlug,
         views: 1,
         records: [],
+        isWorkspace: true,
+        isBin: false,
       };
-
-      // INSERT INTO COLLECTION "workspaceArticles"
-      const workspace = db.collection(COLLECTION.WORKSPACE_ARTICLES);
-      const result = await workspace.insertOne(toInsert);
+      const collection = db.collection(COLLECTION.ARTICLES);
+      const result = await collection.insertOne(toInsert);
 
       // CLOSE DB AND RESPONSE
       client.close();
@@ -107,43 +107,23 @@ async function handlePost(req: NextApiRequest, res: NextApiResponse) {
         throw new Error("slug is already used.");
       }
 
-      // FIND AND GET ARTICLE FROM WORKSPACE
-      const workspace = db.collection(COLLECTION.WORKSPACE_ARTICLES);
-      const articleFromWorkspace = await workspace.findOne({
-        slug: workspaceSlug,
-      });
-
-      if (articleFromWorkspace === null) {
-        throw new Error("article is not found.");
-      }
-
-      // PREPARE DATA
-      const articleToPostToPublic = {
-        title: articleFromWorkspace!.title,
-        desc: articleFromWorkspace!.desc,
-        markdown: articleFromWorkspace!.markdown,
-        img: articleFromWorkspace!.img,
-        alt: articleFromWorkspace!.alt,
-        date: Date.now(),
-        category,
+      // UPDATE "isWorkspace" and "category"
+      const toUpdate: V2PostToPublic = {
         slug,
-        views: 1,
-        records: articleFromWorkspace?.records || [],
+        category,
+        date: Date.now(),
+        isWorkspace: false,
+        isBin: false,
       };
-
-      // INSERT INTO COLLECTION "articles"
-      const insertResult = await collection.insertOne(articleToPostToPublic);
-
-      // DELETE IN WORKSPACE
-      const workspaceDeleteResult = await workspace.deleteOne({
-        slug: workspaceSlug,
-      });
+      const updateResult = await collection.findOneAndUpdate(
+        { slug: workspaceSlug },
+        { $set: toUpdate }
+      );
 
       // CLOSE DB AND RESPONSE
       client.close();
       return res.status(200).json({
-        insertResult,
-        workspaceDeleteResult,
+        updateResult,
       });
     } catch (error) {
       if (connectClient) {
@@ -177,13 +157,13 @@ async function handlePut(req: NextApiRequest, res: NextApiResponse) {
     const db = client.db(getDbName());
 
     // FIND EXISTING ARTICLE
-    const collection = db.collection(chooseCollectionName(category));
+    const collection = db.collection(COLLECTION.ARTICLES);
     const old = await collection.findOne({ slug });
     if (old === null) {
       throw new Error("article is not found.");
     }
 
-    // TRANSFORM OLD VERSION AND PUSH INTO RECORDS
+    // SAVE HISTORY RECORDS
     const recordToPush: FindOldVersionForm = {
       id: old._id.toString(),
       title: old.title,
@@ -200,8 +180,8 @@ async function handlePut(req: NextApiRequest, res: NextApiResponse) {
     const newRecords = old.records || [];
     newRecords.push(recordToPush);
 
-    // PREPARE DATA TO UPDATE
-    const newData: SetDataFormV2 = {
+    // UPDATE
+    const toUpdate: V2Update = {
       title,
       img,
       alt,
@@ -209,9 +189,7 @@ async function handlePut(req: NextApiRequest, res: NextApiResponse) {
       markdown,
       records: newRecords,
     };
-
-    // UPDATE
-    const result = await collection.updateOne({ slug }, { $set: newData });
+    const result = await collection.updateOne({ slug }, { $set: toUpdate });
 
     // CLOSE DB AND SEND RESPONSE
     client.close();
@@ -230,49 +208,34 @@ async function handleDelete(req: NextApiRequest, res: NextApiResponse) {
   const client = getMongoClient();
   let connectClient = false;
 
-  // DELETE AN ARTICLE (MOVE TO BIN)
+  // MOVE TO BIN
   if (req.body.permanentDelete === false) {
     try {
       // VALIDATING BODY
-      const { slug, category } = req.body;
-      if (!slug || !category) {
-        throw "slug or category is missing.";
+      const { slug } = req.body;
+      if (!slug) {
+        throw "slug is missing.";
       }
 
       // CONNECT DB
       await client.connect();
       connectClient = true;
       const db = client.db(getDbName());
-      const collection = db.collection(chooseCollectionName(category));
-      const toDelete = await collection.findOne({ slug });
+      const collection = db.collection(COLLECTION.ARTICLES);
 
-      // PREPARE DATA TO INSERT INTO BIN
-      const toInsert = {
-        title: toDelete?.title,
-        desc: toDelete?.desc,
-        markdown: toDelete?.markdown,
-        img: toDelete?.img,
-        alt: toDelete?.alt,
-        date: toDelete?.date,
-        category: toDelete?.category,
-        slug: toDelete?.slug,
-        views: toDelete?.views || 1,
-        records: toDelete?.records || [],
+      // UPDATE "isBin" to true and "isWorkspace" to false
+      const toUpdate: V2MoveToBin = {
+        isWorkspace: false,
+        isBin: true,
       };
-
-      // INSERT INTO BIN
-      const bin = db.collection(COLLECTION.BIN_ARTICLES);
-      const binInsertResult = await bin.insertOne(toInsert);
-
-      // DELETE IN PREVIOUS COLLECTION
-      const deleteResult = await collection.deleteOne({ slug });
+      const updateResult = await collection.findOneAndUpdate(
+        { slug },
+        { $set: toUpdate }
+      );
 
       // CLOSE DB AND SEND RESPONSE
       client.close();
-      return res.status(200).json({
-        binInsertResult,
-        deleteResult,
-      });
+      return res.status(200).json({ updateResult });
     } catch (error) {
       if (connectClient) {
         client.close();
@@ -294,14 +257,21 @@ async function handleDelete(req: NextApiRequest, res: NextApiResponse) {
       await client.connect();
       connectClient = true;
       const db = client.db(getDbName());
-      const bin = db.collection(COLLECTION.BIN_ARTICLES);
+      const collection = db.collection(COLLECTION.ARTICLES);
 
-      // DELETE FROM BIN COLLECTION
-      const permanentDeleteResult = await bin.deleteOne({ slug: slug });
+      // CHECK EXISTING DATA AND DELETE
+      const article = await collection.findOne({ slug });
+      if (article === null) {
+        throw new Error("article is not found.");
+      }
+      if (article.isBin !== true) {
+        throw new Error("article is not in bin.");
+      }
+      const deleteResult = await collection.findOneAndDelete({ slug });
 
       // CLOSE DB AND RESPONSE
       client.close();
-      return res.status(200).json({ message: permanentDeleteResult });
+      return res.status(200).json({ deleteResult });
     } catch (error) {
       if (connectClient) {
         client.close();
@@ -328,13 +298,6 @@ export function getDbName(): string {
 
 export function getMongoClient() {
   return new MongoClient(EnvGetter.getDbUrl());
-}
-
-export function chooseCollectionName(category: string) {
-  if (category === "workspace") {
-    return COLLECTION.WORKSPACE_ARTICLES;
-  }
-  return COLLECTION.ARTICLES;
 }
 
 function getWorkspaceSlug(): string {

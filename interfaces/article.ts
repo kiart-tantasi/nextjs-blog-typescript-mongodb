@@ -60,11 +60,46 @@ export type setDataForm = {
     record?: any[]
 }
 
-export type SetDataFormV2 = {
+// ================== V2 ================== //
+
+export interface V2Insert {
+    title: string
+    desc: string
+    markdown: string
+    img: string
+    alt: string
+    date: number
+    slug: string
+    views: number
+    records: any[] // TODO: stop using any
+    isWorkspace: boolean
+    isBin: boolean
+    // NOTE: there is no category at this moment
+};
+
+export interface V2Update {
     title: string
     img: string
     alt: string
     desc: string
     markdown: string
     records: any[] // TODO: stop using any
+}
+
+interface V2MovingBase {
+    isWorkspace: boolean
+    isBin: boolean
+}
+
+export interface V2PostToPublic extends V2MovingBase {
+    slug: string
+    category: string
+    date: number
+    isWorkspace: false
+    isBin: false
+}
+
+export interface V2MoveToBin extends V2MovingBase {
+    isWorkspace: false
+    isBin: true
 }
