@@ -3,18 +3,22 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import slugify from "slugify";
 import { EnvGetter } from "../../../../lib/env-getter";
 import isAuthenticated from "../../../../lib/auth-node";
-import { allowedCategories } from "../../../../utils/sharedData";
 import {
   FindOldVersionForm,
   V2Insert,
   V2Update,
-  V2PostToPublic,
-  V2MoveToBin,
+  V2ToPublic,
+  V2ToBin,
+  Status,
 } from "../../../../interfaces/article";
 
 export enum COLLECTION {
   ARTICLES = "articles",
 }
+
+export const getAllowedCategoriesV2 = () => {
+  return ["general", "tech", "lifestyle"];
+};
 
 export default isAuthenticated(async function handler(
   req: NextApiRequest,
@@ -63,16 +67,15 @@ async function handlePost(req: NextApiRequest, res: NextApiResponse) {
         date: Date.now(),
         slug: workspaceSlug,
         views: 1,
+        status: Status.WORKSPACE,
         records: [],
-        isWorkspace: true,
-        isBin: false,
       };
       const collection = db.collection(COLLECTION.ARTICLES);
-      const result = await collection.insertOne(toInsert);
+      const insertResult = await collection.insertOne(toInsert);
 
       // CLOSE DB AND RESPONSE
       client.close();
-      return res.status(200).json({ message: result });
+      return res.status(200).json({ insertResult });
     } catch (error) {
       if (connectClient) {
         client.close();
@@ -91,7 +94,7 @@ async function handlePost(req: NextApiRequest, res: NextApiResponse) {
       }
 
       // VALIDATING CATEGORY
-      if (!allowedCategories.includes(category) || category === "workspace") {
+      if (!getAllowedCategoriesV2().includes(category)) {
         throw new Error("category is not allowed");
       }
 
@@ -99,21 +102,26 @@ async function handlePost(req: NextApiRequest, res: NextApiResponse) {
       await client.connect();
       connectClient = true;
       const db = client.db(getDbName());
+      const collection = db.collection(COLLECTION.ARTICLES);
+
+      // CHECK IF ARTICLE EXISTS
+      const article = await collection.findOne({ slug: workspaceSlug });
+      if (article === null) {
+        throw new Error("article is not found.");
+      }
 
       // CHECK IF SLUG IS ALREADY USED
-      const collection = db.collection(COLLECTION.ARTICLES);
       const isDuplicate = await collection.findOne({ slug });
       if (isDuplicate) {
         throw new Error("slug is already used.");
       }
 
-      // UPDATE "isWorkspace" and "category"
-      const toUpdate: V2PostToPublic = {
+      // UPDATE
+      const toUpdate: V2ToPublic = {
         slug,
         category,
         date: Date.now(),
-        isWorkspace: false,
-        isBin: false,
+        status: Status.PUBLIC,
       };
       const updateResult = await collection.findOneAndUpdate(
         { slug: workspaceSlug },
@@ -122,15 +130,12 @@ async function handlePost(req: NextApiRequest, res: NextApiResponse) {
 
       // CLOSE DB AND RESPONSE
       client.close();
-      return res.status(200).json({
-        updateResult,
-      });
+      return res.status(200).json({ updateResult });
     } catch (error) {
       if (connectClient) {
         client.close();
       }
-      const err = error as Error;
-      return res.status(400).json({ message: err.message });
+      return res.status(400).json({ message: (error as Error).message });
     }
   }
 
@@ -223,10 +228,9 @@ async function handleDelete(req: NextApiRequest, res: NextApiResponse) {
       const db = client.db(getDbName());
       const collection = db.collection(COLLECTION.ARTICLES);
 
-      // UPDATE "isBin" to true and "isWorkspace" to false
-      const toUpdate: V2MoveToBin = {
-        isWorkspace: false,
-        isBin: true,
+      // UPDATE
+      const toUpdate: V2ToBin = {
+        status: Status.BIN,
       };
       const updateResult = await collection.findOneAndUpdate(
         { slug },
@@ -264,7 +268,7 @@ async function handleDelete(req: NextApiRequest, res: NextApiResponse) {
       if (article === null) {
         throw new Error("article is not found.");
       }
-      if (article.isBin !== true) {
+      if (article.status !== Status.BIN) {
         throw new Error("article is not in bin.");
       }
       const deleteResult = await collection.findOneAndDelete({ slug });

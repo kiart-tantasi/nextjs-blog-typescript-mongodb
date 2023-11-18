@@ -62,6 +62,12 @@ export type setDataForm = {
 
 // ================== V2 ================== //
 
+export enum Status {
+    WORKSPACE = "WORKSPACE",
+    BIN = "BIN",
+    PUBLIC = "PUBLIC",
+}
+
 export interface V2Insert {
     title: string
     desc: string
@@ -71,9 +77,8 @@ export interface V2Insert {
     date: number
     slug: string
     views: number
+    status: Status
     records: any[] // TODO: stop using any
-    isWorkspace: boolean
-    isBin: boolean
     // NOTE: there is no category at this moment
 };
 
@@ -86,20 +91,13 @@ export interface V2Update {
     records: any[] // TODO: stop using any
 }
 
-interface V2MovingBase {
-    isWorkspace: boolean
-    isBin: boolean
-}
-
-export interface V2PostToPublic extends V2MovingBase {
+export interface V2ToPublic {
     slug: string
     category: string
     date: number
-    isWorkspace: false
-    isBin: false
+    status: Status
 }
 
-export interface V2MoveToBin extends V2MovingBase {
-    isWorkspace: false
-    isBin: true
+export interface V2ToBin {
+    status: Status
 }
