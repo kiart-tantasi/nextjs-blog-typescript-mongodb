@@ -1,8 +1,8 @@
 import { MongoClient } from 'mongodb'
 import { NextApiRequest, NextApiResponse } from 'next'
 
-import { EnvGetter } from '../../lib/env-getter'
-import isAuthenticated from '../../lib/auth-node'
+import { EnvGetter } from '../../../lib/env-getter'
+import isAuthenticated from '../../../lib/auth-node'
 
 export default isAuthenticated(async function handler(req: NextApiRequest, res: NextApiResponse) {
     if (req.method === 'POST') {

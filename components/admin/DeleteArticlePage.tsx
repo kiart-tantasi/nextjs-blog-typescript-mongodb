@@ -17,7 +17,7 @@ const DeletedArticlePage = (props: { article: Article }) => {
             category: props.article.category,
         }
 
-        const response = await fetch('/api/recover-article', {
+        const response = await fetch('/api/v1/recover-article', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(sendingData),
@@ -34,7 +34,7 @@ const DeletedArticlePage = (props: { article: Article }) => {
     }
 
     const handlePermanentDelete = async () => {
-        const response = await fetch('/api/articles', {
+        const response = await fetch('/api/v1/articles', {
             method: 'DELETE',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ slug: props.article.slug, permanentDelete: true }),

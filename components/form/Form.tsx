@@ -70,7 +70,7 @@ const ArticleForm = (props: { article?: Article; editMode: boolean }) => {
             category: category,
             slug: slug,
         }
-        const response = await fetch('/api/articles', {
+        const response = await fetch('/api/v1/articles', {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(sendingData),
@@ -109,7 +109,7 @@ const ArticleForm = (props: { article?: Article; editMode: boolean }) => {
             markdown: markdown,
             postToPublic: false,
         }
-        const response = await fetch('/api/articles', {
+        const response = await fetch('/api/v1/articles', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(sendingData),

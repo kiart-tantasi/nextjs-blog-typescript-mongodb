@@ -17,7 +17,7 @@ const LoginPage = () => {
         const username = usernameRef.current!.value
         const password = passwordRef.current!.value
         if (!username.length || !password.length) return alert('โปรดระบุ username และ password ให้ครบถ้วน')
-        const response = await fetch('/api/login-admin', {
+        const response = await fetch('/api/v1/login-admin', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ username: username, password: password }),

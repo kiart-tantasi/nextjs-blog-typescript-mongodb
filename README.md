@@ -55,7 +55,15 @@ start
 npm run start
 ```
 
+### API V1
 
+- /api/v1/articles/[slug]
+- /api/v1/articles
+- /api/v1/inc-view
+- /api/v1/login-admin
+- /api/v1/logout-admin
+- /api/v1/recover-article
+- /api/v1/validate-token
 
 ### API V2
 
