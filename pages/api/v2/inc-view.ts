@@ -1,21 +1,21 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
-import { COLLECTION, getDbName, getMongoClient } from "./articles";
-import { allowedCategories } from "../../../utils/sharedData";
+import {
+  COLLECTION,
+  getDbName,
+  getMongoClient,
+} from "./articles";
+import { Status } from "../../../interfaces/article";
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  // BAD CASES (ALWAYS RETURN STATUS 200 FOR GOOD UX)
-  const { slug, category } = req.body;
-  if (!slug || !category) {
-    return res.status(200).json({ message: "no slug or category found" });
-  }
-  if (!allowedCategories.includes(category) || category === "workspace") {
-    return res.status(200).json({
-      message: "category is not allowed for view-incrementing",
-    });
+  // *ALWAYS RETURN STATUS 200 FOR GOOD UX
+  // VALIDATING BODY
+  const { slug } = req.body;
+  if (!slug) {
+    return res.status(200).json({ message: "slug is not found" });
   }
 
   const client = getMongoClient();
@@ -31,7 +31,15 @@ export default async function handler(
       throw new Error("article is not found.");
     }
 
-    // IF FOUND, INCREMENT VIEWS
+    // IF FOUND, CHECK STATUS
+    if (article.status !== Status.PUBLIC) {
+      return res.status(200).json({
+        message:
+          "article is not public. as a result, views will not be incremented",
+      });
+    }
+
+    // INCREMENT
     const views = article.views ? article.views + 1 : 1;
     const message = await collection.findOneAndUpdate(
       { slug },
