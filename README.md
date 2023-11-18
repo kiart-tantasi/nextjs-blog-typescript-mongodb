@@ -43,7 +43,23 @@ Start app
 npm run dev
 ```
 
+### Run production locally
+
+build
+```
+npm run build
+```
+
+start
+```
+npm run start
+```
+
+
+
 ### API V2
+
+API V2 is aimed to remodel article stored in MongoDB to decrease complexity
 
 - /api/articles
 - /api/inc-view
