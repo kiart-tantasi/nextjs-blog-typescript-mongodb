@@ -57,7 +57,7 @@ export type setDataForm = {
     alt: string
     desc: string
     markdown: string
-    record?: any[]
+    record?: FindOldVersionForm[]
 }
 
 // ================== V2 ================== //
@@ -68,6 +68,7 @@ export enum Status {
     PUBLIC = "PUBLIC",
 }
 
+// NOTE: there is no category yet when we insert article into workspace
 export interface V2Insert {
     title: string
     desc: string
@@ -78,8 +79,7 @@ export interface V2Insert {
     slug: string
     views: number
     status: Status
-    records: any[] // TODO: stop using any
-    // NOTE: there is no category at this moment
+    records: FindOldVersionForm[]
 };
 
 export interface V2Update {
@@ -88,7 +88,7 @@ export interface V2Update {
     alt: string
     desc: string
     markdown: string
-    records: any[] // TODO: stop using any
+    records: FindOldVersionForm[]
 }
 
 export interface V2ToPublic {
@@ -98,7 +98,7 @@ export interface V2ToPublic {
     status: Status
 }
 
-// when moving to bin, we need to keep track of previous status so we can recover it into correct status (endpoint /api/v2/recover-article)
+// NOTE: when moving to bin, we need to keep track of previous status so we can recover it into correct status (endpoint /api/v2/recover-article)
 export interface V2ToBin {
     status: Status
     prevStatus: Status
