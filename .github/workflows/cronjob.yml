@@ -13,4 +13,4 @@ jobs:
       - name: Curl article page
         run: curl https://www.petchblog.net/article/mern-stack
       - name: Curl 400 (TEST)
-        run: curl https://www.petchblog.net/some-not-existing-link
+        run: curl -sSf https://www.petchblog.net/some-not-existing-link >/dev/null || { echo "Error: Non-2xx status code received"; exit 1; }
