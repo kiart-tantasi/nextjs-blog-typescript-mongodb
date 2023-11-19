@@ -5,12 +5,10 @@ on:
     - cron: "0 */23 * * *"
 
 jobs:
-  test_schedule:
+  curl:
     runs-on: ubuntu-latest
     steps:
       - name: Curl homepage
-        run: curl https://www.petchblog.net/
+        run: curl -sSf https://www.petchblog.net/ >/dev/null || { exit 1; }
       - name: Curl article page
-        run: curl https://www.petchblog.net/article/mern-stack
-      - name: Curl 400 (TEST)
-        run: curl -sSf https://www.petchblog.net/some-not-existing-link >/dev/null || { exit 1; }
+        run: curl -sSf https://www.petchblog.net/article/mern-stack >/dev/null || { exit 1; }
