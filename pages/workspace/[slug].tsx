@@ -8,6 +8,7 @@ import NotFoundPage from '../../components/blog/NotFoundPage'
 import { Article } from '../../interfaces/article'
 import { EnvGetter } from '../../lib/env-getter'
 import { transformImgUrl } from '../../lib/transform-data'
+import { databaseNameV1 } from '../../config'
 
 const WorkspaceArticle: NextPage<{ article: Article }> = (props: { article: Article }) => {
     const article = props.article
@@ -36,7 +37,7 @@ export const getServerSideProps = async (context: GetServerSidePropsContext) => 
     const dbUrl = EnvGetter.getDbUrl()
     const client = new MongoClient(dbUrl)
     await client.connect()
-    const db = client.db('blogDB')
+    const db = client.db(databaseNameV1)
     const collection = db.collection('workspace')
 
     // FIND THE ARTICLE

@@ -6,6 +6,7 @@ import { ArticleCard } from '../../../interfaces/article'
 import { Article } from '../../../interfaces/article'
 import { EnvGetter } from '../../../lib/env-getter'
 import { transformCardData } from '../../../lib/transform-data'
+import { databaseNameV1 } from '../../../config'
 
 const ArticleBin: NextPage<{ articles: ArticleCard[] }> = (props: { articles: ArticleCard[] }) => {
     const articles = props.articles
@@ -19,7 +20,7 @@ export const getServerSideProps = async () => {
     const dbUrl = EnvGetter.getDbUrl()
     const client = new MongoClient(dbUrl)
     await client.connect()
-    const db = client.db('blogDB')
+    const db = client.db(databaseNameV1)
     const collection = db.collection('bin')
     const articleNoTransformed = (await collection.find({}).toArray()) as unknown as Article[]
     const transformedData = await transformCardData(articleNoTransformed, db)

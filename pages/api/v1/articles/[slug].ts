@@ -3,6 +3,7 @@ import { MongoClient } from 'mongodb'
 import { NextApiRequest, NextApiResponse } from 'next'
 
 import { EnvGetter } from '../../../../lib/env-getter'
+import { databaseNameV1 } from '../../../../config'
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     if (req.method === 'GET') {
@@ -20,7 +21,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             connectClient = true
 
             // FIND ARTICLE IN MAIN CATEGORY
-            const db = client.db('blogDB')
+            const db = client.db(databaseNameV1)
             const main = db.collection('main')
             const article = await main.findOne({ slug: slug })
             if (article === null) throw new Error('Not found')

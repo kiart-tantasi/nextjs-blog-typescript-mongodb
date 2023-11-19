@@ -11,7 +11,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
         res.status(200).json({ isLoggedIn: false })
     } else {
         const privateKey = EnvGetter.getPrivateKey()
-        jwt.verify(token, privateKey, function (err: any, decoded) {
+        jwt.verify(token, privateKey, function (err, _) {
             if (err) {
                 removeTokenCookie(res)
                 res.status(200).json({ isLoggedIn: false })

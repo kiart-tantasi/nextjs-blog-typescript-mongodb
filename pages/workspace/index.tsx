@@ -10,6 +10,7 @@ import { removeTokenCookie } from '../../lib/auth-cookie'
 import { EnvGetter } from '../../lib/env-getter'
 import { isTokenValid } from '../../lib/auth-node'
 import { transformCardData } from '../../lib/transform-data'
+import { databaseNameV1 } from '../../config'
 
 interface PageProps {
     articles: ArticleCard[] | null
@@ -40,7 +41,7 @@ export const getServerSideProps = async (context: GetServerSidePropsContext): Pr
     const dbUrl = EnvGetter.getDbUrl()
     const client = new MongoClient(dbUrl)
     await client.connect()
-    const db = client.db('blogDB')
+    const db = client.db(databaseNameV1)
     const collection = db.collection('workspace')
     const articleNoTransformed = (await collection.find({}).toArray()) as unknown as Article[]
     const transformedData: ArticleCard[] = await transformCardData(articleNoTransformed, db)

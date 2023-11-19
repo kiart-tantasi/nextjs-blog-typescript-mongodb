@@ -2,6 +2,7 @@ import { MongoClient } from 'mongodb'
 import { NextApiRequest, NextApiResponse } from 'next'
 
 import { EnvGetter } from '../../../lib/env-getter'
+import { databaseNameV1 } from '../../../config'
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     // ALWAYS RETURN STATUS 200 TO NOT AFFECT USER EXPERIENCE
@@ -14,7 +15,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     try {
         // CONNECT DB
         await client.connect()
-        const db = client.db('blogDB')
+        const db = client.db(databaseNameV1)
 
         // CHOOSE MAIN CATEGORY FOR EVERY CATEGORY EXCEPT WORKSPACE
         const collection = category !== 'workspace' ? db.collection('main') : db.collection('workspace')

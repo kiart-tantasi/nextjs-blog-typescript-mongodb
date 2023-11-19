@@ -3,8 +3,8 @@ import { useRef } from 'react'
 import slugify from 'slugify'
 
 import { Article } from '../../interfaces/article'
-import { allowedCategories } from '../../utils/sharedData'
 import styles from './PostToPublicModalUI.module.css'
+import { allowedCategoriesV1 } from '../../config'
 
 const PostToPublicModalUI = (props: { article: Article; onClose: () => void; replaceWithHome: () => void }) => {
     const selectRef = useRef<HTMLSelectElement>(null)
@@ -17,7 +17,7 @@ const PostToPublicModalUI = (props: { article: Article; onClose: () => void; rep
             return alert('slug ไม่ถูกต้อง')
         }
         const category = selectRef.current!.value
-        if (!allowedCategories.includes(category) || category === 'workspace') {
+        if (!allowedCategoriesV1.includes(category) || category === 'workspace') {
             return alert('หมวดหมู่ไม่ถูกต้อง')
         }
         const sendingData = {

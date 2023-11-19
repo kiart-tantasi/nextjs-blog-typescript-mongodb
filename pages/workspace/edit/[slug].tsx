@@ -6,6 +6,7 @@ import NotFoundPage from '../../../components/blog/NotFoundPage'
 import Form from '../../../components/form/Form'
 import { Article } from '../../../interfaces/article'
 import { EnvGetter } from '../../../lib/env-getter'
+import { databaseNameV1 } from '../../../config'
 
 const Edit: NextPage<{ article: Article }> = (props: { article: Article }) => {
     const article = props.article
@@ -20,7 +21,7 @@ export const getServerSideProps = async (context: GetServerSidePropsContext) => 
     const dbUrl = EnvGetter.getDbUrl()
     const client = new MongoClient(dbUrl)
     await client.connect()
-    const db = client.db('blogDB')
+    const db = client.db(databaseNameV1)
 
     // 1. CHECK IF THE ARTICLE IS IN MAIN OR NOT 2. IF NOT, CHECK AGAIN IF IT IS IN WORKSPACE 3. IF IT IS NOT IN MAIN OR WORKSPACE, RETURN NULL PROPS
     // I DO THIS THIS BECAUSE THIS HERE CANNOT GET CATEGORY DATA BUT CAN ONLY GET SLUG THAT IS TYPED IN URL example: 'edit/noCateryDefinedHere'.

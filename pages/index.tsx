@@ -6,6 +6,7 @@ import { Article, ArticleCard } from "../interfaces/article";
 import { EnvGetter } from "../lib/env-getter";
 import { transformCardData } from "../lib/transform-data";
 import Head from "next/head";
+import { databaseNameV1 } from "../config";
 
 interface PageProps {
   articles: ArticleCard[];
@@ -32,7 +33,7 @@ export async function getStaticProps() {
   let articles: ArticleCard[] = [];
   try {
     await client.connect();
-    const db = client.db("blogDB");
+    const db = client.db(databaseNameV1);
     const collection = db.collection("main");
     const articlesFromDB = await collection.find({}).toArray();
     articles = await transformCardData(
