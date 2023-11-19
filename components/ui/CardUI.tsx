@@ -13,7 +13,7 @@ export default function CardUI(props: { articleCard: ArticleCard; bin?: boolean 
         ? '/workspace/bin/' + props.articleCard.slug
         : props.articleCard.category === 'workspace'
         ? '/workspace/' + props.articleCard.slug
-        : '/article/' + props.articleCard.slug
+        : `${process.env.NEXT_PUBLIC_DOMAIN}/article/${props.articleCard.slug}`
     const imgShouldBePrioritized = props.articleCard.index !== undefined && props.articleCard.index <= 1
 
     return (
