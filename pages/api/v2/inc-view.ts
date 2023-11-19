@@ -18,9 +18,11 @@ export default async function handler(
   }
 
   const client = getMongoClient();
+  let connectClient = false;
   try {
     // CONNECT DB AND FIND ARTICLE
     await client.connect();
+    connectClient = true;
     const db = client.db(databaseNameV2);
     const collection = db.collection(COLLECTION.ARTICLES);
     const article = await collection.findOne({ slug });
@@ -34,10 +36,9 @@ export default async function handler(
 
     // IF FOUND, CHECK STATUS
     if (article.status !== Status.PUBLIC) {
-      return res.status(FIXED_STATUS).json({
-        message:
-          "article is not public. as a result, views will not be incremented",
-      });
+      return res
+        .status(FIXED_STATUS)
+        .json({ message: "cannot increment non-public article's views" });
     }
 
     // INCREMENT
@@ -47,11 +48,14 @@ export default async function handler(
       { $set: { views: views } }
     );
 
-    //CLOSE DB AND RESPONSE
-    client.close();
+    // RESPOND
     return res.status(FIXED_STATUS).json({ message });
   } catch (error) {
-    client.close();
     return res.status(FIXED_STATUS).json({ message: (error as Error).message });
+  } finally {
+    // CLOSE DB
+    if (connectClient) {
+      await client.close();
+    }
   }
 }
