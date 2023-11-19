@@ -10,14 +10,12 @@ import {
   V2ToBin,
   Status,
 } from "../../../../interfaces/article";
+import { allowedCategoriesV2, databaseName } from "../../../../config";
+import { handleInvalidMethod } from "../../../../api/handleInvalidMethod";
 
 export enum COLLECTION {
   ARTICLES = "articles",
 }
-
-export const getAllowedCategoriesV2 = () => {
-  return ["general", "tech", "lifestyle"];
-};
 
 export default isAuthenticated(async function handler(
   req: NextApiRequest,
@@ -53,7 +51,7 @@ async function handlePost(req: NextApiRequest, res: NextApiResponse) {
       // CONNECT DB
       await client.connect();
       connectClient = true;
-      const db = client.db(getDbName());
+      const db = client.db(databaseName);
 
       // PREPARE DATA AND INSERT
       const toInsert: V2Insert = {
@@ -92,14 +90,14 @@ async function handlePost(req: NextApiRequest, res: NextApiResponse) {
       }
 
       // VALIDATING CATEGORY
-      if (!getAllowedCategoriesV2().includes(category)) {
+      if (!allowedCategoriesV2.includes(category)) {
         return res.status(400).json({ message: "category is not allowed." });
       }
 
       // CONNECT DB
       await client.connect();
       connectClient = true;
-      const db = client.db(getDbName());
+      const db = client.db(databaseName);
       const collection = db.collection(COLLECTION.ARTICLES);
 
       // CHECK IF ARTICLE EXISTS
@@ -157,7 +155,7 @@ async function handlePut(req: NextApiRequest, res: NextApiResponse) {
     // CONNECT DB
     await client.connect();
     connectClient = true;
-    const db = client.db(getDbName());
+    const db = client.db(databaseName);
 
     // FIND EXISTING ARTICLE
     const collection = db.collection(COLLECTION.ARTICLES);
@@ -223,7 +221,7 @@ async function handleDelete(req: NextApiRequest, res: NextApiResponse) {
       // CONNECT DB
       await client.connect();
       connectClient = true;
-      const db = client.db(getDbName());
+      const db = client.db(databaseName);
       const collection = db.collection(COLLECTION.ARTICLES);
 
       // UPDATE
@@ -258,7 +256,7 @@ async function handleDelete(req: NextApiRequest, res: NextApiResponse) {
       // CONNECT DB
       await client.connect();
       connectClient = true;
-      const db = client.db(getDbName());
+      const db = client.db(databaseName);
       const collection = db.collection(COLLECTION.ARTICLES);
 
       // CHECK EXISTING DATA AND DELETE
@@ -288,15 +286,7 @@ async function handleDelete(req: NextApiRequest, res: NextApiResponse) {
   });
 }
 
-function handleInvalidMethod(res: NextApiResponse) {
-  return res.status(404).json({ message: "no matching method." });
-}
-
 // ================= [UTILITIES] ================= //
-
-export function getDbName(): string {
-  return process.env.OVERRIDING_DB ?? "blog";
-}
 
 export function getMongoClient() {
   return new MongoClient(EnvGetter.getDbUrl());
