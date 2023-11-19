@@ -7,8 +7,7 @@ import { ArticleCard } from '../interfaces/article'
 import { Article } from '../interfaces/article'
 import { EnvGetter } from '../lib/env-getter'
 import { transformCardData } from '../lib/transform-data'
-import { websiteNameEnglish } from '../utils/sharedData'
-import { databaseNameV1 } from '../config'
+import { databaseNameV1, websiteNameEnglish } from '../config'
 
 const Tech: NextPage<{ articles: ArticleCard[] }> = (props: { articles: ArticleCard[] }) => {
     const articles = props.articles

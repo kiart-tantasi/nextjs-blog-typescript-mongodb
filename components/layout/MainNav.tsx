@@ -4,9 +4,9 @@ import { useRouter } from 'next/router'
 import { useContext, useEffect } from 'react'
 
 import AuthContext from '../../context/auth-context'
-import { websiteNameLocal } from '../../utils/sharedData'
 import Dropdown from './Dropdown'
 import styles from './MainNav.module.css'
+import { websiteNameLocal } from '../../config'
 
 const MainNav = () => {
     const router = useRouter()

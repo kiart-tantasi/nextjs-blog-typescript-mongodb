@@ -4,7 +4,7 @@ import Head from 'next/head'
 import Layout from '../components/layout/Layout'
 import { AuthContextProvider } from '../context/auth-context'
 import '../styles/globals.css'
-import { websiteNameEnglish, websiteNameLocal } from '../utils/sharedData'
+import { websiteNameEnglish, websiteNameLocal } from '../config'
 
 function MyApp({ Component, pageProps }: AppProps) {
     return (

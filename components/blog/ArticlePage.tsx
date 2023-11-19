@@ -3,9 +3,9 @@ import { useContext, useEffect } from 'react'
 
 import AuthContext from '../../context/auth-context'
 import { Article } from '../../interfaces/article'
-import { websiteNameEnglish } from '../../utils/sharedData'
 import ArticleCardUI from '../ui/ArticleCardUI'
 import AdminNav from './AdminNav'
+import { websiteNameEnglish } from '../../config'
 
 export default function ArticlePage(props: Article) {
     const AuthCtx = useContext(AuthContext)

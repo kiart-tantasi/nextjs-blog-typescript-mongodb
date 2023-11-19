@@ -1,4 +1,4 @@
-import { websiteNameLocal } from '../../utils/sharedData'
+import { websiteNameLocal } from '../../config'
 import styles from './Footer.module.css'
 
 const Footer = () => {
