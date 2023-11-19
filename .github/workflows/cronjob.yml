@@ -1,0 +1,16 @@
+name: Check website
+on:
+  push:
+  schedule:
+    - cron: "0 */23 * * *"
+
+jobs:
+  test_schedule:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Curl homepage
+        run: curl https://www.petchblog.net/
+      - name: Curl article page
+        run: curl https://www.petchblog.net/article/mern-stack
+      - name: Curl 400 (TEST)
+        run: curl https://www.petchblog.net/some-not-existing-link
