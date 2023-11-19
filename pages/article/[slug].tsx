@@ -9,6 +9,7 @@ import { EnvGetter } from '../../lib/env-getter'
 import { transformImgUrl } from '../../lib/transform-data'
 import Script from 'next/script'
 import Head from 'next/head'
+import { databaseNameV1 } from '../../config'
 
 interface PageProps { article: Article | null }
 
@@ -58,7 +59,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
     const dbUrl = EnvGetter.getDbUrl()
     const client = new MongoClient(dbUrl)
     await client.connect()
-    const db = client.db('blogDB')
+    const db = client.db(databaseNameV1)
     const collection = db.collection('main')
     const articles = await collection.find({}).toArray()
     const paths = articles.map(x => {
@@ -78,7 +79,7 @@ export const getStaticProps: GetStaticProps<PageProps> = async (context) => {
     const dbUrl = EnvGetter.getDbUrl()
     const client = new MongoClient(dbUrl)
     await client.connect()
-    const db = client.db('blogDB')
+    const db = client.db(databaseNameV1)
     const collection = db.collection('main')
     const articleNoTransformed = await collection.findOne({ slug: slug })
     if (articleNoTransformed === null) return { props: { article: null } }

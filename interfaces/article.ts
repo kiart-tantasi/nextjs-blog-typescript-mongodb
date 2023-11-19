@@ -98,6 +98,8 @@ export interface V2ToPublic {
     status: Status
 }
 
+// when moving to bin, we need to keep track of previous status so we can recover it into correct status (endpoint /api/v2/recover-article)
 export interface V2ToBin {
     status: Status
+    prevStatus: Status
 }

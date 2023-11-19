@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 
 import { COLLECTION, getMongoClient } from "./articles";
 import { Status } from "../../../interfaces/article";
-import { databaseName } from "../../../config";
+import { databaseNameV2 } from "../../../config";
 
 export default async function handler(
   req: NextApiRequest,
@@ -21,7 +21,7 @@ export default async function handler(
   try {
     // CONNECT DB AND FIND ARTICLE
     await client.connect();
-    const db = client.db(databaseName);
+    const db = client.db(databaseNameV2);
     const collection = db.collection(COLLECTION.ARTICLES);
     const article = await collection.findOne({ slug });
 

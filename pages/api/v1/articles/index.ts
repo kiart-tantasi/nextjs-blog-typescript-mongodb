@@ -6,6 +6,7 @@ import { FindOldVersionForm, setDataForm } from '../../../../interfaces/article'
 import { EnvGetter } from '../../../../lib/env-getter'
 import isAuthenticated from '../../../../lib/auth-node'
 import { allowedCategories } from '../../../../utils/sharedData'
+import { databaseNameV1 } from '../../../../config'
 
 export default isAuthenticated(async function handler(req: NextApiRequest, res: NextApiResponse) {
     // DB CONFIG
@@ -30,7 +31,7 @@ export default isAuthenticated(async function handler(req: NextApiRequest, res: 
             // CONNECT DB
             await client.connect()
             connectClient = true
-            const db = client.db('blogDB')
+            const db = client.db(databaseNameV1)
 
             // PREPARE DATA
             const temporarySlug = slugify(
@@ -76,7 +77,7 @@ export default isAuthenticated(async function handler(req: NextApiRequest, res: 
             // CONNECT DB
             await client.connect()
             connectClient = true
-            const db = client.db('blogDB')
+            const db = client.db(databaseNameV1)
 
             // CHECKIF SLUG IS ALREADY USED OR NOT IN CHOSEN CATEGORY AND MAIN CATEGORY
             const collection = db.collection(category)
@@ -137,7 +138,7 @@ export default isAuthenticated(async function handler(req: NextApiRequest, res: 
             // CONNECT DB
             await client.connect()
             connectClient = true
-            const db = client.db('blogDB')
+            const db = client.db(databaseNameV1)
 
             // FIND EXISTING ARTICLE
             const collection = db.collection(category)
@@ -209,7 +210,7 @@ export default isAuthenticated(async function handler(req: NextApiRequest, res: 
             // CONNECT DB
             await client.connect()
             connectClient = true
-            const db = client.db('blogDB')
+            const db = client.db(databaseNameV1)
             const collection = db.collection(category)
 
             // FIND ARTICLE IN SPECIFIC COLLECTION
@@ -276,7 +277,7 @@ export default isAuthenticated(async function handler(req: NextApiRequest, res: 
             // CONNECT DB
             await client.connect()
             connectClient = true
-            const db = client.db('blogDB')
+            const db = client.db(databaseNameV1)
             const bin = db.collection('bin')
 
             // DELETE FROM BIN COLLECTION

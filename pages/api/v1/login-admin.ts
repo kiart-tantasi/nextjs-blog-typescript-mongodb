@@ -5,6 +5,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 
 import { setTokenCookie } from "../../../lib/auth-cookie";
 import { EnvGetter } from "../../../lib/env-getter";
+import { databaseNameV1 } from "../../../config";
 
 export default async function handler(
   req: NextApiRequest,
@@ -47,7 +48,7 @@ export default async function handler(
     // CONNECT DB
     await client.connect();
     connectClient = true;
-    const db = client.db("blogDB");
+    const db = client.db(databaseNameV1);
     const collection = db.collection("admin");
 
     // CHECK IF ACCOUNT EXISTS

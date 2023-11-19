@@ -10,7 +10,7 @@ import {
   V2ToBin,
   Status,
 } from "../../../../interfaces/article";
-import { allowedCategoriesV2, databaseName } from "../../../../config";
+import { allowedCategoriesV2, databaseNameV2 } from "../../../../config";
 import { handleInvalidMethod } from "../../../../api/handleInvalidMethod";
 
 export enum COLLECTION {
@@ -51,7 +51,7 @@ async function handlePost(req: NextApiRequest, res: NextApiResponse) {
       // CONNECT DB
       await client.connect();
       connectClient = true;
-      const db = client.db(databaseName);
+      const db = client.db(databaseNameV2);
 
       // PREPARE DATA AND INSERT
       const toInsert: V2Insert = {
@@ -69,14 +69,16 @@ async function handlePost(req: NextApiRequest, res: NextApiResponse) {
       const collection = db.collection(COLLECTION.ARTICLES);
       const insertResult = await collection.insertOne(toInsert);
 
-      // CLOSE DB AND RESPONSE
-      client.close();
+      // RESPOND 200
       return res.status(200).json({ insertResult });
     } catch (error) {
-      if (connectClient) {
-        client.close();
-      }
+      // RESPOND 500
       return res.status(500).json({ message: (error as Error).message });
+    } finally {
+      // CLOSE DB
+      if (connectClient) {
+        await client.close();
+      }
     }
   }
 
@@ -97,7 +99,7 @@ async function handlePost(req: NextApiRequest, res: NextApiResponse) {
       // CONNECT DB
       await client.connect();
       connectClient = true;
-      const db = client.db(databaseName);
+      const db = client.db(databaseNameV2);
       const collection = db.collection(COLLECTION.ARTICLES);
 
       // CHECK IF ARTICLE EXISTS
@@ -124,14 +126,16 @@ async function handlePost(req: NextApiRequest, res: NextApiResponse) {
         { $set: toUpdate }
       );
 
-      // CLOSE DB AND RESPONSE
-      client.close();
+      // RESPOND 200
       return res.status(200).json({ updateResult });
     } catch (error) {
-      if (connectClient) {
-        client.close();
-      }
+      // RESPOND 500
       return res.status(500).json({ message: (error as Error).message });
+    } finally {
+      // CLOSE DB
+      if (connectClient) {
+        await client.close();
+      }
     }
   }
 
@@ -155,7 +159,7 @@ async function handlePut(req: NextApiRequest, res: NextApiResponse) {
     // CONNECT DB
     await client.connect();
     connectClient = true;
-    const db = client.db(databaseName);
+    const db = client.db(databaseNameV2);
 
     // FIND EXISTING ARTICLE
     const collection = db.collection(COLLECTION.ARTICLES);
@@ -190,18 +194,21 @@ async function handlePut(req: NextApiRequest, res: NextApiResponse) {
       markdown,
       records: newRecords,
     };
-    const result = await collection.updateOne({ slug }, { $set: toUpdate });
+    const updateResult = await collection.updateOne(
+      { slug },
+      { $set: toUpdate }
+    );
 
-    // CLOSE DB AND SEND RESPONSE
-    client.close();
-    return res.status(200).json({
-      message: result,
-    });
+    // RESPOND 200
+    return res.status(200).json({ updateResult });
   } catch (error) {
-    if (connectClient) {
-      client.close();
-    }
+    // RESPOND 500
     return res.status(500).json({ message: (error as Error).message });
+  } finally {
+    // CLOSE DB
+    if (connectClient) {
+      await client.close();
+    }
   }
 }
 
@@ -221,26 +228,42 @@ async function handleDelete(req: NextApiRequest, res: NextApiResponse) {
       // CONNECT DB
       await client.connect();
       connectClient = true;
-      const db = client.db(databaseName);
+      const db = client.db(databaseNameV2);
       const collection = db.collection(COLLECTION.ARTICLES);
+
+      // CHECK IF ARTICLE EXISTS
+      const article = await collection.findOne({ slug });
+      if (article === null) {
+        return res.status(400).json({ message: "article is not found." });
+      }
+
+      // CHECK IF ARTICLE IS ALREADY IN BIN
+      if (!article.status || article.status === Status.BIN) {
+        return res.status(400).json({
+          message: "cannot find article's status or article is already in bin.",
+        });
+      }
 
       // UPDATE
       const toUpdate: V2ToBin = {
         status: Status.BIN,
+        prevStatus: article.status,
       };
       const updateResult = await collection.findOneAndUpdate(
         { slug },
         { $set: toUpdate }
       );
 
-      // CLOSE DB AND SEND RESPONSE
-      client.close();
+      // RESPOND 200
       return res.status(200).json({ updateResult });
     } catch (error) {
-      if (connectClient) {
-        client.close();
-      }
+      // RESPOND 500
       return res.status(500).json({ message: (error as Error).message });
+    } finally {
+      // CLOSE DB
+      if (connectClient) {
+        await client.close();
+      }
     }
   }
 
@@ -256,7 +279,7 @@ async function handleDelete(req: NextApiRequest, res: NextApiResponse) {
       // CONNECT DB
       await client.connect();
       connectClient = true;
-      const db = client.db(databaseName);
+      const db = client.db(databaseNameV2);
       const collection = db.collection(COLLECTION.ARTICLES);
 
       // CHECK EXISTING DATA AND DELETE
@@ -269,14 +292,16 @@ async function handleDelete(req: NextApiRequest, res: NextApiResponse) {
       }
       const deleteResult = await collection.findOneAndDelete({ slug });
 
-      // CLOSE DB AND RESPONSE
-      client.close();
+      // RESPOND 200
       return res.status(200).json({ deleteResult });
     } catch (error) {
-      if (connectClient) {
-        client.close();
-      }
+      // RESPOND 500
       return res.status(500).json({ message: (error as Error).message });
+    } finally {
+      // CLOSE DB
+      if (connectClient) {
+        await client.close();
+      }
     }
   }
 

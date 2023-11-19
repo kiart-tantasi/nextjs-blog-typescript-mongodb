@@ -3,6 +3,7 @@ import { NextApiRequest, NextApiResponse } from 'next'
 
 import { EnvGetter } from '../../../lib/env-getter'
 import isAuthenticated from '../../../lib/auth-node'
+import { databaseNameV1 } from '../../../config'
 
 export default isAuthenticated(async function handler(req: NextApiRequest, res: NextApiResponse) {
     if (req.method === 'POST') {
@@ -17,7 +18,7 @@ export default isAuthenticated(async function handler(req: NextApiRequest, res: 
         try {
             // CONNECT DB
             await client.connect()
-            const db = client.db('blogDB')
+            const db = client.db(databaseNameV1)
             const binCollection = db.collection('bin')
 
             // FIND THE ARTICLE FROM BIN BY CATEGORY AND SLUG

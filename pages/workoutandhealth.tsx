@@ -8,6 +8,7 @@ import { Article } from '../interfaces/article'
 import { EnvGetter } from '../lib/env-getter'
 import { transformCardData } from '../lib/transform-data'
 import { websiteNameEnglish } from '../utils/sharedData'
+import { databaseNameV1 } from '../config'
 
 const WorkoutAndHealth: NextPage<{ articles: ArticleCard[] }> = (props: { articles: ArticleCard[] }) => {
     const { articles } = props
@@ -27,7 +28,7 @@ export async function getStaticProps() {
     const dbUrl = EnvGetter.getDbUrl()
     const client = new MongoClient(dbUrl)
     await client.connect()
-    const db = client.db('blogDB')
+    const db = client.db(databaseNameV1)
     const collection = db.collection('workoutandhealth')
     const articles = (await collection.find({}).toArray()) as unknown as Article[]
     const transformedData: ArticleCard[] = await transformCardData(articles, db)

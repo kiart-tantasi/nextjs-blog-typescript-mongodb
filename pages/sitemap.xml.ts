@@ -3,6 +3,7 @@ import { GetServerSidePropsContext } from "next";
 import { EnvGetter } from "../lib/env-getter";
 import { MongoClient } from "mongodb";
 import { Article } from "../interfaces/article";
+import { databaseNameV1 } from "../config";
 
 function generateSiteMap(articles: Article[]) {
   const domain: string = process.env.NEXT_PUBLIC_DOMAIN || "http://localhost:3000";
@@ -42,7 +43,7 @@ export async function getServerSideProps({ res }: GetServerSidePropsContext) {
     const dbUrl = EnvGetter.getDbUrl();
     const client = new MongoClient(dbUrl);
     await client.connect();
-    const db = client.db("blogDB");
+    const db = client.db(databaseNameV1);
     const collection = db.collection("main"); // TODO: get from collection articles when using v2
     const articlesFromDB = await collection.find({}).toArray();
     const sitemap = generateSiteMap(
