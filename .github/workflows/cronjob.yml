@@ -1,0 +1,14 @@
+name: Check website
+on:
+  push:
+  schedule:
+    - cron: "0 */23 * * *"
+
+jobs:
+  curl:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Curl homepage
+        run: curl -sSf https://www.petchblog.net/ >/dev/null || { exit 1; }
+      - name: Curl article page
+        run: curl -sSf https://www.petchblog.net/article/mern-stack >/dev/null || { exit 1; }
