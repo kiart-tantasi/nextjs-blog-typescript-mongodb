@@ -7,13 +7,14 @@ import Link from 'next/link'
 
 import { ArticleCard } from '../../interfaces/article'
 import styles from './CardUI.module.css'
+import { publicDomain } from '../../config'
 
 export default function CardUI(props: { articleCard: ArticleCard; bin?: boolean }) {
     const href = props.bin
         ? '/workspace/bin/' + props.articleCard.slug
         : props.articleCard.category === 'workspace'
         ? '/workspace/' + props.articleCard.slug
-        : `${process.env.NEXT_PUBLIC_DOMAIN}/article/${props.articleCard.slug}`
+        : `${publicDomain}/article/${props.articleCard.slug}`
     const imgShouldBePrioritized = props.articleCard.index !== undefined && props.articleCard.index <= 1
 
     return (

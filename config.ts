@@ -14,6 +14,10 @@ export const allowedCategoriesV2 = ["general", "tech", "lifestyle"];
 
 export const allowedStatusForRecoveringV2 = [Status.WORKSPACE, Status.PUBLIC];
 
+export const publicDomain = process.env.NEXT_PUBLIC_DOMAIN || "http://localhost:3000"
+
+export const authorName = process.env.NEXT_PUBLIC_AUTHOR || 'ไม่ระบุนาม'
+
 export const websiteNameLocal = 'เพชรบล็อก'
 
 export const websiteNameEnglish = 'petchblog'

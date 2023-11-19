@@ -3,30 +3,29 @@ import { GetServerSidePropsContext } from "next";
 import { EnvGetter } from "../lib/env-getter";
 import { MongoClient } from "mongodb";
 import { Article } from "../interfaces/article";
-import { databaseNameV1 } from "../config";
+import { databaseNameV1, publicDomain } from "../config";
 
 function generateSiteMap(articles: Article[]) {
-  const domain: string = process.env.NEXT_PUBLIC_DOMAIN || "http://localhost:3000";
   return `<?xml version="1.0" encoding="UTF-8"?>
    <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <!-- static urls -->
     <url>
-      <loc>${domain}/</loc>
+      <loc>${publicDomain}/</loc>
       <priority>1.00</priority>
     </url>
     <url>
-      <loc>${domain}/HowIBuildThisWebsite</loc>
+      <loc>${publicDomain}/HowIBuildThisWebsite</loc>
       <priority>0.64</priority>
     </url>
     <url>
-      <loc>${domain}/aboutme</loc>
+      <loc>${publicDomain}/aboutme</loc>
       <priority>0.64</priority>
     </url>
     <!-- dynamic urls -->
     ${articles.map(
       (article) =>
         `<url>
-        <loc>${domain.concat(`/article/${article.slug}`)}</loc>
+        <loc>${publicDomain.concat(`/article/${article.slug}`)}</loc>
         <priority>0.80</priority>
       </url>`
     )}
