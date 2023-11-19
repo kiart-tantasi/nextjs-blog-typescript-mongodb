@@ -13,6 +13,7 @@
         "@emotion/styled": "^11.6.0",
         "@mui/icons-material": "^5.5.1",
         "@mui/material": "^5.4.2",
+        "@vercel/analytics": "^1.1.1",
         "aws-sdk": "^2.1092.0",
         "bcryptjs": "^2.4.3",
         "cookie": "^0.4.2",
