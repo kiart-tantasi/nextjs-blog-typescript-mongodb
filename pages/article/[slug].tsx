@@ -8,8 +8,7 @@ import { Article } from '../../interfaces/article'
 import { EnvGetter } from '../../lib/env-getter'
 import { transformImgUrl } from '../../lib/transform-data'
 import Script from 'next/script'
-import Head from 'next/head'
-import { databaseNameV1 } from '../../config'
+import { authorName, databaseNameV1, publicDomain } from '../../config'
 
 interface PageProps { article: Article | null }
 
@@ -33,8 +32,8 @@ const PublicArticle: NextPage<PageProps> = ({ article }: PageProps) => {
                         "datePublished": "${new Date(article.date).toISOString()}",
                         "author": [{
                             "@type": "Person",
-                            "name": "${process.env.NEXT_PUBLIC_AUTHOR}",
-                            "url": "${process.env.NEXT_PUBLIC_DOMAIN}/aboutme"
+                            "name": "${authorName}",
+                            "url": "${publicDomain}/aboutme"
                         }]
                     }`
             }} />

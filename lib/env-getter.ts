@@ -1,3 +1,4 @@
+// TODO: use config.ts
 export class EnvGetter {
     static getDbUrl = (): string => {
         return getEnv('DB_URL')
