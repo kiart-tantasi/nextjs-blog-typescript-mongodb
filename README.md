@@ -81,3 +81,7 @@ API V2 is aimed to remodel article stored in MongoDB to decrease complexity
 - /api/v2/inc-view
 - /api/v2/recover-article
 - page-rendering
+
+### Images
+
+Temporarily store images in public directory
