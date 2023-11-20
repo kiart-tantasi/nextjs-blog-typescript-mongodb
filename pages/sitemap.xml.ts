@@ -22,13 +22,14 @@ function generateSiteMap(articles: Article[]) {
       <priority>0.64</priority>
     </url>
     <!-- dynamic urls -->
-    ${articles.map(
-      (article) =>
-        `<url>
-        <loc>${publicDomain.concat(`/article/${article.slug}`)}</loc>
-        <priority>0.80</priority>
-      </url>`
-    )}
+    ${articles
+      .map((article) => {
+        return `<url>
+          <loc>${publicDomain.concat(`/article/${article.slug}`)}</loc>
+          <priority>0.80</priority>
+        </url>`;
+      })
+      .join("")}
   </urlset>
  `;
 }
