@@ -169,6 +169,7 @@ export default isAuthenticated(async function handler(req: NextApiRequest, res: 
                 desc: desc,
                 markdown: markdown,
                 record: record,
+                tempLastMod: new Date().getTime(),
             }
             const setUpdatedData = { $set: newData }
 
