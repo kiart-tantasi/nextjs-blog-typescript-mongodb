@@ -11,6 +11,7 @@ export type Article = {
     slug: string
     views?: number
     record?: Article[]
+    tempLastMod?: number
 }
 
 export type ArticleCard = {
@@ -57,6 +58,7 @@ export type setDataForm = {
     alt: string
     desc: string
     markdown: string
+    tempLastMod: number
     record?: FindOldVersionForm[]
 }
 

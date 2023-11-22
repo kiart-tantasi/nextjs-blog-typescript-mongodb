@@ -3,22 +3,26 @@ import { GetServerSidePropsContext } from "next";
 import { EnvGetter } from "../lib/env-getter";
 import { MongoClient } from "mongodb";
 import { Article } from "../interfaces/article";
-import { databaseNameV1, publicDomain } from "../config";
+import { databaseNameV1, publicDomain, tempLastModified } from "../config";
 
 function generateSiteMap(articles: Article[]) {
+  const defaultLastMod = new Date(tempLastModified).toISOString();
   return `<?xml version="1.0" encoding="UTF-8"?>
    <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <!-- static urls -->
     <url>
       <loc>${publicDomain}/</loc>
+      <lastmod>${defaultLastMod}</lastmod>
       <priority>1.00</priority>
     </url>
     <url>
       <loc>${publicDomain}/HowIBuildThisWebsite</loc>
+      <lastmod>${defaultLastMod}</lastmod>
       <priority>0.64</priority>
     </url>
     <url>
       <loc>${publicDomain}/aboutme</loc>
+      <lastmod>${defaultLastMod}</lastmod>
       <priority>0.64</priority>
     </url>
     <!-- dynamic urls -->
@@ -26,6 +30,11 @@ function generateSiteMap(articles: Article[]) {
       .map((article) => {
         return `<url>
           <loc>${publicDomain.concat(`/article/${article.slug}`)}</loc>
+          <lastmod>${
+            article.tempLastMod
+              ? new Date(article.tempLastMod).toISOString()
+              : defaultLastMod
+          }</lastmod>
           <priority>0.80</priority>
         </url>`;
       })
