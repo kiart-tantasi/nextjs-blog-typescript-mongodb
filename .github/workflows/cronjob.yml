@@ -12,3 +12,5 @@ jobs:
         run: curl -sSf https://www.petchblog.net/ >/dev/null || { exit 1; }
       - name: Curl article page
         run: curl -sSf https://www.petchblog.net/article/mern-stack >/dev/null || { exit 1; }
+      - name: Curl post it app
+        run: curl -sSf https://postitapp.petchblog.net/ >/dev/null || { exit 1; }
