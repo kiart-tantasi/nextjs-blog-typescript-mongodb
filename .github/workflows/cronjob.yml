@@ -1,6 +1,8 @@
 name: Check website
 on:
   push:
+    paths:
+      - .github/workflows/cronjob.yml
   schedule:
     - cron: "0 */23 * * *"
 
