@@ -1,4 +1,6 @@
-# Project's README
+## Demo
+
+<img src="/demos/demo-1.png" alt="App demo" height="800px" />
 
 ## Development
 
