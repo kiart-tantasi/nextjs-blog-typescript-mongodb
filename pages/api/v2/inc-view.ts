@@ -8,13 +8,10 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  // *ALWAYS RETURN STATUS 200 FOR GOOD UX
-  const FIXED_STATUS = 200;
-
   // VALIDATING BODY
   const { slug } = req.body;
   if (!slug) {
-    return res.status(FIXED_STATUS).json({ message: "slug is not found" });
+    return res.status(400).json({ message: "slug is not found" });
   }
 
   const client = getMongoClient();
@@ -30,14 +27,14 @@ export default async function handler(
     // IF ARTICLE IS NOT FOUND
     if (article === null) {
       return res
-        .status(FIXED_STATUS)
+        .status(400)
         .json({ message: "article is not found." });
     }
 
     // IF FOUND, CHECK STATUS
     if (article.status !== Status.PUBLIC) {
       return res
-        .status(FIXED_STATUS)
+        .status(400)
         .json({ message: "cannot increment non-public article's views" });
     }
 
@@ -49,9 +46,10 @@ export default async function handler(
     );
 
     // RESPOND
-    return res.status(FIXED_STATUS).json({ message });
+    return res.status(200).json({ message });
   } catch (error) {
-    return res.status(FIXED_STATUS).json({ message: (error as Error).message });
+    console.error((error as Error).message);
+    return res.status(500).end();
   } finally {
     // CLOSE DB
     if (connectClient) {

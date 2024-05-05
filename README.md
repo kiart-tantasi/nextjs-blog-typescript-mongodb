@@ -77,6 +77,8 @@ API V1 was implemented in early 2022
 
 ### API V2
 
+**NOTE: they are not in use yet**
+
 API V2 is aimed to remodel article stored in MongoDB to decrease complexity
 
 - /api/v2/articles
