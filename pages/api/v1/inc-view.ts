@@ -26,21 +26,20 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
         // INCREASE VIEW
         let views = articleNoTransformed.views ? articleNoTransformed.views + 1 : 1
-        const result = await collection.findOneAndUpdate({ slug: slug }, { $set: { views: views } })
+        await collection.findOneAndUpdate({ slug: slug }, { $set: { views: views } })
 
         // ALSO CHANGE VIEWS IN CHOSEN CATEGORY IF NOT WORKSPACE
-        let resultTwo = null
         if (category !== 'workspace') {
             const specificCollection = db.collection(category)
-            resultTwo = await specificCollection.findOneAndUpdate({ slug: slug }, { $set: { views: views } })
+            await specificCollection.findOneAndUpdate({ slug: slug }, { $set: { views: views } })
         }
 
         //CLOSE DB AND RESPONSE
         client.close()
-        res.status(200).json({ message: result, message2: resultTwo })
+        res.status(200).end()
     } catch (error) {
         client.close()
-        const err = error as Error
-        res.status(200).json({ message: err.message, message2: err.message })
+        console.error((error as Error).message)
+        res.status(500).end()
     }
 }

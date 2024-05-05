@@ -73,7 +73,8 @@ async function handlePost(req: NextApiRequest, res: NextApiResponse) {
       return res.status(200).json({ insertResult });
     } catch (error) {
       // RESPOND 500
-      return res.status(500).json({ message: (error as Error).message });
+      console.error((error as Error).message);
+      return res.status(500).end();
     } finally {
       // CLOSE DB
       if (connectClient) {
@@ -130,7 +131,8 @@ async function handlePost(req: NextApiRequest, res: NextApiResponse) {
       return res.status(200).json({ updateResult });
     } catch (error) {
       // RESPOND 500
-      return res.status(500).json({ message: (error as Error).message });
+      console.error((error as Error).message);
+      return res.status(500).end();
     } finally {
       // CLOSE DB
       if (connectClient) {
@@ -203,7 +205,8 @@ async function handlePut(req: NextApiRequest, res: NextApiResponse) {
     return res.status(200).json({ updateResult });
   } catch (error) {
     // RESPOND 500
-    return res.status(500).json({ message: (error as Error).message });
+    console.error((error as Error).message);
+    return res.status(500).end();
   } finally {
     // CLOSE DB
     if (connectClient) {
@@ -258,7 +261,8 @@ async function handleDelete(req: NextApiRequest, res: NextApiResponse) {
       return res.status(200).json({ updateResult });
     } catch (error) {
       // RESPOND 500
-      return res.status(500).json({ message: (error as Error).message });
+      console.error((error as Error).message);
+      return res.status(500).end();
     } finally {
       // CLOSE DB
       if (connectClient) {
@@ -296,7 +300,8 @@ async function handleDelete(req: NextApiRequest, res: NextApiResponse) {
       return res.status(200).json({ deleteResult });
     } catch (error) {
       // RESPOND 500
-      return res.status(500).json({ message: (error as Error).message });
+      console.error((error as Error).message);
+      return res.status(500).end();
     } finally {
       // CLOSE DB
       if (connectClient) {
