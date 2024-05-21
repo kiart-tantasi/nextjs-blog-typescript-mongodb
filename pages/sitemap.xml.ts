@@ -33,7 +33,7 @@ function generateSiteMap(articles: Article[]) {
           <lastmod>${
             article.tempLastMod
               ? new Date(article.tempLastMod).toISOString()
-              : defaultLastMod
+              : new Date(article.date)
           }</lastmod>
           <priority>0.80</priority>
         </url>`;
