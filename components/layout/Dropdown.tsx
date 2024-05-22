@@ -16,7 +16,7 @@ const Dropdown = () => {
     }
 
     return (
-        <div className={styles.dropdown}>
+        <div className={`${styles['dropdown']} ${styles['hide-861-up']}`}>
             <span onClick={toggleDropdown} className={styles['dropdown-button']}>
                 <MenuIcon />
             </span>
