@@ -23,7 +23,7 @@ const Dropdown = () => {
             {openDropdown && (
                 <div className={styles['dropdown-content']}>
                     <span onClick={closeDropdown} className={styles['show-860']}>
-                        <Link href='/HowIBuildThisWebsite'>How I Build This Website</Link>
+                        <Link href='/website-tech-stack'>Website Tech Stack</Link>
                     </span>
                     <span onClick={closeDropdown}>
                         <Link href='/aboutme'>ประวัติผู้เขียน</Link>
