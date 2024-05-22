@@ -37,7 +37,7 @@
     display: none;
 }
 
-/* SHOW AT 860PX */
+/* SHOW IF <= 860PX */
 @media (max-width: 860px) {
     .show-860 {
         display: block;
@@ -53,7 +53,14 @@
     }
 }
 
-/*AT 450PX */
+/* HIDE >= 861PX */
+@Media (min-width: 861px) {
+    .hide-861-up {
+        display: none;
+    }
+}
+
+/* <= 450PX */
 @media (max-width: 450px) {
     /* clear margin-left of dropdown */
     .dropdown {
