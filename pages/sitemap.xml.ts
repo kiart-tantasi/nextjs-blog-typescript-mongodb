@@ -20,11 +20,6 @@ function generateSiteMap(articles: Article[]) {
       <lastmod>${defaultLastMod}</lastmod>
       <priority>0.64</priority>
     </url>
-    <url>
-      <loc>${publicDomain}/aboutme</loc>
-      <lastmod>${defaultLastMod}</lastmod>
-      <priority>0.64</priority>
-    </url>
     <!-- dynamic urls -->
     ${articles
       .map((article) => {
