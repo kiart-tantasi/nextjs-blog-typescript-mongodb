@@ -62,7 +62,7 @@ const MainNav = () => {
                             <li>
                                 <Link href='/website-tech-stack'>
                                     <a className={router.pathname == '/website-tech-stack' ? styles.active : ''}>
-                                        <p>How I Build This Website</p>
+                                        <p>Website Tech Stack</p>
                                     </a>
                                 </Link>
                             </li>
