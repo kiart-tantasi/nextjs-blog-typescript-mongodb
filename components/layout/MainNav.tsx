@@ -60,9 +60,9 @@ const MainNav = () => {
                     <ul>
                         <span className={styles['hide-860']}>
                             <li>
-                                <Link href='/HowIBuildThisWebsite'>
-                                    <a className={router.pathname == '/HowIBuildThisWebsite' ? styles.active : ''}>
-                                        <p>How I Build This Website</p>
+                                <Link href='/website-tech-stack'>
+                                    <a className={router.pathname == '/website-tech-stack' ? styles.active : ''}>
+                                        <p>Website Tech Stack</p>
                                     </a>
                                 </Link>
                             </li>

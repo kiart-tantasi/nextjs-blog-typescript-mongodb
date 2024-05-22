@@ -1,8 +1,8 @@
 import Image from 'next/image'
 
-import styles from './HowIBuildThisWebsitePage.module.css'
+import styles from './WebsiteTechStackPage.module.css'
 
-const HowIBuildThisWebsitePage = () => {
+const WebsiteTechStackPage = () => {
     return (
         <div className={styles.container}>
             <ul>
@@ -125,4 +125,4 @@ const HowIBuildThisWebsitePage = () => {
     )
 }
 
-export default HowIBuildThisWebsitePage
+export default WebsiteTechStackPage

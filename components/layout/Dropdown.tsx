@@ -16,17 +16,14 @@ const Dropdown = () => {
     }
 
     return (
-        <div className={styles.dropdown}>
+        <div className={`${styles['dropdown']} ${styles['hide-861-up']}`}>
             <span onClick={toggleDropdown} className={styles['dropdown-button']}>
                 <MenuIcon />
             </span>
             {openDropdown && (
                 <div className={styles['dropdown-content']}>
                     <span onClick={closeDropdown} className={styles['show-860']}>
-                        <Link href='/HowIBuildThisWebsite'>How I Build This Website</Link>
-                    </span>
-                    <span onClick={closeDropdown}>
-                        <Link href='/aboutme'>ประวัติผู้เขียน</Link>
+                        <Link href='/website-tech-stack'>Website Tech Stack</Link>
                     </span>
                 </div>
             )}

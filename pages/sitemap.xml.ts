@@ -16,12 +16,7 @@ function generateSiteMap(articles: Article[]) {
       <priority>1.00</priority>
     </url>
     <url>
-      <loc>${publicDomain}/HowIBuildThisWebsite</loc>
-      <lastmod>${defaultLastMod}</lastmod>
-      <priority>0.64</priority>
-    </url>
-    <url>
-      <loc>${publicDomain}/aboutme</loc>
+      <loc>${publicDomain}/website-tech-stack</loc>
       <lastmod>${defaultLastMod}</lastmod>
       <priority>0.64</priority>
     </url>
