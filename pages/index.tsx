@@ -18,8 +18,6 @@ const Home: NextPage<{ articles: ArticleCard[] }> = (props: PageProps) => {
     <>
       <Head>
         <link rel="canonical" href="https://www.petchblog.net/" />
-        {/* temp meta */}
-        <meta name="agd-partner-manual-verification" />
       </Head>
       <Articles articles={articles} />
     </>
