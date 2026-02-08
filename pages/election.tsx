@@ -439,7 +439,13 @@ export async function getStaticProps() {
         `[statsPartyUrl2] Response is not okay with status code ${res2.status}\nResponse body: ${body}`,
       );
     }
-    metadata = (await res2.json()) as PartDataTwo;
+    const json = (await res2.json()) as PartDataTwo;
+    metadata = {
+      turn_out: json.turn_out,
+      percent_turn_out: json.percent_turn_out,
+      party_list_turn_out: json.party_list_turn_out,
+      party_list_percent_turn_out: json.party_list_percent_turn_out,
+    };
   } catch (err) {
     console.log(err);
   }
