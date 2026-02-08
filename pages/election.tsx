@@ -19,7 +19,7 @@ interface PartyResult {
   mp_app_vote: number;
   mp_app_vote_percent: number;
   first_mp_app_count: number;
-  candidates: Candidate[] | null;
+  candidates?: Candidate[];
 }
 
 interface PartyData {
@@ -49,17 +49,7 @@ const Election: NextPage<ElectionProps> = (props: ElectionProps) => {
   const metadata = props.data.metadata;
 
   return (
-    <div
-      style={{
-        display: "flex",
-        flexWrap: "wrap",
-        gap: "2.5rem",
-        padding: "2rem",
-        maxWidth: "1200px",
-        margin: "0 auto",
-        fontFamily: "'Inter', sans-serif",
-      }}
-    >
+    <div className="election-container">
       <div style={{ flex: 1, minWidth: "320px" }}>
         <h2
           style={{
@@ -84,14 +74,7 @@ const Election: NextPage<ElectionProps> = (props: ElectionProps) => {
               boxShadow: "0 1px 3px 0 rgba(0, 0, 0, 0.1)",
             }}
           >
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "flex-end",
-                marginBottom: "0.75rem",
-              }}
-            >
+            <div className="stats-header" style={{ marginBottom: "0.75rem" }}>
               <div>
                 <p
                   style={{
@@ -134,11 +117,7 @@ const Election: NextPage<ElectionProps> = (props: ElectionProps) => {
                   </span>
                 </div>
               </div>
-              <div
-                style={{
-                  textAlign: "right",
-                }}
-              >
+              <div className="stats-header-right">
                 <span
                   style={{
                     display: "block",
@@ -147,7 +126,7 @@ const Election: NextPage<ElectionProps> = (props: ElectionProps) => {
                     color: "#3182ce",
                   }}
                 >
-                  {metadata.percent_turn_out}%
+                  {metadata.percent_turn_out.toFixed(2)}%
                 </span>
                 <span
                   style={{
@@ -232,7 +211,7 @@ const Election: NextPage<ElectionProps> = (props: ElectionProps) => {
                     fontWeight: 600,
                   }}
                 >
-                  {party.mp_app_vote_percent}%
+                  {party.mp_app_vote_percent.toFixed(2)}%
                 </span>
               </div>
             </div>
@@ -264,14 +243,7 @@ const Election: NextPage<ElectionProps> = (props: ElectionProps) => {
               boxShadow: "0 1px 3px 0 rgba(0, 0, 0, 0.1)",
             }}
           >
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "flex-end",
-                marginBottom: "0.75rem",
-              }}
-            >
+            <div className="stats-header" style={{ marginBottom: "0.75rem" }}>
               <div>
                 <p
                   style={{
@@ -314,11 +286,7 @@ const Election: NextPage<ElectionProps> = (props: ElectionProps) => {
                   </span>
                 </div>
               </div>
-              <div
-                style={{
-                  textAlign: "right",
-                }}
-              >
+              <div className="stats-header-right">
                 <span
                   style={{
                     display: "block",
@@ -327,7 +295,7 @@ const Election: NextPage<ElectionProps> = (props: ElectionProps) => {
                     color: "#805ad5",
                   }}
                 >
-                  {metadata.party_list_percent_turn_out}%
+                  {metadata.party_list_percent_turn_out.toFixed(2)}%
                 </span>
                 <span
                   style={{
@@ -412,7 +380,7 @@ const Election: NextPage<ElectionProps> = (props: ElectionProps) => {
                     fontWeight: 600,
                   }}
                 >
-                  {party.party_vote_percent}%
+                  {party.party_vote_percent.toFixed(2)}%
                 </span>
               </div>
             </div>
@@ -446,11 +414,17 @@ export async function getStaticProps() {
     top_mp_app_votes = data.result_party
       .sort((a, b) => b.first_mp_app_count - a.first_mp_app_count)
       .slice(0, 10)
-      .map((x) => ({ ...x, candidates: null }));
+      .map((x) => {
+        delete x.candidates;
+        return x;
+      });
     top_party_votes = data.result_party
       .sort((a, b) => b.party_vote - a.party_vote)
       .slice(0, 10)
-      .map((x) => ({ ...x, candidates: null }));
+      .map((x) => {
+        delete x.candidates;
+        return x;
+      });
   } catch (err) {
     console.log(err);
   }
