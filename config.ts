@@ -30,3 +30,7 @@ export const websiteNameLocal = "เพชรบล็อก";
 export const websiteNameEnglish = "petchblog";
 
 export const tempLastModified = 1700611200000; // temporarily for sitemap
+
+export const statsPartyUrl = process.env.STATS_PARTY_URL || "";
+
+export const statsPartyUrl2 = process.env.STATS_PARTY_URL_2 || "";
