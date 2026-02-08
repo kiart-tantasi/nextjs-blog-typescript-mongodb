@@ -399,7 +399,7 @@ const Election: NextPage<ElectionProps> = (props: ElectionProps) => {
                 <span>
                   {Math.floor(party.party_vote_percent)} ที่นั่ง&nbsp;
                   <span style={{ color: "#4a5568", fontSize: "12px" }}>
-                    ({party.mp_app_vote.toLocaleString()} คะแนน)
+                    ({party.party_vote.toLocaleString()} คะแนน)
                   </span>
                 </span>
                 <span
