@@ -103,7 +103,7 @@ const Election: NextPage<ElectionProps> = (props: ElectionProps) => {
                     letterSpacing: "0.05em",
                   }}
                 >
-                  จำนวนผู้มาใช้สิทธิ (Progress)
+                  จำนวนผู้มาใช้สิทธิ
                 </p>
                 <div
                   style={{
@@ -130,7 +130,7 @@ const Election: NextPage<ElectionProps> = (props: ElectionProps) => {
                       fontWeight: 500,
                     }}
                   >
-                    / {allPossiVotes.toLocaleString()} ราย
+                    / {allPossiVotes.toLocaleString()} คน
                   </span>
                 </div>
               </div>
@@ -216,9 +216,11 @@ const Election: NextPage<ElectionProps> = (props: ElectionProps) => {
                   alignItems: "center",
                 }}
               >
-                <span style={{ color: "#4a5568" }}>
-                  คะแนนโหวต: <b>{party.mp_app_vote.toLocaleString()}</b> (
-                  {party.first_mp_app_count} ที่นั่ง)
+                <span>
+                  {party.first_mp_app_count} ที่นั่ง&nbsp;
+                  <span style={{ color: "#4a5568", fontSize: "12px" }}>
+                    ({party.mp_app_vote.toLocaleString()} คะแนน)
+                  </span>
                 </span>
                 <span
                   style={{
@@ -281,7 +283,7 @@ const Election: NextPage<ElectionProps> = (props: ElectionProps) => {
                     letterSpacing: "0.05em",
                   }}
                 >
-                  จำนวนผู้มาใช้สิทธิ (Progress)
+                  จำนวนผู้มาใช้สิทธิ
                 </p>
                 <div
                   style={{
@@ -308,7 +310,7 @@ const Election: NextPage<ElectionProps> = (props: ElectionProps) => {
                       fontWeight: 500,
                     }}
                   >
-                    / {allPossiVotes.toLocaleString()} ราย
+                    / {allPossiVotes.toLocaleString()} คน
                   </span>
                 </div>
               </div>
@@ -394,8 +396,11 @@ const Election: NextPage<ElectionProps> = (props: ElectionProps) => {
                   alignItems: "center",
                 }}
               >
-                <span style={{ color: "#4a5568" }}>
-                  คะแนนโหวต: <b>{party.party_vote.toLocaleString()}</b>
+                <span>
+                  {Math.floor(party.party_vote_percent)} ที่นั่ง&nbsp;
+                  <span style={{ color: "#4a5568", fontSize: "12px" }}>
+                    ({party.mp_app_vote.toLocaleString()} คะแนน)
+                  </span>
                 </span>
                 <span
                   style={{
@@ -425,6 +430,7 @@ export async function getStaticProps() {
   let top_party_votes: PartyResult[] | null = null;
   let top_mp_app_votes: PartyResult[] | null = null;
   try {
+    console.log(`[DEBUG] statsPartyUrl: ${statsPartyUrl}`);
     data = (await fetch(statsPartyUrl).then((res) => res.json())) as PartyData;
 
     // Transform data into a new json that has two arrays
@@ -444,6 +450,7 @@ export async function getStaticProps() {
 
   let metadata: PartDataTwo | null = null;
   try {
+    console.log(`[DEBUG] statsPartyUrl2: ${statsPartyUrl2}`);
     metadata = (await fetch(statsPartyUrl2).then((res) =>
       res.json(),
     )) as PartDataTwo;
