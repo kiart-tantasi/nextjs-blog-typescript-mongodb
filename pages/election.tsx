@@ -430,8 +430,15 @@ export async function getStaticProps() {
   let top_party_votes: PartyResult[] | null = null;
   let top_mp_app_votes: PartyResult[] | null = null;
   try {
-    console.log(`[DEBUG] statsPartyUrl: ${statsPartyUrl}`);
-    data = (await fetch(statsPartyUrl).then((res) => res.json())) as PartyData;
+    console.log(`[DEBUG] [statsPartyUrl] url: ${statsPartyUrl}`);
+    const res = await fetch(statsPartyUrl);
+    if (!res.ok) {
+      const body = await res.text();
+      throw new Error(
+        `[statsPartyUrl] Response is not okay with status code ${res.status}\nResponse body: ${body}`,
+      );
+    }
+    data = (await res.json()) as PartyData;
 
     // Transform data into a new json that has two arrays
     // 1. top 10 parties that get the most representatives
@@ -450,10 +457,15 @@ export async function getStaticProps() {
 
   let metadata: PartDataTwo | null = null;
   try {
-    console.log(`[DEBUG] statsPartyUrl2: ${statsPartyUrl2}`);
-    metadata = (await fetch(statsPartyUrl2).then((res) =>
-      res.json(),
-    )) as PartDataTwo;
+    console.log(`[DEBUG] [statsPartyUrl2] url: ${statsPartyUrl2}`);
+    const res2 = await fetch(statsPartyUrl2);
+    if (!res2.ok) {
+      const body = await res2.text();
+      throw new Error(
+        `[statsPartyUrl2] Response is not okay with status code ${res2.status}\nResponse body: ${body}`,
+      );
+    }
+    metadata = (await res2.json()) as PartDataTwo;
   } catch (err) {
     console.log(err);
   }
