@@ -19,9 +19,6 @@ export default async function handler(
   try {
     if (req.method !== "POST") throw new Error("wrong method");
 
-    // Turn off workspace for now
-     throw new Error("Workspace is in maintenance mode.");
-
     // DATA PREPARATION
     const { username, password } = req.body;
     if (!username || !password) throw new Error("some information is missing.");
@@ -94,18 +91,21 @@ export default async function handler(
       { username: username },
       { $set: { incorrectPasswordTimes: 0 } }
     );
+    
+    // Turn off workspace for now
+    throw new Error("Workspace is in maintenance mode.");
 
-    // AUTHENTICATE
-    const token = authenticate({
-      res,
-      adminUsername,
-      adminFirstName,
-      adminLastName,
-    });
+    // // AUTHENTICATE
+    // const token = authenticate({
+    //   res,
+    //   adminUsername,
+    //   adminFirstName,
+    //   adminLastName,
+    // });
 
-    // CLOSE DB AND RESPONSE
-    client.close();
-    res.status(200).json({ message: "registered successfully", token });
+    // // CLOSE DB AND RESPONSE
+    // client.close();
+    // res.status(200).json({ message: "registered successfully", token });
   } catch (error) {
     const err = error as Error;
 
