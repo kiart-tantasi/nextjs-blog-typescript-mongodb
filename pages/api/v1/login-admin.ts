@@ -19,6 +19,9 @@ export default async function handler(
   try {
     if (req.method !== "POST") throw new Error("wrong method");
 
+    // Turn off workspace for now
+     throw new Error("Workspace is in maintenance mode.");
+
     // DATA PREPARATION
     const { username, password } = req.body;
     if (!username || !password) throw new Error("some information is missing.");
