@@ -25,6 +25,7 @@ BYPASS_AUTHEN=<true/false> # bypass api authentication, this only works in devel
 ROOT_ENABLE=<true/false> # enable root account for path /workspace
 ROOT_USERNAME=<ROOT_USERNMAME>
 ROOT_PASSWORD=<ROOT_PASSWORD>
+SALT_ROUNDS=<HASH_SALT_ROUNDS>
 ```
 
 ### MongoDB
