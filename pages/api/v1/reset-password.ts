@@ -14,6 +14,9 @@ export default async function handler(
   let connectClient = false;
 
   try {
+
+    // TODO: remove this comment
+
     if (req.method !== "POST") throw new Error("wrong method");
 
     // DATA PREPARATION
