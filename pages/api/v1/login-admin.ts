@@ -54,7 +54,7 @@ export default async function handler(
     // CHECK IF ACCOUNT EXISTS
     const adminUser = await collection.findOne({ username: username });
     if (adminUser === null) throw new Error("user not found");
-    if (adminUser.incorrectPasswordTimes === 10)
+    if (adminUser.incorrectPasswordTimes >= 10)
       throw new Error("incorrect password quota exceeded");
 
     // CHECK DATA COMPLETENESS RETURNED FROM DB
