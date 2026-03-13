@@ -18,8 +18,15 @@ export default async function handler(
 
     // DATA PREPARATION
     const { username, oldPassword, newPassword } = req.body;
-    if (!username || !oldPassword || !newPassword)
-      throw new Error("some required fields are missing.");
+    if (typeof username !== "string" || typeof oldPassword !== "string" || typeof newPassword !== "string") {
+      throw new Error("some required fields are missing or invalid.");
+    }
+
+    // PASSWORD COMPLEXITY CHECK
+    const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]).{8,}$/;
+    if (!passwordRegex.test(newPassword)) {
+      throw new Error("password must be at least 8 characters long and contain at least one alphabet, number, and symbol.");
+    }
 
     // CONNECT DB
     await client.connect();
@@ -77,12 +84,13 @@ export default async function handler(
     res.status(200).json({ message: "password reset successfully" });
   } catch (error) {
     const err = error as Error;
+    console.error(err);
 
     // CLOSE DB BEFORE RESPONSE
     if (connectClient) client.close();
 
     if (err.message === "incorrect password quota exceeded") res.status(403);
     else res.status(400);
-    res.json({ message: err.message });
+    res.json({ message: "Something went wrong" });
   }
 }

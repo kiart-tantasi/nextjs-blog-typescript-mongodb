@@ -1,8 +1,20 @@
 import { Status } from "./interfaces/article";
 
+const numberOrNull = (k: string): number | null => {
+  const val = process.env[k];
+  if (!val) {
+    return null;
+  }
+  const num = parseInt(val);
+  if (isNaN(num)) {
+    throw new Error(`value of ${k} must be a valid number`);
+  }
+  return num;
+}
+
 export const databaseNameV1 = "blogDB";
 
-export const saltRounds = process.env.SALT_ROUNDS ||10;
+export const saltRounds: number = numberOrNull("SALT_ROUNDS") || 10;
 
 export const databaseNameV2 = process.env.OVERRIDING_DB ?? "blog";
 
