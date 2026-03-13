@@ -54,7 +54,7 @@ export default async function handler(
     // CHECK IF ACCOUNT EXISTS
     const adminUser = await collection.findOne({ username: username });
     if (adminUser === null) throw new Error("user not found");
-    if (adminUser.incorrectPasswordTimes === 10)
+    if (adminUser.incorrectPasswordTimes >= 10)
       throw new Error("incorrect password quota exceeded");
 
     // CHECK DATA COMPLETENESS RETURNED FROM DB
@@ -91,21 +91,18 @@ export default async function handler(
       { username: username },
       { $set: { incorrectPasswordTimes: 0 } }
     );
-    
-    // Turn off workspace for now
-    throw new Error("Workspace is in maintenance mode.");
 
-    // // AUTHENTICATE
-    // const token = authenticate({
-    //   res,
-    //   adminUsername,
-    //   adminFirstName,
-    //   adminLastName,
-    // });
+    // AUTHENTICATE
+    const token = authenticate({
+      res,
+      adminUsername,
+      adminFirstName,
+      adminLastName,
+    });
 
-    // // CLOSE DB AND RESPONSE
-    // client.close();
-    // res.status(200).json({ message: "registered successfully", token });
+    // CLOSE DB AND RESPONSE
+    client.close();
+    res.status(200).json({ message: "registered successfully", token });
   } catch (error) {
     const err = error as Error;
 
