@@ -3,7 +3,7 @@ import { MongoClient } from "mongodb";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 import { EnvGetter } from "../../../lib/env-getter";
-import { databaseNameV1 } from "../../../config";
+import { databaseNameV1, saltRounds } from "../../../config";
 
 export default async function handler(
   req: NextApiRequest,
@@ -19,8 +19,15 @@ export default async function handler(
 
     // DATA PREPARATION
     const { username, oldPassword, newPassword } = req.body;
-    if (!username || !oldPassword || !newPassword)
-      throw new Error("some required fields are missing.");
+    if (typeof username !== "string" || typeof oldPassword !== "string" || typeof newPassword !== "string") {
+      throw new Error("some required fields are missing or invalid.");
+    }
+
+    // PASSWORD COMPLEXITY CHECK
+    const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]).{8,}$/;
+    if (!passwordRegex.test(newPassword)) {
+      throw new Error("password must be at least 8 characters long and contain at least one alphabet, number, and symbol.");
+    }
 
     // CONNECT DB
     await client.connect();
@@ -54,13 +61,13 @@ export default async function handler(
         { username: username },
         { $set: { incorrectPasswordTimes: newIncorrectPasswordCount } }
       );
-      
+
       throw new Error("incorrect old password");
     }
 
     // HASH NEW PASSWORD
-    const saltRounds = 10;
     const hashedNewPassword = await bcryptjs.hash(newPassword, saltRounds);
+
 
     // UPDATE PASSWORD AND RESET INCORRECT PASSWORD TIMES
     await collection.updateOne(
@@ -78,12 +85,13 @@ export default async function handler(
     res.status(200).json({ message: "password reset successfully" });
   } catch (error) {
     const err = error as Error;
+    console.error(err);
 
     // CLOSE DB BEFORE RESPONSE
     if (connectClient) client.close();
 
     if (err.message === "incorrect password quota exceeded") res.status(403);
     else res.status(400);
-    res.json({ message: err.message });
+    res.json({ message: "Something went wrong" });
   }
 }

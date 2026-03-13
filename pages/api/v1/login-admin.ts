@@ -91,21 +91,18 @@ export default async function handler(
       { username: username },
       { $set: { incorrectPasswordTimes: 0 } }
     );
-    
-    // Turn off workspace for now
-    throw new Error("Workspace is in maintenance mode.");
 
-    // // AUTHENTICATE
-    // const token = authenticate({
-    //   res,
-    //   adminUsername,
-    //   adminFirstName,
-    //   adminLastName,
-    // });
+    // AUTHENTICATE
+    const token = authenticate({
+      res,
+      adminUsername,
+      adminFirstName,
+      adminLastName,
+    });
 
-    // // CLOSE DB AND RESPONSE
-    // client.close();
-    // res.status(200).json({ message: "registered successfully", token });
+    // CLOSE DB AND RESPONSE
+    client.close();
+    res.status(200).json({ message: "registered successfully", token });
   } catch (error) {
     const err = error as Error;
 
