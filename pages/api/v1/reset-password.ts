@@ -3,7 +3,7 @@ import { MongoClient } from "mongodb";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 import { EnvGetter } from "../../../lib/env-getter";
-import { databaseNameV1 } from "../../../config";
+import { databaseNameV1, saltRounds } from "../../../config";
 
 export default async function handler(
   req: NextApiRequest,
@@ -14,9 +14,6 @@ export default async function handler(
   let connectClient = false;
 
   try {
-
-    // TODO: remove this comment
-
     if (req.method !== "POST") throw new Error("wrong method");
 
     // DATA PREPARATION
@@ -56,13 +53,13 @@ export default async function handler(
         { username: username },
         { $set: { incorrectPasswordTimes: newIncorrectPasswordCount } }
       );
-      
+
       throw new Error("incorrect old password");
     }
 
     // HASH NEW PASSWORD
-    const saltRounds = 10;
     const hashedNewPassword = await bcryptjs.hash(newPassword, saltRounds);
+
 
     // UPDATE PASSWORD AND RESET INCORRECT PASSWORD TIMES
     await collection.updateOne(

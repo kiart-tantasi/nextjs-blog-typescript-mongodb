@@ -2,6 +2,8 @@ import { Status } from "./interfaces/article";
 
 export const databaseNameV1 = "blogDB";
 
+export const saltRounds = 10;
+
 export const databaseNameV2 = process.env.OVERRIDING_DB ?? "blog";
 
 export const abTests = {
