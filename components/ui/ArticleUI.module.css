@@ -94,6 +94,7 @@
 }
 
 .article code {
+    background-color: rgb(24, 66, 129);
     color:rgb(255, 255, 255);
     font-size: 1rem;
     line-height: 180%;
